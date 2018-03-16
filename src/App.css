@@ -1,0 +1,62 @@
+.App {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 1rem;
+}
+
+.Deck-list {
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.Card {
+  width: 20em;
+  padding: 1.5em;
+  margin: 1.25em;
+  border-radius: 1em;
+  box-shadow: 0px 1px 3px rgba(255, 38, 38, 0.75), 0px 2px 6px rgba(255, 84, 84, 0.5);
+  box-sizing: border-box;
+  color: rgb(50, 50, 50);
+  text-align: left;
+  display: inline-block;
+}
+
+.Card-title {
+  font-family: 'Inknut Antiqua', serif;
+  font-size: 1.5em;
+  margin: 0;
+  line-height: 1em;
+}
+
+.Card-subtitle {
+  margin: 1em 0 0.5em 0;
+  font-size: 1em;
+  font-style: italic;
+}
+
+.Card-details {
+  margin: 0.5em 0;
+}
+
+.Card-castingTime,
+.Card-range,
+.Card-duration,
+.Card-components {
+  font-size: 0.9em;
+  border-bottom: 1px solid black;
+  padding: 0.2em 0;
+}
+
+.Card-description {
+  height: 13em;
+  overflow-y: auto;
+}
+
+.Card-text {
+  font-size: 0.8em;
+  margin: 0.5em 0;
+}
+
+.Card-text:last-child {
+  text-align: right;
+}
