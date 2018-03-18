@@ -19,10 +19,13 @@ class Deck extends Component {
     this.cards = spells;
     this.state = {
       currentCardId: 0,
-      deltaX: 0,
-      isAnimating: false,
+      cardSwipePadding: 0,
+      cardSwipeDistance: 0,
+      cardWidth: 0,
+      cardX: 0,
+      shouldUpdateCards: 0,
+      shouldTransition: false
     };
-    this.minDeltaX = 20;
     this.prevCard = this.prevCard.bind(this);
     this.nextCard = this.nextCard.bind(this);
     this.onSwipeStart = this.onSwipeStart.bind(this);
@@ -31,29 +34,44 @@ class Deck extends Component {
 
   }
 
-  // componentDidMount() {
-  //   const card = document.querySelector(".Card-active");
-  // }
+  componentDidMount() {
+    const card = document.querySelector(".Card-active");
+    this.setState({
+      cardWidth: card.clientWidth,
+      cardX: card.getBoundingClientRect().left
+    })
+  }
 
   onSwipeStart(pos, e) {
-    this.setState({isAnimating: true, deltaX: 0});
+    this.setState({shouldTransition: false})
   }
   onSwipeMove(pos, e) {
-
-    if(pos.x < -this.minDeltaX) {
-      this.setState({deltaX: pos.x})
+    const swipeDistance = 100;
+    if(pos.x < -swipeDistance) {
+      this.setState({shouldUpdateCards: 1});
+    } else if(pos.x > swipeDistance) {
+      this.setState({shouldUpdateCards: -1});
+    } else {
+      this.setState({shouldUpdateCards: 0})
     }
-    if(pos.x > this.minDeltaX) {
-      this.setState({deltaX: pos.x})
-    }
+    this.setState({
+      cardSwipePadding: pos.x,
+      cardSwipeDistance: pos.x
+    })
   }
   onSwipeEnd(pos, e) {
-    if(pos.x > this.minDeltaX) {
+    this.setState({cardSwipePadding: 0})
+    if(this.state.shouldUpdateCards === 1) {
+      // Swiping to next card
+      this.setState({shouldUpdateCards: 0, shouldTransition: false})
       this.nextCard();
-    } else if(pos.x < -this.minDeltaX) {
+    } else if(this.state.shouldUpdateCards === -1) {
+      // Swiping to prev card
+      this.setState({shouldUpdateCards: 0, shouldTransition: true})
       this.prevCard();
+    } else {
+      this.setState({shouldTransition: true})
     }
-    this.setState({isAnimating: false, deltaX: 0});
   }
 
   // Next and prev card buttons
@@ -74,9 +92,10 @@ class Deck extends Component {
         key={index} 
         cardId={index} 
         currentCardId={this.state.currentCardId}
-        deltaX={this.state.deltaX}
-        isAnimating={this.state.isAnimating}
-        />
+        shouldUpdateCards={this.state.shouldUpdateCards}
+        cardSwipePadding={this.state.cardSwipePadding}
+        cardSwipeDistance={this.state.cardSwipeDistance}
+        shouldTransition={this.state.shouldTransition}/>
     ))
 
     return (
@@ -85,10 +104,9 @@ class Deck extends Component {
         onSwipeMove={this.onSwipeMove}
         onSwipeEnd={this.onSwipeEnd}
         allowMouseEvents={true}>
-        <button className="Btn" onClick={this.prevCard}>Back</button>
-        <button className="Btn" onClick={this.nextCard}>Next</button>
         <ul className="Deck-list">{listItems}</ul>
-        
+        <button onClick={this.prevCard}>Back</button>
+        <button onClick={this.nextCard}>Next</button>
       </Swipe>
     )
   }
@@ -98,23 +116,37 @@ function Card(props) {
   const data = props.cardData;
   const id = props.cardId;
   const ccid = props.currentCardId;
-  const deltaX = props.deltaX;
-  const isAnimating = props.isAnimating;
-
-  const styles = {};
+  const padding = props.cardSwipePadding;
+  const distance = props.cardSwipeDistance;
+  const shouldTransition = props.shouldTransition;
+  const shouldUpdateCards = props.shouldUpdateCards;
+  var styles = {}
   var classes = "Card ";
 
-  if(isAnimating) {
-    styles.transformOrigin = "50% 100%";
-    styles.transform = "translateX(" + deltaX + "px)" + 
-      "rotateZ(" + deltaX/3.14 + "deg)";
-  } else {
-    classes += "Card-transition ";
-    styles.transform = "translateX(0)";
+  // How far the user should swipe before the cards starts moving
+  const minSwipeDistance = 10
+
+  // Animation if going to next card
+  if(id === ccid && shouldUpdateCards >= 0 && distance < -minSwipeDistance) {
+    styles = {};
+    styles.transform = "translateX(" + padding + "px)" +
+                       "rotateZ(" + padding/2 + "deg)";
+    styles.transformOrigin = "0% 100%";
+    
+    if(shouldTransition) classes += "Card-transition ";
+  }
+  // Animation if going to prev card
+  if(id === ccid-1 && shouldUpdateCards < 0 && distance > minSwipeDistance) {
+    styles = {};
+    styles.transform = "translateX(" + padding + "px)";
   }
 
-  if (id === ccid ) {
-    // Render Card
+  // Class customization
+  if (id === ccid /*|| id === ccid-1*/ || id === ccid+1) {
+    if(id === ccid) classes += "Card-active ";
+    if(id === ccid+1) classes += "Card-next ";
+    //if(id === ccid-1) classes += "Card-prev ";
+
     return (
       <li className={classes} style={styles}>
         <h3 className="Card-title">{data.title}</h3>

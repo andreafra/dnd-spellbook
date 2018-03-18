@@ -2,30 +2,51 @@
   font-family: 'Libre Baskerville', serif;
   font-size: 1rem;
 }
-
+.Deck-wrapper {
+  text-align: center;
+}
 .Deck-list {
-  padding-left: 0;
+  padding: 0.5em 0;
   list-style: none;
   text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .Card {
+  display: inline-block;
   width: 20em;
   padding: 1.5em;
-  margin: 1.25em;
   border-radius: 1em;
   box-shadow: 0px 1px 3px rgba(255, 38, 38, 0.75), 0px 2px 6px rgba(255, 84, 84, 0.5);
   box-sizing: border-box;
   color: rgb(50, 50, 50);
   text-align: left;
-  display: inline-block;
+  vertical-align: top;
+  z-index: 1000;
+  background-color: white;
 }
-
+.Card-transition {
+  transition: all ease-in-out 0.2s;
+}
+.Card-prev {
+  position: relative;
+}
+.Card-next {
+  position: relative;
+}
+.Card-active {
+  position: relative;
+}
 .Card-title {
   font-family: 'Inknut Antiqua', serif;
   font-size: 1.5em;
   margin: 0;
-  line-height: 1em;
+  height: 1.5em;
+  line-height: 1.5em;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 
 .Card-subtitle {
@@ -38,18 +59,24 @@
   margin: 0.5em 0;
 }
 
-.Card-castingTime,
-.Card-range,
-.Card-duration,
-.Card-components {
-  font-size: 0.9em;
-  border-bottom: 1px solid black;
+.Card-detail {
+  color: rgb(70, 70, 70);
+  font-size: 0.8em;
+  border-bottom: 1px solid rgb(70, 70, 70);
   padding: 0.2em 0;
+}
+.Card-detail {
+  font-weight: bold;
+}
+.Card-detail > span {
+  float: right;
+  font-weight: normal;
 }
 
 .Card-description {
-  height: 13em;
+  height: 15em;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .Card-text {
@@ -59,4 +86,13 @@
 
 .Card-text:last-child {
   text-align: right;
+}
+
+.Btn {
+  background: red;
+  color: white;
+  display: inline-block;
+  padding: 0.5em;
+  border: none;
+  border-radius: 2px
 }
