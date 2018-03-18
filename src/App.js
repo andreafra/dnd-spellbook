@@ -35,11 +35,10 @@ class Deck extends Component {
   //   const card = document.querySelector(".Card-active");
   // }
 
-  onSwipeStart(pos, e) {
+  onSwipeStart(e) {
     this.setState({isAnimating: true, deltaX: 0});
   }
   onSwipeMove(pos, e) {
-
     if(pos.x < -this.minDeltaX) {
       this.setState({deltaX: pos.x})
     }
@@ -47,11 +46,12 @@ class Deck extends Component {
       this.setState({deltaX: pos.x})
     }
   }
-  onSwipeEnd(pos, e) {
-    if(pos.x > this.minDeltaX) {
-      this.nextCard();
-    } else if(pos.x < -this.minDeltaX) {
+  onSwipeEnd(e) {
+    
+    if(this.state.deltaX > this.minDeltaX) {
       this.prevCard();
+    } else if(this.state.deltaX < -this.minDeltaX) {
+      this.nextCard();
     }
     this.setState({isAnimating: false, deltaX: 0});
   }
