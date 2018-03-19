@@ -2,6 +2,7 @@
   font-family: 'Libre Baskerville', serif;
   font-size: 1rem;
 }
+
 .Deck-wrapper {
   text-align: center;
 }
@@ -25,6 +26,12 @@
   vertical-align: top;
   z-index: 1000;
   background-color: white;
+}
+.Card-fade-in {
+  animation-name: fade-in;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
 }
 .Card-transition {
   transition: all ease-in-out 0.2s;
@@ -88,11 +95,42 @@
   text-align: right;
 }
 
+/* Navbar and buttons */
+.Navbar {
+  width: 100%;
+  height: 3em;
+  display: flex;
+  font-size: 0.9em;
+  padding: 0.25em;
+  justify-content: center;
+}
 .Btn {
-  background: red;
+  font-size: 1em;
+  margin: 0 0.25em;
+  background-color: red;
   color: white;
   display: inline-block;
-  padding: 0.5em;
+  padding: 0.7em 1em;
   border: none;
-  border-radius: 2px
+  border-radius: 100em;
+  align-self: center;
+  outline: none;
+  transition: all ease-in-out 0.2s;
+}
+.Btn:focus, .Btn:hover {
+  background-color: rgb(199, 0, 0);
+}
+.Btn:disabled {
+  background-color: rgb(185, 185, 185);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
 }

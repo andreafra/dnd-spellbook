@@ -20,6 +20,7 @@ class Deck extends Component {
     this.state = {
       currentCardId: 0,
       deltaX: 0,
+      isSwiping: false,
       isAnimating: false,
     };
     this.minDeltaX = 20;
@@ -36,7 +37,7 @@ class Deck extends Component {
   // }
 
   onSwipeStart(e) {
-    this.setState({isAnimating: true, deltaX: 0});
+    this.setState({isSwiping: true, isAnimating: false, deltaX: 0});
   }
   onSwipeMove(pos, e) {
     if(pos.x < -this.minDeltaX) {
@@ -47,24 +48,34 @@ class Deck extends Component {
     }
   }
   onSwipeEnd(e) {
-    
     if(this.state.deltaX > this.minDeltaX) {
       this.prevCard();
     } else if(this.state.deltaX < -this.minDeltaX) {
       this.nextCard();
     }
-    this.setState({isAnimating: false, deltaX: 0});
   }
-
+  
   // Next and prev card buttons
   prevCard() {
     if (this.state.currentCardId > 0) {
-      this.setState({currentCardId: this.state.currentCardId-1});
+      this.setState(
+        {
+          currentCardId: this.state.currentCardId-1,
+          isSwiping:false,
+          deltaX: 0
+        }
+      );
     }
   }
   nextCard() {
     if (this.state.currentCardId < this.cards.length) {
-      this.setState({currentCardId: this.state.currentCardId+1});
+      this.setState(
+        {
+          currentCardId: this.state.currentCardId+1,
+          isSwiping:false,
+          deltaX: 0
+        }
+      );
     }
   }
 
@@ -75,21 +86,31 @@ class Deck extends Component {
         cardId={index} 
         currentCardId={this.state.currentCardId}
         deltaX={this.state.deltaX}
-        isAnimating={this.state.isAnimating}
+        isSwiping={this.state.isSwiping}
         />
     ))
 
     return (
-      <Swipe className="Deck-wrapper" 
-        onSwipeStart={this.onSwipeStart}
-        onSwipeMove={this.onSwipeMove}
-        onSwipeEnd={this.onSwipeEnd}
-        allowMouseEvents={true}>
-        <button className="Btn" onClick={this.prevCard}>Back</button>
-        <button className="Btn" onClick={this.nextCard}>Next</button>
-        <ul className="Deck-list">{listItems}</ul>
-        
-      </Swipe>
+      <div>
+        <nav className="Navbar">
+          <button 
+            className="Btn"
+            disabled={this.state.currentCardId === 0} 
+            onClick={this.prevCard}>Back</button>
+          <button 
+            className="Btn" 
+            disabled={this.state.currentCardId === this.cards.length-1}
+            onClick={this.nextCard}>Next</button>
+        </nav>
+        <Swipe className="Deck-wrapper" 
+          onSwipeStart={this.onSwipeStart}
+          onSwipeMove={this.onSwipeMove}
+          onSwipeEnd={this.onSwipeEnd}
+          allowMouseEvents={true}>
+          <ul className="Deck-list">{listItems}</ul>
+          
+        </Swipe>
+      </div>
     )
   }
 }
@@ -99,18 +120,21 @@ function Card(props) {
   const id = props.cardId;
   const ccid = props.currentCardId;
   const deltaX = props.deltaX;
-  const isAnimating = props.isAnimating;
+  const isSwiping = props.isSwiping;
 
-  const styles = {};
-  var classes = "Card ";
+  const styles = {
+    transformOrigin: "50% 100%"
+  };
+  var classes = "Card Card-fade-in";
 
-  if(isAnimating) {
-    styles.transformOrigin = "50% 100%";
+  if(isSwiping) {
+    classes = "Card";
+  }
+
+  if(isSwiping) {
     styles.transform = "translateX(" + deltaX + "px)" + 
       "rotateZ(" + deltaX/3.14 + "deg)";
-  } else {
-    classes += "Card-transition ";
-    styles.transform = "translateX(0)";
+    styles.opacity = 1 - Math.abs(deltaX/100);
   }
 
   if (id === ccid ) {

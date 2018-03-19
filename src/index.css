@@ -8,4 +8,5 @@ body {
   font-family: sans-serif;
   overflow: auto;
   position: fixed;
+  box-sizing: border-box;
 }
