@@ -3,6 +3,7 @@
   font-size: 1rem;
 }
 
+/* Deck.js */
 .Deck-wrapper {
   text-align: center;
 }
@@ -133,4 +134,12 @@
     opacity: 1;
     transform: scale(1)
   }
+}
+
+/* Picker.js */
+.Picker-list {
+  padding: 0;
+  height: 90vh;
+  list-style: none;
+  overflow-y: auto;
 }
