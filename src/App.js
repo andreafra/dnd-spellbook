@@ -57,26 +57,22 @@ class Deck extends Component {
   
   // Next and prev card buttons
   prevCard() {
-    if (this.state.currentCardId > 0) {
-      this.setState(
-        {
-          currentCardId: this.state.currentCardId-1,
-          isSwiping:false,
-          deltaX: 0
-        }
-      );
-    }
+    this.setState(
+      {
+        currentCardId: (this.cards.length + this.state.currentCardId-1) % this.cards.length,
+        isSwiping:false,
+        deltaX: 0
+      }
+    );
   }
   nextCard() {
-    if (this.state.currentCardId < this.cards.length) {
-      this.setState(
-        {
-          currentCardId: this.state.currentCardId+1,
-          isSwiping:false,
-          deltaX: 0
-        }
-      );
-    }
+    this.setState(
+      {
+        currentCardId: (this.cards.length + this.state.currentCardId+1) % this.cards.length,
+        isSwiping:false,
+        deltaX: 0
+      }
+    );
   }
 
   render() {
@@ -95,11 +91,9 @@ class Deck extends Component {
         <nav className="Navbar">
           <button 
             className="Btn"
-            disabled={this.state.currentCardId === 0} 
             onClick={this.prevCard}>Back</button>
           <button 
-            className="Btn" 
-            disabled={this.state.currentCardId === this.cards.length-1}
+            className="Btn"
             onClick={this.nextCard}>Next</button>
         </nav>
         <Swipe className="Deck-wrapper" 
