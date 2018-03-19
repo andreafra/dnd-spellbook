@@ -6,10 +6,10 @@ class Deck extends Component {
     super(props);
     this.cards = props.spells;
     this.state = {
-    currentCardId: 0,
-    deltaX: 0,
-    isSwiping: false,
-    isAnimating: false,
+        currentCardId: 0,
+        deltaX: 0,
+        isSwiping: false,
+        isAnimating: false,
     };
     this.minDeltaX = 20;
     this.prevCard = this.prevCard.bind(this);
@@ -94,7 +94,7 @@ render() {
 }
 
 function Card(props) {
-const data = props.cardData;
+const data = props.cardData[1];
 const id = props.cardId;
 const ccid = props.currentCardId;
 const deltaX = props.deltaX;

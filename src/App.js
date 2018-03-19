@@ -8,24 +8,32 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.spells = allSpells;
+        this.spellList = ["ciao"],
+        this.state = {
+            page: 0,
+        }
+    }
+
+    // Get data from Picker.js
+    getSpellList = (data) => {
+        this.spellList = data;
+        this.setState({page: 1});
     }
 
     render() {
-        return (
-            <div className="App">
-                <Content spells={this.spells} page={0} />
-            </div>
-        );
+        if( this.state.page === 0)
+            return (
+                <div className="App">
+                    <Picker spells={this.spells} callbackFromPicker={this.getSpellList}/>;
+                </div>
+            );
+        else if (this.state.page === 1)
+            return (
+                <div className="App">
+                    <Deck spells={this.spellList} />;
+                </div>
+            )
     }
 }
-
-function Content (props) {
-    if (props.page === 0)
-        return <Picker spells={props.spells} />;
-    else if (props.page === 1) {
-        return <Deck spells={props.spells} />
-    }
-}
-
 
 export default App;
