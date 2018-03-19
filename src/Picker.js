@@ -24,7 +24,7 @@ class Picker extends Component {
                 }
             }
         }
-        console.log(this.spellList)
+        console.log(this.spellList);
     }
 
     // Send data to parent (App)
@@ -40,8 +40,8 @@ class Picker extends Component {
                 spellId={index} 
                 state={this.state}
                 callbackFromSpell={this.getSpellData}
-                />
-            ))
+            />
+        ));
 
         return(
             <div>
@@ -54,7 +54,7 @@ class Picker extends Component {
                     {listItems}
                 </ul>
             </div>
-        )
+        );
     }
 }
 
@@ -72,7 +72,7 @@ class Spell extends Component {
         // Send data to parent via callback
         this.setState({isChecked: !this.state.isChecked},
             this.props.callbackFromSpell(
-                [this.spellId, this.spellData],
+                [ this.spellId, this.spellData ],
                 this.state.isChecked
             )
         );
@@ -90,7 +90,7 @@ class Spell extends Component {
                     checked={this.state.isChecked}/>
                 <label htmlFor={this.spellId}>{this.spellData.title}</label>
             </li>
-        )
+        );
     }
 }
 

@@ -8,9 +8,9 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.spells = allSpells;
-        this.spellList = ["ciao"],
+        this.spellList = [];
         this.state = {
-            page: 0,
+            page: 0
         }
     }
 
@@ -21,18 +21,22 @@ class App extends Component {
     }
 
     render() {
-        if( this.state.page === 0)
-            return (
-                <div className="App">
-                    <Picker spells={this.spells} callbackFromPicker={this.getSpellList}/>;
-                </div>
-            );
-        else if (this.state.page === 1)
-            return (
-                <div className="App">
-                    <Deck spells={this.spellList} />;
-                </div>
-            )
+        switch(this.state.page){
+            case 0:
+                return (
+                    <div className="App">
+                        <Picker spells={this.spells} callbackFromPicker={this.getSpellList}/>;
+                    </div>
+                );
+            case 1:
+                return (
+                    <div className="App">
+                        <Deck spells={this.spellList} />;
+                    </div>
+                );
+            default: 
+                return null;
+        }
     }
 }
 
