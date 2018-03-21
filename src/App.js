@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 
 import Deck from './Deck.js';
 import Picker from './Picker.js';
 import './App.css';
+import logo from './logo.svg';
 import allSpells from './spells.json';
 
 class App extends Component {
@@ -28,16 +29,28 @@ class App extends Component {
     render() {
         return(
             <div className="App">
-                <nav className="Navbar">
-                    <Link className="Btn" to="/picker">Pick Spells</Link>
-                </nav>
-                <div>
-                    <Route path="/picker" render={() => (
-                        <Picker spells={this.spells} callbackFromPicker={this.getSpellList} />
-                    )} />
-                    <Route path="/deck" render={() => (
-                        <Deck spells={this.spellList} />
-                    )} />
+                <Route exact path="/" component={Home} />
+                <Route exact path="/picker" render={() => (
+                    <Picker spells={this.spells} callbackFromPicker={this.getSpellList} />
+                )} />
+                <Route exact path="/deck" render={() => <Deck spells={this.spellList} />} />
+            </div>
+        )
+    }
+}
+
+class Home extends Component {
+    render() {
+        return(
+            <div className="Home-wrapper">
+                <div className="Home-content">
+                    {/* Content goes here*/}
+                    <h1 className="Home-title">dnd-spell-cards-online</h1>
+                    <img src={logo} alt="logo"/>
+                    <nav className="Navbar">
+                        <Link to="/picker" className="Btn">Pick Spells</Link>
+                        <Link to="/deck" className="Btn">Go to Deck</Link>
+                    </nav>
                 </div>
             </div>
         )

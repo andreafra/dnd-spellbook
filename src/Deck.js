@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Swipe from 'react-easy-swipe';
 
 class Deck extends Component {
@@ -64,8 +65,9 @@ class Deck extends Component {
         ));
 
     return (
-        <div>
+        <div className="Anim-fade-in">
             <nav className="Navbar">
+                <Link className="Btn" to="/picker">Pick Spells</Link>
                 <a 
                     className="Btn"
                     onClick={this.prevCard}>
@@ -78,11 +80,11 @@ class Deck extends Component {
                 </a>
             </nav>
             <Swipe className="Deck-wrapper" 
-            onSwipeStart={this.onSwipeStart}
-            onSwipeMove={this.onSwipeMove}
-            onSwipeEnd={this.onSwipeEnd}
-            allowMouseEvents={true}>
-            <ul className="Deck-list">{listItems}</ul>
+                onSwipeStart={this.onSwipeStart}
+                onSwipeMove={this.onSwipeMove}
+                onSwipeEnd={this.onSwipeEnd}
+                allowMouseEvents={true}>
+                <ul className="Deck-list">{listItems}</ul>
             
             </Swipe>
         </div>
@@ -100,7 +102,7 @@ function Card(props) {
     const styles = {
         transformOrigin: "50% 100%"
     };
-    var classes = "Card Card-fade-in";
+    var classes = "Card Anim-fade-in ";
 
     if(isSwiping) {
         classes = "Card";

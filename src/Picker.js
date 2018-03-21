@@ -43,8 +43,9 @@ class Picker extends Component {
         ));
 
         return(
-            <div>
+            <div className="Anim-fade-in">
                 <nav className="Navbar">
+                    <Link className="Btn" to="/">Back</Link>
                     <Link to="/deck"
                         className="Btn" 
                         onClick={this.sendSpellList}>

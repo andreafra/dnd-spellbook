@@ -1,4 +1,9 @@
+#root {
+  height: 100%;
+}
+
 .App {
+  height: 100%;
   font-family: 'Libre Baskerville', serif;
   font-size: 1rem;
 }
@@ -28,7 +33,7 @@
   z-index: 1000;
   background-color: white;
 }
-.Card-fade-in {
+.Anim-fade-in {
   animation-name: fade-in;
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
@@ -163,4 +168,24 @@
 .Spell-title {
   font-family: 'Inknut Antiqua', serif;
   font-size: 1em;
+}
+
+/* Home */
+.Home-wrapper {
+  height: 100%;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  justify-content: center;
+}
+.Home-content {
+  align-self: center;
+}
+.Home-title {
+  font-family: 'Inknut Antiqua', serif;
+  font-size: 1.3em;
+  margin: 0;
+  line-height: 1.3em;
 }
