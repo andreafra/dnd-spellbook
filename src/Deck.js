@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Swipe from 'react-easy-swipe';
 
-const __PATH__ = (window.location.hostname === "andreafranchini.me") ? "/dnd-spell-cards-online" : "/";
+const __PATH__ = (window.location.hostname === "andreafranchini.me") ?
+    "/dnd-spell-cards-online" : "";
 
 class Deck extends Component {
     constructor(props) {
