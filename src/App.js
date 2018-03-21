@@ -47,7 +47,7 @@ class Home extends Component {
                     {/* Content goes here*/}
                     <h1 className="Home-title">dnd-spell-cards-online</h1>
                     <img src={logo} alt="logo"/>
-                    <nav className="Navbar">
+                    <nav className="Navbar Navbar-center">
                         <Link to="/picker" className="Btn">Pick Spells</Link>
                         <Link to="/deck" className="Btn">Go to Deck</Link>
                     </nav>

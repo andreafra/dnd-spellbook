@@ -107,14 +107,17 @@
   height: 3em;
   display: flex;
   font-size: 0.9em;
-  padding: 0.25em;
+  padding: 0.25em 0;
+  justify-content: left;
+}
+.Navbar-center {
   justify-content: center;
 }
 .Btn {
   font-size: 0.8em;
   font-family: 'Inknut Antiqua', serif;
   text-decoration: none;
-  margin: 0 0.25em;
+  margin: 0 0.5em;
   background-color: red;
   color: white;
   display: inline-block;
@@ -133,6 +136,9 @@
 }
 .Btn-group {
   align-self: center;
+}
+.Spacer {
+  flex-grow: 1;
 }
 @keyframes fade-in {
   from {

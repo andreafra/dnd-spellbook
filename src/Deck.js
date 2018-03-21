@@ -5,7 +5,12 @@ import Swipe from 'react-easy-swipe';
 class Deck extends Component {
     constructor(props) {
         super(props);
-        this.cards = props.spells;
+        if(props.spells.length !== 0) {
+            this.cards = props.spells;
+            this.saveToLocalStorage(props.spells);
+        } else {
+            this.cards = this.retrieveFromLocalStorage();
+        }
         this.state = {
             currentCardId: 0,
             deltaX: 0,
@@ -14,10 +19,6 @@ class Deck extends Component {
         };
         this.minDeltaX = 20;
     }
-
-    // componentDidMount() {
-    //   const card = document.querySelector(".Card-active");
-    // }
 
     onSwipeStart = (e) => {
         this.setState({isSwiping: true, isAnimating: false, deltaX: 0});
@@ -54,6 +55,31 @@ class Deck extends Component {
         });
     }
 
+    // Save cards offline / keep last cards from last session
+    saveToLocalStorage = (data) => {
+        // check if localStorage is supported
+        if (typeof(Storage) !== "undefined") {
+            localStorage.setItem("deck", JSON.stringify(data))
+            console.log("Deck saved to localStorage!")
+        } else {
+            console.log("localStorage not supported!")
+        }
+    }
+
+    retrieveFromLocalStorage = () => {
+        // check if localStorage is supported
+        if (typeof(Storage) !== "undefined") {
+            try {
+                const data = localStorage.getItem("deck");
+                return JSON.parse(data);
+                console.log("Deck retrieved from localStorage");
+            } catch (err) {
+                console.log("Couldnt retrieve localStorage! ERR: " + err );
+                return null;
+            }
+        }
+    }
+
     render() {
         const listItems = this.cards.map((card, index) => (
             <Card cardData={card}
@@ -67,17 +93,20 @@ class Deck extends Component {
     return (
         <div className="Anim-fade-in">
             <nav className="Navbar">
-                <Link className="Btn" to="/picker">Pick Spells</Link>
-                <a 
-                    className="Btn"
-                    onClick={this.prevCard}>
-                    Previous
-                </a>
-                <a 
-                    className="Btn" 
-                    onClick={this.nextCard}>
-                    Next
-                </a>
+                <Link className="Btn" to="/picker">Back</Link>
+                <div className="Spacer"></div>
+                <div className="Btn-group">
+                    <a 
+                        className="Btn"
+                        onClick={this.prevCard}>
+                        Previous
+                    </a>
+                    <a 
+                        className="Btn" 
+                        onClick={this.nextCard}>
+                        Next
+                    </a>
+                </div>
             </nav>
             <Swipe className="Deck-wrapper" 
                 onSwipeStart={this.onSwipeStart}
@@ -85,14 +114,13 @@ class Deck extends Component {
                 onSwipeEnd={this.onSwipeEnd}
                 allowMouseEvents={true}>
                 <ul className="Deck-list">{listItems}</ul>
-            
             </Swipe>
         </div>
     )
 }
 }
 
-function Card(props) {
+const Card = (props) => {
     const data = props.cardData[1];
     const id = props.cardId;
     const ccid = props.currentCardId;
@@ -139,7 +167,7 @@ function Card(props) {
     }
 }
 
-function CardText(props) {
+const CardText = (props) => {
     const text = props.cardText;
     if(text === "fill" || text === "" || text === undefined) {
         return null;
@@ -148,7 +176,7 @@ function CardText(props) {
     }
 }
 
-function CardDetail(props) {
+const CardDetail = (props) => {
     const text = props.cardText.split(" | ");
     const title = text[0];
     const value = text[1];
