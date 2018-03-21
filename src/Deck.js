@@ -81,7 +81,7 @@ class Deck extends Component {
     }
 
     render() {
-        const listItems = this.cards.map((card, index) => (
+        const listItems = !this.cards ? null : this.cards.map((card, index) => (
             <Card cardData={card}
                 key={index} 
                 cardId={index} 
