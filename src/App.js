@@ -12,11 +12,7 @@ class App extends Component {
         this.spells = allSpells;
         this.spellList = [];
         this.state = {
-<<<<<<< HEAD
             page: "picker",
-=======
-            page: 0
->>>>>>> origin/master
         }
     }
 
@@ -30,7 +26,6 @@ class App extends Component {
     }
 
     render() {
-<<<<<<< HEAD
         return(
             <div className="App">
                 <nav className="Navbar">
@@ -46,24 +41,6 @@ class App extends Component {
                 </div>
             </div>
         )
-=======
-        switch(this.state.page){
-            case 0:
-                return (
-                    <div className="App">
-                        <Picker spells={this.spells} callbackFromPicker={this.getSpellList}/>;
-                    </div>
-                );
-            case 1:
-                return (
-                    <div className="App">
-                        <Deck spells={this.spellList} />;
-                    </div>
-                );
-            default: 
-                return null;
-        }
->>>>>>> origin/master
     }
 }
 

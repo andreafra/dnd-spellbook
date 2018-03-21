@@ -63,7 +63,6 @@ class Deck extends Component {
                 isSwiping={this.state.isSwiping} />
         ));
 
-<<<<<<< HEAD
     return (
         <div>
             <nav className="Navbar">
@@ -89,30 +88,6 @@ class Deck extends Component {
         </div>
     )
 }
-=======
-        return (
-            <div>
-                <nav className="Navbar">
-                    <button 
-                        className="Btn"
-                        onClick={this.prevCard}>Back</button>
-                    <button 
-                        className="Btn" 
-                        onClick={this.nextCard}>Next</button>
-                </nav>
-                <Swipe className="Deck-wrapper" 
-                    onSwipeStart={this.onSwipeStart}
-                    onSwipeMove={this.onSwipeMove}
-                    onSwipeEnd={this.onSwipeEnd}
-                    allowMouseEvents={true}>
-                    <ul className="Deck-list">
-                        {listItems}
-                    </ul>
-                </Swipe>
-            </div>
-        );
-    }
->>>>>>> origin/master
 }
 
 function Card(props) {
@@ -177,17 +152,10 @@ function CardDetail(props) {
     const value = text[1];
     return (
         <div className={props.className}>
-<<<<<<< HEAD
-        {title}
-        <span>
-            {value}
-        </span>
-=======
             {title}
             <span>
                 {value}
             </span>
->>>>>>> origin/master
         </div>
     );
 }
