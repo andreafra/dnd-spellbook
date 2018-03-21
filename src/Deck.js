@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Swipe from 'react-easy-swipe';
 
+const __PATH__ = (window.location.hostname === "andreafranchini.me") ? "/dnd-spell-cards-online" : "/";
+
 class Deck extends Component {
     constructor(props) {
         super(props);
@@ -71,8 +73,8 @@ class Deck extends Component {
         if (typeof(Storage) !== "undefined") {
             try {
                 const data = localStorage.getItem("deck");
-                return JSON.parse(data);
                 console.log("Deck retrieved from localStorage");
+                return JSON.parse(data);
             } catch (err) {
                 console.log("Couldnt retrieve localStorage! ERR: " + err );
                 return null;
@@ -93,7 +95,7 @@ class Deck extends Component {
     return (
         <div className="Anim-fade-in">
             <nav className="Navbar">
-                <Link className="Btn" to="/picker">Back</Link>
+                <Link className="Btn" to={__PATH__ + "/picker"}>Back</Link>
                 <div className="Spacer"></div>
                 <div className="Btn-group">
                     <a 
