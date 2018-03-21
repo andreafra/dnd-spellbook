@@ -106,12 +106,14 @@
   justify-content: center;
 }
 .Btn {
-  font-size: 1em;
+  font-size: 0.8em;
+  font-family: 'Inknut Antiqua', serif;
+  text-decoration: none;
   margin: 0 0.25em;
   background-color: red;
   color: white;
   display: inline-block;
-  padding: 0.7em 1em;
+  padding: 0.1em 1.2em;
   border: none;
   border-radius: 100em;
   align-self: center;
@@ -124,7 +126,9 @@
 .Btn:disabled {
   background-color: rgb(185, 185, 185);
 }
-
+.Btn-group {
+  align-self: center;
+}
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -138,8 +142,25 @@
 
 /* Picker.js */
 .Picker-list {
-  padding: 0;
+  padding: 0 2em;
   height: 90vh;
+  margin: 0;
+  width: auto;
   list-style: none;
   overflow-y: auto;
+}
+
+.Spell {
+  display: block;
+  transition: all ease-in-out 0.2s;
+}
+
+.Spell-checkbox {
+  vertical-align: text-bottom;
+  margin: 4px 0.5em;
+}
+
+.Spell-title {
+  font-family: 'Inknut Antiqua', serif;
+  font-size: 1em;
 }

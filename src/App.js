@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link, Route } from 'react-router-dom';
+
 import Deck from './Deck.js';
 import Picker from './Picker.js';
 import './App.css';
@@ -8,31 +10,37 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.spells = allSpells;
-        this.spellList = ["ciao"],
+        this.spellList = [];
         this.state = {
-            page: 0,
+            page: "picker",
         }
     }
 
     // Get data from Picker.js
     getSpellList = (data) => {
         this.spellList = data;
-        this.setState({page: 1});
+    }
+
+    back = () => {
+
     }
 
     render() {
-        if( this.state.page === 0)
-            return (
-                <div className="App">
-                    <Picker spells={this.spells} callbackFromPicker={this.getSpellList}/>;
+        return(
+            <div className="App">
+                <nav className="Navbar">
+                    <Link className="Btn" to="/picker">Pick Spells</Link>
+                </nav>
+                <div>
+                    <Route path="/picker" render={() => (
+                        <Picker spells={this.spells} callbackFromPicker={this.getSpellList} />
+                    )} />
+                    <Route path="/deck" render={() => (
+                        <Deck spells={this.spellList} />
+                    )} />
                 </div>
-            );
-        else if (this.state.page === 1)
-            return (
-                <div className="App">
-                    <Deck spells={this.spellList} />;
-                </div>
-            )
+            </div>
+        )
     }
 }
 

@@ -71,24 +71,28 @@ render() {
     ))
 
     return (
-    <div>
-        <nav className="Navbar">
-        <button 
-            className="Btn"
-            onClick={this.prevCard}>Back</button>
-        <button 
-            className="Btn" 
-            onClick={this.nextCard}>Next</button>
-        </nav>
-        <Swipe className="Deck-wrapper" 
-        onSwipeStart={this.onSwipeStart}
-        onSwipeMove={this.onSwipeMove}
-        onSwipeEnd={this.onSwipeEnd}
-        allowMouseEvents={true}>
-        <ul className="Deck-list">{listItems}</ul>
-        
-        </Swipe>
-    </div>
+        <div>
+            <nav className="Navbar">
+                <a 
+                    className="Btn"
+                    onClick={this.prevCard}>
+                    Previous
+                </a>
+                <a 
+                    className="Btn" 
+                    onClick={this.nextCard}>
+                    Next
+                </a>
+            </nav>
+            <Swipe className="Deck-wrapper" 
+            onSwipeStart={this.onSwipeStart}
+            onSwipeMove={this.onSwipeMove}
+            onSwipeEnd={this.onSwipeEnd}
+            allowMouseEvents={true}>
+            <ul className="Deck-list">{listItems}</ul>
+            
+            </Swipe>
+        </div>
     )
 }
 }
@@ -141,26 +145,26 @@ if (id === ccid ) {
 }
 
 function CardText(props) {
-const text = props.cardText;
-if(text === "fill" || text === "" || text === undefined) {
-    return null;
-} else {
-    return <div className="Card-text">{text}</div>;
-}
+    const text = props.cardText;
+    if(text === "fill" || text === "" || text === undefined) {
+        return null;
+    } else {
+        return <div className="Card-text">{text}</div>;
+    }
 }
 
 function CardDetail(props) {
-const text = props.cardText.split(" | ");
-const title = text[0];
-const value = text[1];
-return (
-    <div className={props.className}>
-    {title}
-    <span>
-        {value}
-    </span>
-    </div>
-);
+    const text = props.cardText.split(" | ");
+    const title = text[0];
+    const value = text[1];
+    return (
+        <div className={props.className}>
+        {title}
+        <span>
+            {value}
+        </span>
+        </div>
+    );
 }
 
 export default Deck;

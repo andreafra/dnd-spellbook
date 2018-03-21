@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 class Picker extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +24,6 @@ class Picker extends Component {
                 }
             }
         }
-        console.log(this.spellList)
     }
 
     // Send data to parent (App)
@@ -46,10 +45,12 @@ class Picker extends Component {
         return(
             <div>
                 <nav className="Navbar">
-                    <button 
+                    <Link to="/deck"
                         className="Btn" 
-                        onClick={this.sendSpellList}>Create Deck</button>
-                    </nav>
+                        onClick={this.sendSpellList}>
+                        Create Deck
+                    </Link>
+                </nav>
                 <ul className="Picker-list">
                     {listItems}
                 </ul>
@@ -80,15 +81,15 @@ class Spell extends Component {
     }
 
     render() {
-        console.log(this.state.isChecked);
         return(
             <li className="Spell">
-                <input 
+                <input
+                    className="Spell-checkbox"
                     id={this.spellId}
                     type="checkbox" 
                     onChange={this.toggleSpell} 
                     checked={this.state.isChecked}/>
-                <label htmlFor={this.spellId}>{this.spellData.title}</label>
+                <label className="Spell-title" htmlFor={this.spellId}>{this.spellData.title}</label>
             </li>
         )
     }
