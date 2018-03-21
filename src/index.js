@@ -6,8 +6,11 @@ import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
+const __PATH__ = (window.location.hostname === "andreafranchini.me") ?
+    "/dnd-spell-cards-online" : "";
+
 ReactDOM.render((
-    <BrowserRouter>
+    <BrowserRouter basename={__PATH__ + "/"}>
         <App />
     </BrowserRouter>
 ), document.getElementById('root'));

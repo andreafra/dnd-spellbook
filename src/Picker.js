@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-
-const __PATH__ = (window.location.hostname === "andreafranchini.me") ?
-    "/dnd-spell-cards-online" : "";
-
 class Picker extends Component {
     constructor(props) {
         super(props);
@@ -50,9 +46,9 @@ class Picker extends Component {
         return(
             <div className="Anim-fade-in">
                 <nav className="Navbar">
-                    <Link className="Btn" to={__PATH__ + "/"}>Back</Link>
+                    <Link className="Btn" to="/">Back</Link>
                     <div className="Spacer"></div>
-                    <Link to={__PATH__ + "/deck"}
+                    <Link to="/deck"
                         className="Btn" 
                         onClick={this.sendSpellList}>
                         Create Deck
