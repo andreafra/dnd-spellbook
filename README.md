@@ -3,7 +3,7 @@
 An online tool to build a custom deck of spell for DnD 🐉.
 
 **It was a project I made for private and didactic purposes only.
-Of course you should own you copy of the Player's Handbook, which I own and (you can own too)[https://smile.amazon.com/Players-Handbook-Dungeons-Dragons-Wizards/dp/0786965606]!.**
+Of course you should own you copy of the Player's Handbook, which I own and [you can own too](https://smile.amazon.com/Players-Handbook-Dungeons-Dragons-Wizards/dp/0786965606)!.**
 
 ### Demo
 Check out the live version [here](https://andreafranchini.me/dnd-spell-cards-online)!
