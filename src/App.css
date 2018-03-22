@@ -2,7 +2,10 @@
   --font-title-stack: 'Inknut Antiqua', serif;
   --font-body-stack: 'Libre Baskerville', serif;
   --accent: red;
+  --accent-bw: rgb(70,70,70);
   --shadow: rgba(255, 37, 37, 0.329);
+  --shadow-bw: #ccc;
+  --background-light: #eee;
 }
 
 /* @font-face {
@@ -85,9 +88,9 @@
 }
 
 .Card-detail {
-  color: rgb(70, 70, 70);
+  color: var(--accent-bw);
   font-size: 0.8em;
-  border-bottom: 1px solid rgb(70, 70, 70);
+  border-bottom: 1px solid var(--accent-bw);
   padding: 0.2em 0;
 }
 .Card-detail {
@@ -117,7 +120,7 @@
 .Navbar {
   width: 100%;
   display: flex;
-  padding: 0.25em;
+  padding: 0.25em 0;
   justify-content: left;
 }
 .Navbar-center {
@@ -127,7 +130,7 @@
   font-size: 1em;
   font-family: var(--font-title-stack);
   text-decoration: none;
-  margin: 0 0.25em;
+  margin: 0;
   background-color: var(--accent);;
   color: white;
   display: inline-block;
@@ -150,18 +153,11 @@
 .Spacer {
   flex-grow: 1;
 }
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.6)
-  }
-  to {
-    opacity: 1;
-    transform: scale(1)
-  }
-}
 
 /* Picker.js */
+.Picker {
+  padding: 0.25em;
+}
 .Picker-list {
   padding: 0;
   height: 90vh;
@@ -172,18 +168,37 @@
 }
 
 .Spell {
-  display: block;
+  display: flex;
   transition: all ease-in-out 0.2s;
 }
 
 .Spell-checkbox {
-  vertical-align: text-bottom;
-  margin: 4px 0.5em;
+  align-self: center;
 }
 
 .Spell-title {
+  display: flex;
+  flex-grow: 1;
   font-family: var(--font-title-stack);
   font-size: 1.2em;
+}
+
+.SearchBox {
+  color: var(--accent-bw);
+  display: block;
+  width: 100%;
+  border: none;
+  border-radius: 100px;
+  font-size: 1em;
+  font-family: var(--font-title-stack);
+  padding: 0.1em 1em;
+  outline: none;
+  background: var(--background-light);
+  transition: box-shadow 0.2s ease-out;
+}
+.SearchBox:focus {
+  color: var(--accent-bw);
+  box-shadow: 0px 3px 5px var(--shadow-bw);
 }
 
 /* Home */
@@ -227,6 +242,17 @@
 }
 .Text-big {
   font-size: 1.2em;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.6)
+  }
+  to {
+    opacity: 1;
+    transform: scale(1)
+  }
 }
 
 .Anim-fade-in {

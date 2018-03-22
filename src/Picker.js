@@ -51,7 +51,7 @@ class Picker extends Component {
         ));
 
         return(
-            <div className="Anim-fade-in">
+            <div className="Picker Anim-fade-in">
                 <nav className="Navbar">
                     <Link className="Btn" to="/">Back</Link>
                     <div className="Spacer"></div>
@@ -80,7 +80,7 @@ class SearchBox extends Component {
     }
     render() {
         return (
-            <input type="text" onChange={this.updateQuery} />
+            <input className="SearchBox" placeholder="Filter Spells..." type="text" onChange={this.updateQuery} />
         )
     }
 }
