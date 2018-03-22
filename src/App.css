@@ -195,3 +195,11 @@
   margin: 0;
   line-height: 1.3em;
 }
+
+/* Responsive Layout */
+@media screen and (min-width: 30em) {
+  .App {
+    max-width: 50em;
+    margin: auto;
+  }
+}
