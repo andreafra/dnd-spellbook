@@ -73,14 +73,10 @@ class Picker extends Component {
 class SearchBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            inputValue: ""
-        }
-        this.updateQuery = props.callbackFromSearchBox;
+        this.updateQueryCallback = props.callbackFromSearchBox;
     }
-    updateInputValue = (e) => {
-        this.setState({inputValue: e.target.value});
-        this.updateQuery(e.target.value);
+    updateQuery = (e) => {
+        this.updateQueryCallback(e.target.value)
     }
     render() {
         return (
