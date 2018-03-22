@@ -3,6 +3,7 @@ import { Route, Link } from 'react-router-dom';
 
 import Deck from './Deck.js';
 import Picker from './Picker.js';
+import Copyright from './Copyright.js';
 import './App.css';
 import logo from './logo.svg';
 import allSpells from './spells.json';
@@ -40,16 +41,19 @@ class Home extends Component {
     render() {
 
         return(
-            <div className="Home-wrapper">
-                <div className="Home-content">
-                    {/* Content goes here*/}
-                    <h1 className="Home-title">DnD Spell Cards</h1>
-                    <img src={logo} alt="logo"/>
-                    <nav className="Navbar Navbar-center">
-                        <Link to="picker" className="Btn">Pick Spells</Link>
-                        <Link to="deck" className="Btn">Go to Deck</Link>
-                    </nav>
+            <div>
+                <div className="Home-wrapper">
+                    <div className="Home-content">
+                        {/* Content goes here*/}
+                        <h1 className="Home-title">DnD Spell Cards</h1>
+                        <img src={logo} alt="logo"/>
+                        <nav className="Navbar Navbar-center">
+                            <Link to="picker" className="Btn">Pick Spells</Link>
+                            <Link to="deck" className="Btn">Go to Deck</Link>
+                        </nav>
+                    </div>
                 </div>
+                <Copyright />
             </div>
         )
     }

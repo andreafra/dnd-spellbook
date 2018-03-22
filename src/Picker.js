@@ -6,7 +6,7 @@ class Picker extends Component {
         super(props);
         this.spells = props.spells;
         this.state = {
-            search: ""
+            query: "",
         };
         this.selectedSpells = [];
     }
@@ -35,8 +35,8 @@ class Picker extends Component {
     }
 
     // Search spell
-    updateQuery = (query) => {
-        this.setState({search: query});
+    updateQuery = (e) => {
+        this.setState({query: e});
     }
 
     render() {
@@ -45,7 +45,7 @@ class Picker extends Component {
                 spellData={spell}
                 key={index} 
                 spellId={index} 
-                state={this.state}
+                search={this.state.query}
                 callbackFromSpell={this.getSpellData}
             />
         ));
@@ -57,8 +57,7 @@ class Picker extends Component {
                     <div className="Spacer"></div>
                     <Link to="/deck"
                         className="Btn" 
-                        onClick={this.sendSpellList}
-                        search={this.search}>
+                        onClick={this.sendSelectedSpells}>
                         Create Deck
                     </Link>
                 </nav>
@@ -74,14 +73,18 @@ class Picker extends Component {
 class SearchBox extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            inputValue: ""
+        }
         this.updateQuery = props.callbackFromSearchBox;
     }
-    updateQuery = (props) => {
-        this.updateQuery(props.value)
+    updateInputValue = (e) => {
+        this.setState({inputValue: e.target.value});
+        this.updateQuery(e.target.value);
     }
     render() {
         return (
-            <input type="text" onChange={this.updateQuery} />
+            <input type="text" value={this.state.inputValue} onChange={e => this.updateInputValue(e)} />
         )
     }
 }
@@ -90,11 +93,11 @@ class Spell extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isChecked: false
+            isChecked: false,
+            query: props.search.toLowerCase()
         };
         this.spellId = props.spellId;
         this.spellData = props.spellData;
-        this.search = props.search;
     }
 
     toggleSpell = () => { 
@@ -109,18 +112,24 @@ class Spell extends Component {
     }
 
     render() {
-        // IF QUALCOSA SEARCH = RETURN LI ELSE NULL
-        return(
-            <li className="Spell">
-                <input
-                    className="Spell-checkbox"
-                    id={this.spellId}
-                    type="checkbox" 
-                    onChange={this.toggleSpell} 
-                    checked={this.state.isChecked}/>
-                <label className="Spell-title" htmlFor={this.spellId}>{this.spellData.title}</label>
-            </li>
-        );
+        // if query is matched, render
+        if(this.state.query === ""
+        /* || this.spellData.title.toLowerCase() === this.query*/) {
+            console.log(this.state.query);
+            return(
+                <li className="Spell">
+                    <input
+                        className="Spell-checkbox"
+                        id={this.spellId}
+                        type="checkbox" 
+                        onChange={this.toggleSpell} 
+                        checked={this.state.isChecked}/>
+                    <label className="Spell-title" htmlFor={this.spellId}>{this.spellData.title}</label>
+                </li>
+            )
+        } else {
+            return null;
+        }
     }
 }
 
