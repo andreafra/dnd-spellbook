@@ -127,6 +127,7 @@
   align-self: center;
   outline: none;
   transition: all ease-in-out 0.2s;
+  user-select: none;
 }
 .Btn:focus, .Btn:hover {
   background-color: rgb(199, 0, 0);
