@@ -45,8 +45,8 @@ class Picker extends Component {
                 spellData={spell}
                 key={index} 
                 spellId={index} 
-                search={this.state.query}
                 callbackFromSpell={this.getSpellData}
+                search={this.state.search}
             />
         ));
 
@@ -57,7 +57,7 @@ class Picker extends Component {
                     <div className="Spacer"></div>
                     <Link to="/deck"
                         className="Btn" 
-                        onClick={this.sendSelectedSpells}>
+                        onClick={this.sendSpellList}>
                         Create Deck
                     </Link>
                 </nav>
@@ -73,14 +73,10 @@ class Picker extends Component {
 class SearchBox extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            inputValue: ""
-        }
-        this.updateQuery = props.callbackFromSearchBox;
+        this.updateQueryCallback = props.callbackFromSearchBox;
     }
-    updateInputValue = (e) => {
-        this.setState({inputValue: e.target.value});
-        this.updateQuery(e.target.value);
+    updateQuery = (e) => {
+        this.updateQueryCallback(e.target.value)
     }
     render() {
         return (
