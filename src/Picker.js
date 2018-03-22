@@ -6,7 +6,7 @@ class Picker extends Component {
         super(props);
         this.spells = props.spells;
         this.state = {
-            query: "",
+            search: ""
         };
         this.selectedSpells = [];
     }
@@ -35,8 +35,8 @@ class Picker extends Component {
     }
 
     // Search spell
-    updateQuery = (e) => {
-        this.setState({query: e});
+    updateQuery = (query) => {
+        this.setState({search: query});
     }
 
     render() {
@@ -84,7 +84,7 @@ class SearchBox extends Component {
     }
     render() {
         return (
-            <input type="text" value={this.state.inputValue} onChange={e => this.updateInputValue(e)} />
+            <input type="text" onChange={this.updateQuery} />
         )
     }
 }
@@ -93,11 +93,11 @@ class Spell extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isChecked: false,
-            query: props.search.toLowerCase()
+            isChecked: false
         };
         this.spellId = props.spellId;
         this.spellData = props.spellData;
+        this.search = props.search;
     }
 
     toggleSpell = () => { 
@@ -112,24 +112,18 @@ class Spell extends Component {
     }
 
     render() {
-        // if query is matched, render
-        if(this.state.query === ""
-        /* || this.spellData.title.toLowerCase() === this.query*/) {
-            console.log(this.state.query);
-            return(
-                <li className="Spell">
-                    <input
-                        className="Spell-checkbox"
-                        id={this.spellId}
-                        type="checkbox" 
-                        onChange={this.toggleSpell} 
-                        checked={this.state.isChecked}/>
-                    <label className="Spell-title" htmlFor={this.spellId}>{this.spellData.title}</label>
-                </li>
-            )
-        } else {
-            return null;
-        }
+        // IF QUALCOSA SEARCH = RETURN LI ELSE NULL
+        return(
+            <li className="Spell">
+                <input
+                    className="Spell-checkbox"
+                    id={this.spellId}
+                    type="checkbox" 
+                    onChange={this.toggleSpell} 
+                    checked={this.state.isChecked}/>
+                <label className="Spell-title" htmlFor={this.spellId}>{this.spellData.title}</label>
+            </li>
+        );
     }
 }
 
