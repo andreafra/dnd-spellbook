@@ -32,8 +32,10 @@
   padding: 0.5em 0;
   list-style: none;
   text-align: center;
+  margin: 0;
   margin-left: auto;
   margin-right: auto;
+  overflow: hidden;
 }
 
 .Card {
@@ -47,12 +49,6 @@
   vertical-align: top;
   z-index: 1000;
   background-color: white;
-}
-.Anim-fade-in {
-  animation-name: fade-in;
-  animation-duration: 0.2s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: 1;
 }
 .Card-transition {
   transition: all ease-in-out 0.2s;
@@ -135,7 +131,7 @@
   background-color: var(--accent);;
   color: white;
   display: inline-block;
-  padding: 0.3em 1em;
+  padding: 0em 1em;
   border: none;
   border-radius: 100em;
   align-self: center;
@@ -147,9 +143,7 @@
   box-shadow: 0px 1px 3px var(--shadow),
   0px 2px 10px var(--shadow);
 }
-.Btn:disabled {
-  background-color: rgb(185, 185, 185);
-}
+
 .Btn-group {
   align-self: center;
 }
@@ -233,6 +227,13 @@
 }
 .Text-big {
   font-size: 1.2em;
+}
+
+.Anim-fade-in {
+  animation-name: fade-in;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
 }
 
 /* Responsive Layout */
