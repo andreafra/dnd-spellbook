@@ -43,7 +43,7 @@ class Home extends Component {
             <div className="Home-wrapper">
                 <div className="Home-content">
                     {/* Content goes here*/}
-                    <h1 className="Home-title">dnd-spell-cards-online</h1>
+                    <h1 className="Home-title">DnD Spell Cards</h1>
                     <img src={logo} alt="logo"/>
                     <nav className="Navbar Navbar-center">
                         <Link to="picker" className="Btn">Pick Spells</Link>

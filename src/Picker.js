@@ -5,7 +5,9 @@ class Picker extends Component {
     constructor(props) {
         super(props);
         this.spells = props.spells;
-        this.state = {};
+        this.state = {
+            search: ""
+        };
         this.spellList = [];
     }
 
@@ -32,6 +34,11 @@ class Picker extends Component {
         this.props.callbackFromPicker(this.spellList);
     }
 
+    // Search spell
+    updateQuery = (query) => {
+        this.setState({search: query});
+    }
+
     render() {
         const listItems = this.spells.map((spell, index) => (
             <Spell 
@@ -50,15 +57,32 @@ class Picker extends Component {
                     <div className="Spacer"></div>
                     <Link to="/deck"
                         className="Btn" 
-                        onClick={this.sendSpellList}>
+                        onClick={this.sendSpellList}
+                        search={this.search}>
                         Create Deck
                     </Link>
                 </nav>
+                <SearchBox callbackFromSearchBox={this.updateQuery} />
                 <ul className="Picker-list">
                     {listItems}
                 </ul>
             </div>
         );
+    }
+}
+
+class SearchBox extends Component {
+    constructor(props) {
+        super(props);
+        this.updateQuery = props.callbackFromSearchBox;
+    }
+    updateQuery = (props) => {
+        this.updateQuery(props.value)
+    }
+    render() {
+        return (
+            <input type="text" onChange={this.updateQuery} />
+        )
     }
 }
 
@@ -70,6 +94,7 @@ class Spell extends Component {
         };
         this.spellId = props.spellId;
         this.spellData = props.spellData;
+        this.search = props.search;
     }
 
     toggleSpell = () => { 
@@ -84,6 +109,7 @@ class Spell extends Component {
     }
 
     render() {
+        // IF QUALCOSA SEARCH = RETURN LI ELSE NULL
         return(
             <li className="Spell">
                 <input

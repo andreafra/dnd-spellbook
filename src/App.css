@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Tiamat';
+  src: url('/fonts/tiamat.woff2') format('woff2'), /* Super Modern Browsers */
+       url('/fonts/tiamat.woff') format('woff'), /* Pretty Modern Browsers */
+       url('/fonts/tiamat.otf') format('otf');
+}
+
 #root {
   height: 100%;
 }
@@ -52,8 +59,8 @@
   position: relative;
 }
 .Card-title {
-  font-family: 'Inknut Antiqua', serif;
-  font-size: 1.5em;
+  font-family: 'Tiamat', serif;
+  font-size: 1.7em;
   margin: 0;
   height: 1.5em;
   line-height: 1.5em;
@@ -114,14 +121,14 @@
   justify-content: center;
 }
 .Btn {
-  font-size: 0.8em;
-  font-family: 'Inknut Antiqua', serif;
+  font-size: 1.2em;
+  font-family: 'Tiamat', serif;
   text-decoration: none;
   margin: 0 0.5em;
   background-color: red;
   color: white;
   display: inline-block;
-  padding: 0.1em 1.2em;
+  padding: 0.3em 1em;
   border: none;
   border-radius: 100em;
   align-self: center;
@@ -173,8 +180,8 @@
 }
 
 .Spell-title {
-  font-family: 'Inknut Antiqua', serif;
-  font-size: 1em;
+  font-family: 'Tiamat', serif;
+  font-size: 1.2em;
 }
 
 /* Home */
@@ -191,8 +198,9 @@
   align-self: center;
 }
 .Home-title {
-  font-family: 'Inknut Antiqua', serif;
-  font-size: 1.3em;
+  font-family: 'Tiamat', serif;
+  font-size: 2em;
+  text-align: center;
   margin: 0;
   line-height: 1.3em;
 }
