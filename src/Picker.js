@@ -57,7 +57,7 @@ class Picker extends Component {
                     <div className="Spacer"></div>
                     <Link to="/deck"
                         className="Btn" 
-                        onClick={this.sendSpellList}>
+                        onClick={this.sendSelectedSpells}>
                         Create Deck
                     </Link>
                 </nav>
