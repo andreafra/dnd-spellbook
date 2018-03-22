@@ -36,7 +36,7 @@ class Picker extends Component {
 
     // Search spell
     updateQuery = (query) => {
-        this.setState({search: query});
+        this.setState({query: query});
     }
 
     render() {
@@ -45,7 +45,7 @@ class Picker extends Component {
                 spellData={spell}
                 key={index} 
                 spellId={index} 
-                search={this.state.query}
+                query={this.state.query}
                 callbackFromSpell={this.getSpellData}
             />
         ));
@@ -93,16 +93,21 @@ class Spell extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isChecked: false
+            isChecked: false,
+            query: ""
         };
         this.spellId = props.spellId;
         this.spellData = props.spellData;
-        this.search = props.search;
     }
 
     toggleSpell = () => { 
         // Send data to parent via callback
-        this.setState({isChecked: !this.state.isChecked},
+        this.setState(
+            {
+                isChecked: !this.state.isChecked,
+                query: this.state.query // Leave unchanged
+            },
+
             this.props.callbackFromSpell(
                 [ this.spellId, this.spellData ],
                 this.state.isChecked
@@ -111,8 +116,18 @@ class Spell extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            isChecked: this.state.isChecked, // Leave unchanged
+            query: nextProps.query
+        });
+    }
+
     render() {
         // IF QUALCOSA SEARCH = RETURN LI ELSE NULL
+        if(!this.spellData.title.toLowerCase().includes(this.state.query.toLowerCase()))
+            return null;
+
         return(
             <li className="Spell">
                 <input
