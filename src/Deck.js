@@ -91,7 +91,7 @@ class Deck extends Component {
         ));
 
     return (
-        <div className="Anim-fade-in">
+        <div className="Deck Anim-fade-in">
             <nav className="Navbar">
                 <Link className="Btn" to="/picker">Back</Link>
                 <div className="Spacer"></div>
