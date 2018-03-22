@@ -28,6 +28,9 @@
 }
 
 /* Deck.js */
+.Deck {
+  padding: 0.25em;
+}
 .Deck-wrapper {
   text-align: center;
 }
@@ -141,12 +144,15 @@
   outline: none;
   transition: all ease-in-out 0.2s;
   user-select: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 .Btn:focus, .Btn:hover {
   box-shadow: 0px 1px 3px var(--shadow),
   0px 2px 10px var(--shadow);
 }
-
+.Btn + .Btn {
+  margin-left: 0.5em;
+}
 .Btn-group {
   align-self: center;
 }
