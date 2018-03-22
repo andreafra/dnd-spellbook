@@ -6,20 +6,20 @@ class Picker extends Component {
         super(props);
         this.spells = props.spells;
         this.state = {};
-        this.spellList = [];
+        this.selectedSpells = [];
     }
 
     // Retrieve infos from cards
     getSpellData = (data, checked) => {
         if(!checked) {
             // Add spell to list
-            this.spellList.push(data);
+            this.selectedSpells.push(data);
         } else {
-            const sl = this.spellList;
+            const sl = this.selectedSpells;
             if(sl.length > 0) {
                 for(let i = sl.length-1; i >= 0; i--) {
                     if(sl[i][0] === data[0]) {
-                        this.spellList.splice(i, 1)
+                        this.selectedSpells.splice(i, 1)
                         break;
                     }
                 }
@@ -28,8 +28,8 @@ class Picker extends Component {
     }
 
     // Send data to parent (App)
-    sendSpellList = () => {
-        this.props.callbackFromPicker(this.spellList);
+    sendSelectedSpells = () => {
+        this.props.callbackFromPicker(this.selectedSpells);
     }
 
     render() {
@@ -50,7 +50,7 @@ class Picker extends Component {
                     <div className="Spacer"></div>
                     <Link to="/deck"
                         className="Btn" 
-                        onClick={this.sendSpellList}>
+                        onClick={this.sendSelectedSpells}>
                         Create Deck
                     </Link>
                 </nav>
