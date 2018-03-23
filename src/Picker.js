@@ -6,7 +6,7 @@ class Picker extends Component {
         super(props);
         this.spells = props.spells;
         this.state = {
-            search: ""
+            query: ""
         };
         this.selectedSpells = [];
     }
