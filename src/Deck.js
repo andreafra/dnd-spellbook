@@ -83,8 +83,8 @@ class Deck extends Component {
     render() {
         const listItems = !this.cards ? null : this.cards.map((card, index) => (
             <Card cardData={card}
-                key={index} 
-                cardId={index} 
+                key={index}
+                cardId={index}
                 currentCardId={this.state.currentCardId}
                 deltaX={this.state.deltaX}
                 isSwiping={this.state.isSwiping} />
@@ -96,19 +96,19 @@ class Deck extends Component {
                 <Link className="Btn" to="/picker">Back</Link>
                 <div className="Spacer"></div>
                 <div className="Btn-group">
-                    <a 
+                    <a
                         className="Btn"
                         onClick={this.prevCard}>
                         Previous
                     </a>
-                    <a 
-                        className="Btn" 
+                    <a
+                        className="Btn"
                         onClick={this.nextCard}>
                         Next
                     </a>
                 </div>
             </nav>
-            <Swipe className="Deck-wrapper" 
+            <Swipe className="Deck-wrapper"
                 onSwipeStart={this.onSwipeStart}
                 onSwipeMove={this.onSwipeMove}
                 onSwipeEnd={this.onSwipeEnd}
@@ -117,7 +117,7 @@ class Deck extends Component {
             </Swipe>
         </div>
     )
-}
+  }
 }
 
 const Card = (props) => {
@@ -137,7 +137,7 @@ const Card = (props) => {
     }
 
     if(isSwiping) {
-        styles.transform = "translateX(" + deltaX + "px)" + 
+        styles.transform = "translateX(" + deltaX + "px)" +
         "rotateZ(" + deltaX/3.14 + "deg)";
         styles.opacity = 1 - Math.abs(deltaX/100);
     }
@@ -147,24 +147,69 @@ const Card = (props) => {
         return (
             <li className={classes} style={styles}>
                 <h3 className="Card-title">{data.title}</h3>
-                <div className="Card-subtitle">{data.contents[0]}</div>
+                <span className="Card-subtitle">{data.contents[0]}</span>
                 <div className="Card-details">
-                <CardDetail cardText={data.contents[2]} className="Card-detail Card-castingTime" />
-                <CardDetail cardText={data.contents[3]} className="Card-detail Card-range" />
-                <CardDetail cardText={data.contents[4]} className="Card-detail Card-dudistancen" />
-                <CardDetail cardText={data.contents[5]} className="Card-detail Card-components" />
+                  <CardDetail cardText={data.contents[2]} className="Card-detail Card-castingTime" />
+                  <CardDetail cardText={data.contents[3]} className="Card-detail Card-range" />
+                  <CardDetail cardText={data.contents[4]} className="Card-detail Card-dudistancen" />
+                  <CardDetail cardText={data.contents[5]} className="Card-detail Card-components" />
                 </div>
                 <div className="Card-description">
-                <CardText cardText={data.contents[7]} />
-                <CardText cardText={data.contents[8]} />
-                <CardText cardText={data.contents[9]} />
-                <CardText cardText={data.contents[10]} />
+                  <CardText cardText={data.contents[7]} />
+                  <CardText cardText={data.contents[8]} />
+                  <CardText cardText={data.contents[9]} />
+                  <CardText cardText={data.contents[10]} />
                 </div>
+                <SpellSlots slots={6} activeSlots={4} />
             </li>
         );
     } else {
         return null;
     }
+}
+// TODO: Add persistence between swipes
+// Try data.<newProperty> in Parent Component
+class SpellSlots extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      slots: props.slots,
+      activeSlots: props.activeSlots,
+    }
+  }
+
+  addGem = () => {
+    if (this.state.activeSlots < this.state.slots) {
+      this.setState({activeSlots: this.state.activeSlots + 1});
+    }
+  }
+
+  removeGem = () => {
+    if (this.state.activeSlots > 0) {
+      this.setState({activeSlots: this.state.activeSlots - 1});
+    }
+  }
+  render() {
+    // Create n-activeSlots gems
+    var gems = [];
+    for(let i = 0; i < this.state.slots; i++) {
+      if(i < this.state.activeSlots) {
+        gems.push(<span key={i} className="Gem"></span>);
+      } else {
+        gems.push(<span key={i} className="Gem-empty"></span>);
+      }
+    }
+    return(
+      <div className="Spellslots">
+        <button className="Spellslots-btn" onClick={this.removeGem}>–</button>
+        <div className="Spellslots-gems">
+            {(this.state.activeSlots <= 5) && gems}
+            {(this.state.activeSlots > 5) && <span className="Gem-big">{this.state.activeSlots}</span>}
+        </div>
+        <button className="Spellslots-btn" onClick={this.addGem}>+</button>
+      </div>
+    )
+  }
 }
 
 const CardText = (props) => {

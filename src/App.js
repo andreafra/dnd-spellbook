@@ -41,16 +41,17 @@ class Home extends Component {
     render() {
 
         return(
-            <div>
+            <div className="Home Anim-fade-in">
                 <div className="Home-wrapper">
                     <div className="Home-content">
                         {/* Content goes here*/}
                         <h1 className="Home-title">DnD Spell Cards</h1>
-                        <img src={logo} alt="logo"/>
+                        <img  className="Home-image" src={logo} alt="logo"/>
                         <nav className="Navbar Navbar-center">
                             <Link to="picker" className="Btn">Pick Spells</Link>
                             <Link to="deck" className="Btn">Go to Deck</Link>
                         </nav>
+                        <a className="Home-scroll Anim-fade-in">Scroll Down for Copyright</a>
                     </div>
                 </div>
                 <Copyright />

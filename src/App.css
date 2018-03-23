@@ -41,7 +41,8 @@
   margin: 0;
   margin-left: auto;
   margin-right: auto;
-  overflow: hidden;
+  overflow-x: visible;
+  overflow-y: visible;
 }
 
 .Card {
@@ -119,6 +120,36 @@
   text-align: right;
 }
 
+.Spellslots {
+  display: flex;
+  height: 1.5em
+}
+.Spellslots-btn {
+  align-self: center;
+}
+.Spellslots-gems {
+  align-self: center;
+  flex-grow: 1;
+  text-align: center;
+}
+.Gem, .Gem-empty {
+  color: white;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: green;
+  margin: 0 0.25em;
+}
+.Gem-empty {
+  background: purple;
+}
+.Gem-big {
+  color: white;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  background: green;
+}
 /* Navbar and buttons */
 .Navbar {
   width: 100%;
@@ -179,7 +210,20 @@
 }
 
 .Spell-checkbox {
-  align-self: center;
+  display: none;
+}
+/* Use pseudo-classes to display custom checkmark */
+.Spell-title::before {
+  content: "✅";
+  display: block;
+  width: 0;
+  padding: 0;
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+}
+.Spell-checkbox:checked ~ .Spell-title::before {
+  width: 1.5em;
+  opacity: 1;
 }
 
 .Spell-title {
@@ -220,6 +264,7 @@
 .Home-content {
   width: 100%;
   align-self: center;
+  text-align: center;
 }
 .Home-title {
   font-family: var(--font-title-stack);
@@ -227,6 +272,18 @@
   text-align: center;
   margin: 0;
   line-height: 1.3em;
+}
+.Home-image {
+  height: 40vh;
+}
+.Home-scroll {
+  display: block;
+  font-size: 0.8em;
+  margin-top: 3em;
+  color: var(--shadow-bw);
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
 }
 .Home-copyright {
   font-family: var(--font-body-stack);
