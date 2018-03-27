@@ -194,19 +194,19 @@ class SpellSlots extends Component {
     var gems = [];
     for(let i = 0; i < this.state.slots; i++) {
       if(i < this.state.activeSlots) {
-        gems.push(<span key={i} className="Gem"></span>);
+        gems.push(<span key={i} className="Gem Anim-fade-in"></span>);
       } else {
-        gems.push(<span key={i} className="Gem-empty"></span>);
+        gems.push(<span key={i} className="Gem-empty Anim-fade-in"></span>);
       }
     }
     return(
       <div className="Spellslots">
-        <button className="Spellslots-btn" onClick={this.removeGem}>–</button>
+        <button className="Spellslots-btn-remove" onClick={this.removeGem}>–</button>
         <div className="Spellslots-gems">
             {(this.state.activeSlots <= 5) && gems}
-            {(this.state.activeSlots > 5) && <span className="Gem-big">{this.state.activeSlots}</span>}
+            {(this.state.activeSlots > 5) && <span className="Gem-big Anim-fade-in">{this.state.activeSlots}</span>}
         </div>
-        <button className="Spellslots-btn" onClick={this.addGem}>+</button>
+        <button className="Spellslots-btn-add" onClick={this.addGem}>+</button>
       </div>
     )
   }
