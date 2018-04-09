@@ -2,14 +2,26 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Swipe from 'react-easy-swipe';
 
+var cards;
+
+// Doesnt work
+// window.addEventListener("beforeunload", () => {
+//     Deck.saveToLocalStorage(cards);
+// })
+
+const updateSpellSlots = (id, spellSlots) => {
+    // It just works
+    cards[id][1].spellSlots = spellSlots;
+}
+
 class Deck extends Component {
     constructor(props) {
         super(props);
         if(props.spells.length !== 0) {
-            this.cards = props.spells;
-            this.saveToLocalStorage(props.spells);
+            cards = props.spells;
+            this.saveToLocalStorage(cards);
         } else {
-            this.cards = this.retrieveFromLocalStorage();
+            cards = this.retrieveFromLocalStorage();
         }
         this.state = {
             currentCardId: 0,
@@ -41,7 +53,7 @@ class Deck extends Component {
     // Next and prev card buttons
     prevCard = () => {
         this.setState({
-            currentCardId: (this.cards.length + this.state.currentCardId-1) % this.cards.length,
+            currentCardId: (cards.length + this.state.currentCardId-1) % cards.length,
             isSwiping:false,
             deltaX: 0
         });
@@ -49,7 +61,7 @@ class Deck extends Component {
 
     nextCard = () => {
         this.setState({
-            currentCardId: (this.cards.length + this.state.currentCardId+1) % this.cards.length,
+            currentCardId: (cards.length + this.state.currentCardId+1) % cards.length,
             isSwiping:false,
             deltaX: 0
         });
@@ -81,7 +93,7 @@ class Deck extends Component {
     }
 
     render() {
-        const listItems = !this.cards ? null : this.cards.map((card, index) => (
+        const listItems = !cards ? null : cards.map((card, index) => (
             <Card cardData={card}
                 key={index}
                 cardId={index}
@@ -160,7 +172,7 @@ const Card = (props) => {
                   <CardText cardText={data.contents[9]} />
                   <CardText cardText={data.contents[10]} />
                 </div>
-                <SpellSlots slots={6} activeSlots={4} />
+                <SpellSlots cardId={id} slots={data.spellSlots || [3,6]} activeSlots={4} />
             </li>
         );
     } else {
@@ -172,23 +184,26 @@ const Card = (props) => {
 class SpellSlots extends Component {
   constructor(props) {
     super(props);
+    this.id = props.cardId;
     this.state = {
-      slots: props.slots,
-      activeSlots: props.activeSlots,
+      slots: props.slots[1],
+      activeSlots: props.slots[0],
     }
   }
 
-  addGem = () => {
-    if (this.state.activeSlots < this.state.slots) {
-      this.setState({activeSlots: this.state.activeSlots + 1});
+    addGem = () => {
+            if (this.state.activeSlots < this.state.slots) {
+                updateSpellSlots(this.id, [this.state.activeSlots+1,this.state.slots]);
+                this.setState({activeSlots: this.state.activeSlots + 1});
+            }
     }
-  }
-
-  removeGem = () => {
-    if (this.state.activeSlots > 0) {
-      this.setState({activeSlots: this.state.activeSlots - 1});
+    
+    removeGem = () => {
+        if (this.state.activeSlots > 0) {
+            updateSpellSlots(this.id, [this.state.activeSlots-1,this.state.slots]);
+            this.setState({activeSlots: this.state.activeSlots - 1});
+        }
     }
-  }
   render() {
     // Create n-activeSlots gems
     var gems = [];
