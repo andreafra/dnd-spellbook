@@ -1,0 +1,18 @@
+/* Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.text-hyphen {
+  hyphens: auto;
+}
+
+.small-caps {
+  font-variant: small-caps;
+}
+
+@layer components {
+  .paragraph-indent p + p {
+    @apply indent-4;
+  }
+}

@@ -1,28 +1,20 @@
 {
-  "name": "dnd-spell-cards",
-  "version": "0.1.3",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/QUB3X/dnd-spell-cards-online.git"
-  },
-  "homepage": "http://qub3x.github.io/dnd-spell-cards-online",
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-easy-swipe": "0.0.13",
-    "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1"
+    "@types/node": "^17.0.18",
+    "@types/react": "^17.0.39",
+    "autoprefixer": "^10.4.2",
+    "next": "^12.1.0",
+    "postcss": "^8.4.6",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.5.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
-  },
-  "devDependencies": {
-    "gh-pages": "^1.1.0"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   }
 }
