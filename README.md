@@ -1,29 +1,40 @@
-## DnD Spell Cards Online
+# create-svelte
 
-An online tool to build a custom deck of spell for DnD 🐉.
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
-**It was a project I made for private and didactic purposes only.
-Of course you should own you copy of the Player's Handbook, which I own and [you can own too](https://smile.amazon.com/Players-Handbook-Dungeons-Dragons-Wizards/dp/0786965606)!**
+## Creating a project
 
-### Demo
-~~Check out the live version here!~~
+If you're seeing this, you've probably already done this step. Congrats!
 
-### Test it yourself!
+```bash
+# create a new project in the current directory
+npm init svelte@next
 
-- Clone the the repo in the desired directory.
+# create a new project in my-app
+npm init svelte@next my-app
+```
 
-- Run `npm install` inside the directory.
+> Note: the `@next` is temporary
 
-- Run `yarn start` (you may have to install [Yarn](https://yarnpkg.com/en/docs/install])).
+## Developing
 
-- Your browser should open on `localhost:3000` and you can live-test the code!
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-- Run `yarn build` to create the `/dist` folder!
+```bash
+npm run dev
 
-### Cards Source
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
 
-- Cards value are taken from a modified version of [austen0's JSON spells](https://github.com/austen0/dnd_5e_spells) (I manually removed all the HTML tags in it). You could technically generate a JSON for whatever game you want if you provide the correct properties :)
+## Building
 
-- The file is `src/spells.json`
+To create a production version of your app:
 
-*If you deploy your own version online, mind to change the `const __PATH__` at the beginning of `src/index.js` to your domain.*
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
