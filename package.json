@@ -33,7 +33,9 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fontsource/crimson-pro": "^4.5.4",
 		"@lukeed/uuid": "^2.0.0",
-		"cookie": "^0.4.1"
+		"cookie": "^0.4.1",
+		"heroicons-for-svelte": "^0.0.10"
 	}
 }

@@ -62,3 +62,10 @@ const SPELL_SUFFIXES = ['st', 'nd', 'rd'];
 export function getLevelSuffix(level: number): string {
 	return level < 4 ? SPELL_SUFFIXES[level - 1] : 'th';
 }
+
+export function capitalize(str: string): string {
+	str = str.replace('_', ' ');
+	let newStr = str.charAt(0).toUpperCase();
+	newStr += str.slice(1).toLowerCase();
+	return newStr;
+}
