@@ -1,16 +1,19 @@
 <script script lang="ts">
-	import { filteredSpells, spells } from '$src/stores';
+	import { queryClass, queryLevel, queryName, querySchool, spells } from '$src/stores';
 
-	import { onMount } from 'svelte';
-	import { fetchSpellData, getLevelSuffix, getSchoolName } from './_api';
+	import { getLevelSuffix, getSchoolName } from './_api';
 
-	onMount(async () => {
-		spells.set(await fetchSpellData());
-	});
+	$: console.log($queryClass, $querySchool);
+
+	$: filteredSpells = $spells
+		.filter((s) => s.name.toLowerCase().startsWith($queryName.toLowerCase()))
+		//.filter((s) => s.level < 0 || s.level === $queryLevel)
+		.filter((s) => $querySchool === null || s.school === $querySchool)
+		.filter((s) => $queryClass === null || s.class.includes($queryClass));
 </script>
 
 <div class="grid gaps-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-	{#each $filteredSpells as spell}
+	{#each filteredSpells as spell}
 		<li>
 			<h3 class="font-bold">
 				{spell.name}

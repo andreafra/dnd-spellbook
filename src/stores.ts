@@ -1,8 +1,8 @@
-import { derived, writable, type Writable } from 'svelte/store';
-import type { Spell } from './types';
+import { writable, type Writable } from 'svelte/store';
+import type { ISpell, ISpellClass, ISpellSchool } from './types';
 
-export const query = writable('');
-export const spells: Writable<Spell[]> = writable([]);
-export const filteredSpells = derived([query, spells], ([$query, $spells]) =>
-	$spells.filter((x) => x.name.toLowerCase().startsWith($query.toLowerCase()))
-);
+export const queryName: Writable<string> = writable('');
+export const queryLevel: Writable<number> = writable(-1);
+export const queryClass: Writable<ISpellClass | null> = writable(null);
+export const querySchool: Writable<ISpellSchool | null> = writable(null);
+export const spells: Writable<ISpell[]> = writable([]);

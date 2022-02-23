@@ -1,8 +1,8 @@
-import { SpellClass, SpellSchool, type Spell } from '$src/types';
+import { ISpellClass, ISpellSchool, type ISpell } from '$src/types';
 
 const DATA_URL = '/spells.json';
 
-export async function fetchSpellData(): Promise<Spell[]> {
+export async function fetchSpellData(): Promise<ISpell[]> {
 	let res = await fetch(DATA_URL, {
 		method: 'GET',
 		headers: {
@@ -14,10 +14,10 @@ export async function fetchSpellData(): Promise<Spell[]> {
 	return data.spells.map((v) => parseSpell(v));
 }
 
-export function parseSpell(spell: any): Spell {
-	let newSpell: Spell = {
+export function parseSpell(spell: any): ISpell {
+	let newSpell: ISpell = {
+		_id: getId(spell.name),
 		name: spell.name,
-		id: getId(spell.name),
 		desc: spell.desc,
 		range: spell.range,
 		components: spell.components,
@@ -44,17 +44,17 @@ function getLevel(str: string): number {
 	return str === 'Cantrip' ? 0 : Number(str.charAt(0));
 }
 
-function getSchool(str: string): SpellSchool {
-	return SpellSchool[str.toUpperCase()] as SpellSchool;
+function getSchool(str: string): ISpellSchool {
+	return ISpellSchool[str.toUpperCase()] as ISpellSchool;
 }
 
-function getClass(str: string): SpellClass[] {
+function getClass(str: string): ISpellClass[] {
 	let tokens = str.toUpperCase().split(/, +/g);
-	return tokens.map((t) => SpellClass[t.replace(' ', '_')] as SpellClass);
+	return tokens.map((t) => ISpellClass[t.replace(' ', '_')] as ISpellClass);
 }
 
-export function getSchoolName(school: SpellSchool): string {
-	return SpellSchool[school].toLowerCase();
+export function getSchoolName(school: ISpellSchool): string {
+	return ISpellSchool[school].toLowerCase();
 }
 
 const SPELL_SUFFIXES = ['st', 'nd', 'rd'];

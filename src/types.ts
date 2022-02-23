@@ -1,5 +1,5 @@
 // Data Structures
-export enum SpellSchool {
+export enum ISpellSchool {
 	ABJURATION,
 	CONJURATION,
 	DIVINATION,
@@ -9,7 +9,7 @@ export enum SpellSchool {
 	NECROMANCY,
 	TRANSMUTATION
 }
-export enum SpellClass {
+export enum ISpellClass {
 	BARD,
 	CLERIC,
 	DRUID,
@@ -20,9 +20,9 @@ export enum SpellClass {
 	WARLOCK,
 	WIZARD
 }
-export interface Spell {
+export interface ISpell {
+	_id: string;
 	name: string;
-	id: string;
 	desc: string;
 	page?: string;
 	range: string;
@@ -33,6 +33,6 @@ export interface Spell {
 	duration: string;
 	castingTime: string;
 	level: number;
-	school: SpellSchool;
-	class: SpellClass[];
+	school: ISpellSchool;
+	class: ISpellClass[];
 }
