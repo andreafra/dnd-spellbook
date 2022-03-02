@@ -31,7 +31,7 @@
 </svelte:head>
 
 <section>
-	<Spells />
+	<Spells spells={$spells} />
 </section>
 
 <style>

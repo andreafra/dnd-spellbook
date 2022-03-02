@@ -1,25 +1,33 @@
 // Data Structures
-export enum ISpellSchool {
-	ABJURATION,
-	CONJURATION,
-	DIVINATION,
-	ENCHANTMENT,
-	EVOCATION,
-	ILLUSION,
-	NECROMANCY,
-	TRANSMUTATION
-}
-export enum ISpellClass {
-	BARD,
-	CLERIC,
-	DRUID,
-	PALADIN,
-	RANGER,
-	RITUAL_CASTER,
-	SORCERER,
-	WARLOCK,
-	WIZARD
-}
+
+const _SpellSchools = {
+	ABJURATION: '',
+	CONJURATION: '',
+	DIVINATION: '',
+	ENCHANTMENT: '',
+	EVOCATION: '',
+	ILLUSION: '',
+	NECROMANCY: '',
+	TRANSMUTATION: ''
+};
+
+const _SpellClasses = {
+	BARD: '',
+	CLERIC: '',
+	DRUID: '',
+	PALADIN: '',
+	RANGER: '',
+	RITUAL_CASTER: '',
+	SORCERER: '',
+	WARLOCK: '',
+	WIZARD: ''
+};
+
+export const SpellSchools = Object.keys(_SpellSchools);
+export const SpellClasses = Object.keys(_SpellClasses);
+
+export type ISpellSchool = keyof typeof _SpellSchools;
+export type ISpellClass = keyof typeof _SpellClasses;
 export interface ISpell {
 	_id: string;
 	name: string;
@@ -36,3 +44,6 @@ export interface ISpell {
 	school: ISpellSchool;
 	class: ISpellClass[];
 }
+
+export type SortMethod = 'NAME' | 'LEVEL';
+export type SortDirection = 'ASC' | 'DESC';

@@ -1,8 +1,11 @@
 <script script lang="ts">
-	import { queryClass, queryLevel, queryName, querySchool, spells } from '$src/stores';
 	import type { ISpell } from '$src/types';
+	import { each } from 'svelte/internal';
 
 	import { getLevelSuffix, getSchoolName } from './_api';
+
+	import Icon from 'heroicons-for-svelte';
+	import { PlusCircle } from 'heroicons-for-svelte/icons/outline';
 
 	export let spell: ISpell;
 
@@ -23,7 +26,7 @@
 		{spell.name}
 	</h3>
 	<p>
-		<i>
+		<i class="capitalize">
 			{spell.level === 0
 				? `${getSchoolName(spell.school)} cantrip`
 				: `${spell.level}${getLevelSuffix(spell.level)}-level ${getSchoolName(spell.school)}`}
@@ -52,6 +55,14 @@
 			class="absolute bottom-0 bg-gradient-to-t from-red-100 h-10 w-full pointer-events-none"
 			class:hidden={isEndScroll}
 		/>
+	</div>
+	<ul>
+		{#each spell.class as cls}
+			<li>{cls}</li>
+		{/each}
+	</ul>
+	<div>
+		<button />
 	</div>
 </li>
 

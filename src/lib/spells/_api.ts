@@ -1,4 +1,4 @@
-import { ISpellClass, ISpellSchool, type ISpell } from '$src/types';
+import type { ISpellClass, ISpellSchool, ISpell } from '$src/types';
 
 const DATA_URL = '/spells.json';
 
@@ -45,16 +45,16 @@ function getLevel(str: string): number {
 }
 
 function getSchool(str: string): ISpellSchool {
-	return ISpellSchool[str.toUpperCase()] as ISpellSchool;
+	return str.toUpperCase() as ISpellSchool;
 }
 
 function getClass(str: string): ISpellClass[] {
 	let tokens = str.toUpperCase().split(/, +/g);
-	return tokens.map((t) => ISpellClass[t.replace(' ', '_')] as ISpellClass);
+	return tokens.map((t) => t.replace(' ', '_').toUpperCase() as ISpellClass);
 }
 
 export function getSchoolName(school: ISpellSchool): string {
-	return ISpellSchool[school].toLowerCase();
+	return school.toLowerCase();
 }
 
 const SPELL_SUFFIXES = ['st', 'nd', 'rd'];
