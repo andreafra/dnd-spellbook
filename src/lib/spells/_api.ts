@@ -54,7 +54,7 @@ function getClass(str: string): ISpellClass[] {
 }
 
 export function getSchoolName(school: ISpellSchool): string {
-	return school.toLowerCase();
+	return school.toString().toLowerCase();
 }
 
 const SPELL_SUFFIXES = ['st', 'nd', 'rd'];

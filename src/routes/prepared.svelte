@@ -9,7 +9,7 @@
 
 	let preparedSpells: ISpell[] = [];
 
-	$: preparedSpells = $spells.filter((t) => $preparedSpellIds.includes(t._id));
+	$: preparedSpells = $spells.filter((t) => $preparedSpellIds.hasOwnProperty(t._id));
 </script>
 
 <svelte:head>

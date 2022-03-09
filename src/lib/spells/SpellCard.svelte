@@ -2,10 +2,11 @@
 	import type { ISpell } from '$src/types';
 	import { each } from 'svelte/internal';
 
-	import { getLevelSuffix, getSchoolName } from './_api';
+	import { capitalize, getLevelSuffix, getSchoolName } from './_api';
 
 	import Icon from 'heroicons-for-svelte';
-	import { PlusCircle } from 'heroicons-for-svelte/icons/outline';
+	import { PlusCircle, MinusCircle } from 'heroicons-for-svelte/icons/outline';
+	import { preparedSpellIds } from '$src/stores';
 
 	export let spell: ISpell;
 
@@ -15,16 +16,45 @@
 
 	$: isEndScroll = descDiv && descDiv.scrollTopMax === 0;
 
+	let isSpellPrepared = $preparedSpellIds.hasOwnProperty(spell._id);
+
 	function _handleScroll(e) {
 		isStartScroll = e.target.scrollTop === 0;
 		isEndScroll = e.target.scrollTop === e.target.scrollTopMax;
 	}
+
+	function _addToPreparedSpells() {
+		if ($preparedSpellIds.hasOwnProperty(spell._id)) {
+			// remove key
+			delete $preparedSpellIds[spell._id];
+			isSpellPrepared = false;
+		} else {
+			$preparedSpellIds[spell._id] = 1;
+			isSpellPrepared = true;
+		}
+	}
 </script>
 
-<li class="text-base">
-	<h3 class="font-bold text-lg">
-		{spell.name}
-	</h3>
+<li
+	class="relative text-base p-4 m-2 rounded-lg hover:shadow-red-300 hover:shadow-md transition-shadow"
+>
+	<div class="flex justify-between">
+		<h3 class="font-bold text-lg self-center">
+			{spell.name}
+		</h3>
+		<button
+			class="bg-red-300 rounded-full h-10 w-10 flex justify-center top-0 right-0 self-center"
+			on:click={() => _addToPreparedSpells()}
+		>
+			<span class="text-2xl self-center text-red-900">
+				{#if isSpellPrepared}
+					<Icon icon={MinusCircle} />
+				{:else}
+					<Icon icon={PlusCircle} />
+				{/if}
+			</span>
+		</button>
+	</div>
 	<p>
 		<i class="capitalize">
 			{spell.level === 0
@@ -48,7 +78,11 @@
 			class="absolute top-0 bg-gradient-to-b from-red-100 h-10 w-full pointer-events-none"
 			class:hidden={isStartScroll}
 		/>
-		<div class="max-h-48 overflow-y-auto" on:scroll={_handleScroll} bind:this={descDiv}>
+		<div
+			class="max-h-48 overflow-y-auto text-gray-800"
+			on:scroll={_handleScroll}
+			bind:this={descDiv}
+		>
 			{@html spell.desc}
 		</div>
 		<div
@@ -56,14 +90,13 @@
 			class:hidden={isEndScroll}
 		/>
 	</div>
-	<ul>
+	<ul class="space-x-1 py-2 overflow-x-auto">
 		{#each spell.class as cls}
-			<li>{cls}</li>
+			<li class="inline-block text-red-900 bg-red-300 rounded-full px-2 py-0.5">
+				{capitalize(cls)}
+			</li>
 		{/each}
 	</ul>
-	<div>
-		<button />
-	</div>
 </li>
 
 <style>
