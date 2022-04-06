@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useContext } from "react"
 
-import { getLevelSuffix, getSchoolName, capitalize } from "../api/parseSpell"
+import { getLevelSuffix, getSchoolName, capitalize } from "../utils/parseSpell"
 import { Dispatchers } from "../pages/_app"
 import { Minus, Plus } from "./Icons"
 

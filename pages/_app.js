@@ -1,5 +1,5 @@
 import { cloneElement, createContext, useEffect, useReducer } from "react"
-import { fetchSpells } from "../api/fetchSpell"
+import { fetchSpells } from "../utils/fetchSpell"
 import { initialSettings, settingsReducer } from "../stores/settings"
 import { initialSpellbook, spellbookReducer } from "../stores/spellbook"
 import { spellInit, spellReducer } from "../stores/spells"
