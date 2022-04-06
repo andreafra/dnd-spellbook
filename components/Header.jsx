@@ -1,10 +1,10 @@
 import Link from "next/link"
 import { useRef } from "react"
 import { useContext } from "react"
-import { SpellDispatch } from "../pages/_app"
+import { Dispatchers } from "../pages/_app"
 
 export default function Header() {
-  const spellDispatch = useContext(SpellDispatch)
+  const { spellDispatch } = useContext(Dispatchers)
 
   // Search timer
   const timeout = useRef(0)
@@ -28,7 +28,7 @@ export default function Header() {
         <nav className="p-2">
           <ul>
             <li>
-              <Link href="/">Prepared Spells</Link>
+              <Link href="/prepared">Prepared Spells</Link>
             </li>
           </ul>
         </nav>

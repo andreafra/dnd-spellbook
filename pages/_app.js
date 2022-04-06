@@ -1,47 +1,51 @@
+import { cloneElement, createContext, useEffect, useReducer } from "react"
+import { fetchSpells } from "../api/fetchSpell"
+import { initialSettings, settingsReducer } from "../stores/settings"
+import { initialSpellbook, spellbookReducer } from "../stores/spellbook"
+import { spellInit, spellReducer } from "../stores/spells"
 import "../styles/globals.css"
 
-import { useReducer } from "react"
-import { useEffect, useState } from "react"
-import { fetchSpells } from "../api/fetchSpell"
-import { createContext } from "react"
-
-let allSpells = []
-
-export const SpellDispatch = createContext(null)
+export const Dispatchers = createContext(null)
 
 export default function App({ Component, pageProps }) {
-  const [spells, spellDispatch] = useReducer(spellReducer, [], init)
-
-  useEffect(async () => {
-    let data = await fetchSpells()
-    allSpells = data
-    if (data) spellDispatch({ type: "reset", payload: data })
-  }, [])
-
   return (
-    <SpellDispatch.Provider value={spellDispatch}>
-      <Component {...pageProps} spells={spells} />
-    </SpellDispatch.Provider>
+    <Dispatcher>
+      <Component {...pageProps} />
+    </Dispatcher>
   )
 }
 
-// Store
-function init(initialSpells = allSpells) {
-  return initialSpells
-}
+function Dispatcher({ children }) {
+  const [spells, spellDispatch] = useReducer(spellReducer, [], spellInit)
+  const [spellbook, spellbookDispatch] = useReducer(
+    spellbookReducer,
+    initialSpellbook
+  )
+  const [settings, settingsDispatch] = useReducer(
+    settingsReducer,
+    initialSettings
+  )
 
-async function spellReducer(state, action) {
-  switch (action.type) {
-    case "reset":
-      return await init(action.payload)
-    case "search":
-      return (await state).map(({ visible, ...a }) => {
-        return {
-          visible: a.name.toLowerCase().includes(action.payload.toLowerCase()),
-          ...a,
-        }
-      })
-    default:
-      throw new Error()
+  useEffect(async () => {
+    let data = await fetchSpells()
+    if (data) spellDispatch({ type: "reset", payload: data })
+  }, [])
+
+  const dispatchers = {
+    spellDispatch,
+    spellbookDispatch,
+    settingsDispatch,
   }
+
+  const props = {
+    spells,
+    spellbook,
+    settings,
+  }
+
+  return (
+    <Dispatchers.Provider value={dispatchers}>
+      {cloneElement(children, { ...props })}
+    </Dispatchers.Provider>
+  )
 }

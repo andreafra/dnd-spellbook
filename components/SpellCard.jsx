@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useContext } from "react"
 
 import { getLevelSuffix, getSchoolName, capitalize } from "../api/parseSpell"
+import { Dispatchers } from "../pages/_app"
+import { Minus, Plus } from "./Icons"
 
 export default function (props) {
   const spell = props.spell
-  const isSelected = props.isSelected
+  const isSelected = props.selected
+  const { spellbookDispatch } = useContext(Dispatchers)
 
   let scrollDivRef = useRef(null)
   let [isStartScroll, setIsStartScroll] = useState(true)
@@ -21,17 +25,27 @@ export default function (props) {
     setIsEndScroll(e.target.scrollTop === e.target.scrollTopMax)
   }
 
+  function _handleSpellbookButton(e) {
+    spellbookDispatch({
+      type: isSelected ? "remove" : "add",
+      payload: spell.id,
+    })
+  }
+
   return (
     <li
-      className={`relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 hover:shadow-md transition-shadow ${
+      className={`relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 border-2 border-primaryLight-300 hover:border-primaryLight-600 transition-colors text-primaryLight-800 ${
         !spell.visible ? "hidden" : ""
       }`}
     >
       <div className="flex justify-between">
         <h3 className="font-bold text-lg self-center">{spell.name}</h3>
-        <button className="bg-primaryLight-300 rounded-full h-10 w-10 flex justify-center top-0 right-0 self-center">
-          <span className="text-2xl self-center text-primaryLight-900">
-            {isSelected ? "-" : "+"}
+        <button
+          className="bg-primaryLight-300 rounded-full h-10 w-10 flex justify-center top-0 right-0 self-center border-2 border-primaryLight-300 hover:border-primaryLight-600 transition-colors"
+          onClick={_handleSpellbookButton}
+        >
+          <span className="text-2xl self-center">
+            {isSelected ? Minus : Plus}
           </span>
         </button>
       </div>
