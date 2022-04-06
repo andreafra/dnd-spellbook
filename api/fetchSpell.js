@@ -14,7 +14,7 @@ export async function fetchSpells() {
   return data.spells.map((v) => parseSpell(v))
 }
 
-export function parseSpell(spell) {
+function parseSpell(spell) {
   let newSpell = {
     id: getId(spell.name),
     name: spell.name,

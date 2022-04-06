@@ -22,7 +22,9 @@ export default function (props) {
   }
 
   return (
-    <li className="relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 hover:shadow-md transition-shadow">
+    <li
+      className={`relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 hover:shadow-md transition-shadow`}
+    >
       <div className="flex justify-between">
         <h3 className="font-bold text-lg self-center">{spell.name}</h3>
         <button className="bg-primaryLight-300 rounded-full h-10 w-10 flex justify-center top-0 right-0 self-center">

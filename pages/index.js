@@ -1,17 +1,8 @@
 import Head from "next/head"
-import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useState } from "react"
+import Header from "../components/Header"
 import SpellCard from "../components/SpellCard"
-import { fetchSpells } from "../api/fetchSpell"
 
-export default function Home() {
-  let [spells, setSpells] = useState([])
-
-  useEffect(async () => {
-    setSpells(await fetchSpells())
-  }, [])
-
+export default function Home({ spells }) {
   return (
     <div className="container mx-auto">
       <Head>
@@ -20,18 +11,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="px-2 flex sticky top-0 z-50 md:mx-2 md:rounded-b-xl justify-between bg-primaryLight-300 bg-opacity-90 backdrop-blur-md shadow-md shadow-primaryLight-100">
-        <h1 className="py-2 font-bold">
-          <Link href="/">D&D Spellbook</Link>
-        </h1>
-        <nav className="py-2">
-          <ul>
-            <li>
-              <Link href="/">Prepared Spells</Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
+
       <main>
         <section className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 list-none">
           {spells.map((spell) => (
