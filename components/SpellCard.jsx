@@ -23,7 +23,9 @@ export default function (props) {
 
   return (
     <li
-      className={`relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 hover:shadow-md transition-shadow`}
+      className={`relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 hover:shadow-md transition-shadow ${
+        !spell.visible ? "hidden" : ""
+      }`}
     >
       <div className="flex justify-between">
         <h3 className="font-bold text-lg self-center">{spell.name}</h3>

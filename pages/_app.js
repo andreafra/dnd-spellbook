@@ -30,14 +30,14 @@ function init(initialSpells = allSpells) {
   return initialSpells
 }
 
-function spellReducer(state, action) {
+async function spellReducer(state, action) {
   switch (action.type) {
     case "reset":
-      return init(action.payload)
+      return await init(action.payload)
     case "search":
-      return state.map(({ visible, ...a }) => {
+      return (await state).map(({ visible, ...a }) => {
         return {
-          visible: a.name.includes(action.payload),
+          visible: a.name.toLowerCase().includes(action.payload.toLowerCase()),
           ...a,
         }
       })

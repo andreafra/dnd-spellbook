@@ -1,8 +1,16 @@
 import Head from "next/head"
+import { useState } from "react"
+import { useEffect } from "react"
 import Header from "../components/Header"
 import SpellCard from "../components/SpellCard"
 
 export default function Home({ spells }) {
+  const [spellList, setSpellList] = useState([])
+
+  useEffect(async () => {
+    setSpellList(await spells)
+  }, [spells])
+
   return (
     <div className="container mx-auto">
       <Head>
@@ -15,9 +23,11 @@ export default function Home({ spells }) {
 
       <main>
         <section className="pt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 list-none">
-          {spells.map((spell) => (
-            <SpellCard spell={spell} key={spell.id} />
-          ))}
+          {spellList.length === 0 ? (
+            <p>Loading...</p>
+          ) : (
+            spellList.map((spell) => <SpellCard spell={spell} key={spell.id} />)
+          )}
         </section>
       </main>
       <footer>Copyright stuff...</footer>

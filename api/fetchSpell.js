@@ -16,6 +16,7 @@ export async function fetchSpells() {
 
 function parseSpell(spell) {
   let newSpell = {
+    visible: true,
     id: getId(spell.name),
     name: spell.name,
     desc: spell.desc,
