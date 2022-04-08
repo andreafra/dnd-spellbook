@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { useContext } from "react"
 
 import { getLevelSuffix, getSchoolName, capitalize } from "../utils/parseSpell"
-import { Dispatchers } from "../pages/_app"
+import { Dispatchers } from "../stores/Dispatcher"
 import { Minus, Plus } from "./Icons"
 
 export default function (props) {

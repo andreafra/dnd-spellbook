@@ -12,6 +12,7 @@ module.exports = {
       current: "currentColor",
       primaryLight: colors.gray,
       primaryDark: colors.green,
+      ...colors
     },
   },
   plugins: [],

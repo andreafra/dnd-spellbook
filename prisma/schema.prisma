@@ -1,0 +1,24 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["cockroachdb"]
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model Spellbook {
+  id           String    @id(map: "primary") @db.Uuid
+  title        String
+  last_updated DateTime @default(now()) @db.Timestamp(6)
+  spells       Json
+  owner_id     String   @db.Uuid
+  owner        User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id         String      @id(map: "primary") @db.Uuid
+  name       String
+  spellbooks Spellbook[]
+}

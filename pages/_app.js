@@ -1,51 +1,22 @@
-import { cloneElement, createContext, useEffect, useReducer } from "react"
-import { fetchSpells } from "../utils/fetchSpell"
-import { initialSettings, settingsReducer } from "../stores/settings"
-import { initialSpellbook, spellbookReducer } from "../stores/spellbook"
-import { spellInit, spellReducer } from "../stores/spells"
+import { Dispatcher } from "../stores/Dispatcher"
 import "../styles/globals.css"
+import { QueryClient, QueryClientProvider } from "react-query"
+import { SessionProvider } from "next-auth/react"
+import { Layout } from "../components/Layout"
 
-export const Dispatchers = createContext(null)
+const queryClient = new QueryClient()
 
-export default function App({ Component, pageProps }) {
-  return (
-    <Dispatcher>
-      <Component {...pageProps} />
-    </Dispatcher>
-  )
-}
-
-function Dispatcher({ children }) {
-  const [spells, spellDispatch] = useReducer(spellReducer, [], spellInit)
-  const [spellbook, spellbookDispatch] = useReducer(
-    spellbookReducer,
-    initialSpellbook
-  )
-  const [settings, settingsDispatch] = useReducer(
-    settingsReducer,
-    initialSettings
-  )
-
-  useEffect(async () => {
-    let data = await fetchSpells()
-    if (data) spellDispatch({ type: "reset", payload: data })
-  }, [])
-
-  const dispatchers = {
-    spellDispatch,
-    spellbookDispatch,
-    settingsDispatch,
-  }
-
-  const props = {
-    spells,
-    spellbook,
-    settings,
-  }
-
-  return (
-    <Dispatchers.Provider value={dispatchers}>
-      {cloneElement(children, { ...props })}
-    </Dispatchers.Provider>
-  )
+export default function App({
+	Component,
+	pageProps: { session, ...pageProps },
+}) {
+	return (
+		<SessionProvider session={session}>
+			<QueryClientProvider client={queryClient}>
+				<Dispatcher>
+					<Component {...pageProps} />
+				</Dispatcher>
+			</QueryClientProvider>
+		</SessionProvider>
+	)
 }
