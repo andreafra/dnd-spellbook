@@ -9,14 +9,44 @@ import { Spellbook } from "../components/Spellbook"
 import { useContext } from "react"
 import { Dispatchers } from "../stores/Dispatcher"
 import { Layout } from "../components/Layout"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+
+const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"
 
 export default function Spellbooks({ spells, spellbook, settings }) {
+	const queryClient = useQueryClient()
+
 	const [title, setTitle] = useState("")
-	const [successMsg, setSuccessMsg] = useState("")
 	const [errorMsg, setErrorMsg] = useState("")
-	const [spellbooks, setSpellbooks] = useState([])
+	// const [spellbooks, setSpellbooks] = useState([])
 
 	const { spellbookDispatch } = useContext(Dispatchers)
+
+	const createSpellbook = (newSpellbook) =>  fetch("/api/spellbooks/create", {
+			method: "POST",
+			headers: [["Content-Type", "application/json"]],
+			body: JSON.stringify(newSpellbook),
+		})
+
+
+	const fetchSpellbooks = async () => {
+		const res = await fetch("/api/spellbooks", {
+			method: "GET",
+		})
+		const json = await res.json()
+		return json.spellbooks
+	}
+
+	const fetchSpellbooksQuery = useQuery(
+		FETCH_SPELLBOOKS_QUERY,
+		fetchSpellbooks
+	)
+
+	const createSpellbookMutation = useMutation(createSpellbook, {
+		onSuccess: () => {
+			queryClient.invalidateQueries(FETCH_SPELLBOOKS_QUERY)
+		},
+	})
 
 	const _createSpellbook = async () => {
 		if (title === "") return
@@ -25,34 +55,13 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 			title: title,
 		}
 
-		const res = await fetch("/api/spellbooks/create", {
-			method: "POST",
-			headers: [["Content-Type", "application/json"]],
-			body: JSON.stringify(spellbookData),
-		})
-
-		console.log(res)
-		if (res.status === 200) {
-			setSuccessMsg("Spellbook successfully created!")
-			setErrorMsg("")
-		} else {
-			setErrorMsg("Failed to contact API")
-		}
+		createSpellbookMutation.mutateAsync(spellbookData)
 	}
 
 	// Validate input
 	useEffect(() => {
-		if (title === "") setErrorMsg("Add a title for the spellbook!")
-		else setErrorMsg("")
+		setErrorMsg(title === "" ? "Add a title for the spellbook!" : "")
 	}, [title])
-
-	const fetchSpellbookData = async () => {
-		const res = await fetch("/api/spellbooks", {
-			method: "GET",
-		})
-		const json = await res.json()
-		setSpellbooks(json.spellbooks ?? [])
-	}
 
 	return (
 		<Layout>
@@ -76,36 +85,45 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 					onClick={_createSpellbook}
 					icon={Plus}
 				/>
-				<p hidden={errorMsg.length < 1} className="text-red-500">
+				<p
+					hidden={createSpellbookMutation.isError || errorMsg}
+					className="text-red-500"
+				>
+					{createSpellbookMutation.error}
 					{errorMsg}
 				</p>
-				<p hidden={successMsg.length < 1} className="text-green-500">
-					{successMsg}
+				<p
+					hidden={!createSpellbookMutation.isSuccess}
+					className="text-green-500"
+				>
+					New spellbook created!
 				</p>
 			</section>
 			<section className="px-2 mt-8">
 				<h2 className="font-bold text-2xl py-2">
 					Your spellbook collection
 				</h2>
-				<Button
-					title="Fetch data"
-					onClick={() => fetchSpellbookData()}
-				/>
+				{fetchSpellbooksQuery.isError ? (
+					<p>An error has occurred loading spellbooks!</p>
+				) : null}
+				{fetchSpellbooksQuery.isLoading ? "Loading..." : null}
+
 				<div className="py-2 text-center md:text-left">
-					{spellbooks.map((a) => (
-						<Spellbook
-							title={a.title}
-							size={a.spells.length}
-							key={a.id}
-							id={a.id}
-							onClick={() =>
-								spellbookDispatch({
-									type: "init",
-									payload: a,
-								})
-							}
-						/>
-					))}
+					{fetchSpellbooksQuery.data &&
+						fetchSpellbooksQuery.data.map((a) => (
+							<Spellbook
+								title={a.title}
+								size={a.spells.length}
+								key={a.id}
+								id={a.id}
+								onClick={() =>
+									spellbookDispatch({
+										type: "init",
+										payload: a,
+									})
+								}
+							/>
+						))}
 				</div>
 			</section>
 		</Layout>

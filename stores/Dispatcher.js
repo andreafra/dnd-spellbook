@@ -4,9 +4,16 @@ import { initialSpellbook, spellbookReducer } from "../stores/spellbook"
 import { spellInit, spellReducer } from "../stores/spells"
 import { fetchSpells } from "../utils/fetchSpell"
 
+import { useQuery } from "react-query"
+
 export const Dispatchers = createContext(null)
 
 export function Dispatcher({ children }) {
+
+	const {error, data} = useQuery('spellRawData', () => 
+		fetchSpells()
+	)
+
 	const [spells, spellDispatch] = useReducer(spellReducer, [], spellInit)
 	const [spellbook, spellbookDispatch] = useReducer(
 		spellbookReducer,
@@ -17,22 +24,23 @@ export function Dispatcher({ children }) {
 		initialSettings
 	)
 
-	useEffect(async () => {
-		let data = await fetchSpells()
-		if (data) spellDispatch({ type: "reset", payload: data })
-	}, [])
-
+	
 	const dispatchers = {
 		spellDispatch,
 		spellbookDispatch,
 		settingsDispatch,
 	}
-
+	
 	const props = {
 		spells,
 		spellbook,
 		settings,
 	}
+
+	useEffect(() => {
+		// When data is ready, update the spell store
+		if (data) spellDispatch({ type: "reset", payload: data })
+	}, [data])
 
 	return (
 		<Dispatchers.Provider value={dispatchers}>
