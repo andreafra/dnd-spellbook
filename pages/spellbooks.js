@@ -10,6 +10,7 @@ import { useContext } from "react"
 import { Dispatchers } from "../stores/Dispatcher"
 import { Layout } from "../components/Layout"
 import { useMutation, useQuery, useQueryClient } from "react-query"
+import config from "../config"
 
 const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"
 
@@ -22,12 +23,12 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 
 	const { spellbookDispatch } = useContext(Dispatchers)
 
-	const createSpellbook = (newSpellbook) =>  fetch("/api/spellbooks/create", {
+	const createSpellbook = (newSpellbook) =>
+		fetch("/api/spellbooks/create", {
 			method: "POST",
 			headers: [["Content-Type", "application/json"]],
 			body: JSON.stringify(newSpellbook),
 		})
-
 
 	const fetchSpellbooks = async () => {
 		const res = await fetch("/api/spellbooks", {
@@ -41,6 +42,8 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 		FETCH_SPELLBOOKS_QUERY,
 		fetchSpellbooks
 	)
+
+	const currentSpellbookQuantity = (fetchSpellbooksQuery.data ?? []).length
 
 	const createSpellbookMutation = useMutation(createSpellbook, {
 		onSuccess: () => {
@@ -64,8 +67,8 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 	}, [title])
 
 	return (
-		<Layout>
-			<section className="px-2 space-y-2">
+		<Layout className="space-y-4">
+			<section className="px-2 space-y-2" id="create-spellbook" hidden={fetchSpellbooksQuery.isLoading || currentSpellbookQuantity >= config.maxSpellbooks}>
 				<h2 className="font-bold text-2xl py-2">
 					Create a new spellbook
 				</h2>
@@ -77,6 +80,7 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 					label="Title"
 					id="title"
 					type="text"
+					value={title}
 					onChange={(e) => setTitle(e.target.value)}
 					placeholder="Spellbook title"
 				/>
@@ -99,9 +103,16 @@ export default function Spellbooks({ spells, spellbook, settings }) {
 					New spellbook created!
 				</p>
 			</section>
-			<section className="px-2 mt-8">
+			<section className="px-2">
 				<h2 className="font-bold text-2xl py-2">
 					Your spellbook collection
+					<span
+					 className="ml-2 text-xl text-primaryLight-600 px-2 py-1 rounded-full bg-primaryLight-300"
+					 hidden={!fetchSpellbooksQuery.isSuccess}>
+						{fetchSpellbooksQuery.isSuccess &&
+							currentSpellbookQuantity}
+						/{config.maxSpellbooks}
+					</span>
 				</h2>
 				{fetchSpellbooksQuery.isError ? (
 					<p>An error has occurred loading spellbooks!</p>

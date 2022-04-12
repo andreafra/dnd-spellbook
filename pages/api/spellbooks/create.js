@@ -1,13 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { getSession } from "next-auth/react"
+import config from "../../../config"
 
 const { PrismaClient } = require("@prisma/client")
 const { v4: uuidv4 } = require("uuid")
 
 const prisma = new PrismaClient()
 
-const MAX_SPELLBOOKS = 3
 
 export default async function handler(req, res) {
 	const session = await getSession({ req })
@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 
 		console.log(user._count.spellbooks)
 
-		if (user._count.spellbooks >= MAX_SPELLBOOKS) {
+		if (user._count.spellbooks >= config.maxSpellbooks) {
 			res.status(403).json({ message: "Max spellbooks reached." })
 			return
 		}
