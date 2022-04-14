@@ -6,8 +6,7 @@ export function Layout({ children }) {
 	const router = useRouter()
 
 	const shouldShowFilters =
-		router.pathname === "/" ||
-		router.pathname.startsWith("/spellbooks/")
+		router.pathname === "/" || router.pathname.startsWith("/spellbooks/")
 
 	return (
 		<div className="container mx-auto">
@@ -22,7 +21,7 @@ export function Layout({ children }) {
 
 			<Header showFilters={shouldShowFilters} />
 
-			<main className="mx-2 pt-4 space-y-4">{children}</main>
+			<main className="mx-2 space-y-4 pt-4">{children}</main>
 		</div>
 	)
 }
