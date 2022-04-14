@@ -1,36 +1,34 @@
-import React, { useEffect, useRef, useState } from "react"
-import { useContext } from "react"
-
-import { getLevelSuffix, getSchoolName, capitalize } from "../utils/parseSpell"
-import { Dispatchers } from "../stores/Dispatcher"
-import { Minus, Plus } from "./Icons"
+import { MinusIcon, PlusIcon } from "@heroicons/react/outline"
+import { useEffect, useRef, useState } from "react"
+import { useAppDispatch } from "../store"
+import { add, remove } from "../store/reducers/spellbook"
+import { capitalize, getLevelSuffix, getSchoolName } from "../utils/parseSpell"
 
 export default function (props) {
 	const spell = props.spell
 	const isSelected = props.selected
-	const { spellbookDispatch } = useContext(Dispatchers)
 
-	function _handleSpellbookButton(e) {
-		spellbookDispatch({
-			type: isSelected ? "remove" : "add",
-			payload: spell.id,
-		})
+	const dispatch = useAppDispatch()
+
+	function _handleSpellbookButton() {
+		if (isSelected) dispatch(remove(spell.id))
+		else dispatch(add(spell.id))
 	}
 
 	return (
 		<li
-			className={`relative text-base p-4 m-2 rounded-xl bg-primaryLight-100 hover:shadow-primaryLight-300 border-2 border-primaryLight-300 hover:border-primaryLight-600 transition-colors text-primaryLight-800 ${
+			className={`relative m-2 rounded-xl border-2 border-primaryLight-300 bg-primaryLight-100 p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
 				!spell.visible ? "hidden" : ""
 			}`}
 		>
 			<div className="flex justify-between">
-				<h3 className="font-bold text-lg self-center">{spell.name}</h3>
+				<h3 className="self-center text-lg font-bold">{spell.name}</h3>
 				<button
-					className="bg-primaryLight-300 rounded-full h-10 w-10 flex justify-center top-0 right-0 self-center border-2 border-primaryLight-300 hover:border-primaryLight-600 transition-colors"
+					className="top-0 right-0 flex h-10 w-10 justify-center self-center rounded-full border-2 border-primaryLight-300 bg-primaryLight-200 text-primaryLight-500 transition-colors hover:border-primaryLight-600 hover:text-primaryLight-800"
 					onClick={_handleSpellbookButton}
 				>
-					<span className="text-2xl self-center">
-						{isSelected ? Minus : Plus}
+					<span className="self-center text-2xl">
+						{isSelected ? <MinusIcon /> : <PlusIcon />}
 					</span>
 				</button>
 			</div>
@@ -62,14 +60,14 @@ export default function (props) {
 					? `Concentration, ${spell.duration.toLowerCase()}`
 					: spell.duration}
 			</p>
-			
+
 			<ScrollableDescription value={spell.desc} />
 
-			<ul className="space-x-1 py-2 overflow-x-auto">
+			<ul className="space-x-1 overflow-x-auto py-2">
 				{spell.class.map((cls) => (
 					<li
 						key={cls}
-						className="inline-block text-primaryLight-900 bg-primaryLight-300 rounded-full px-2 py-0.5"
+						className="inline-block rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"
 					>
 						{capitalize(cls)}
 					</li>
@@ -79,7 +77,7 @@ export default function (props) {
 	)
 }
 
-function ScrollableDescription({ value }) {
+const ScrollableDescription = ({ value }) => {
 	let scrollDivRef = useRef(null)
 	let [isStartScroll, setIsStartScroll] = useState(true)
 	let [isEndScroll, setIsEndScroll] = useState(false)
@@ -108,7 +106,7 @@ function ScrollableDescription({ value }) {
 	return (
 		<div className="relative indent-4 ">
 			<div
-				className="absolute top-0 bg-gradient-to-b from-primaryLight-100 h-10 w-full pointer-events-none"
+				className="pointer-events-none absolute top-0 h-10 w-full bg-gradient-to-b from-primaryLight-100"
 				hidden={isStartScroll}
 			/>
 			<div
@@ -118,7 +116,7 @@ function ScrollableDescription({ value }) {
 				dangerouslySetInnerHTML={{ __html: value }}
 			></div>
 			<div
-				className="absolute bottom-0 bg-gradient-to-t from-primaryLight-100 h-10 w-full pointer-events-none"
+				className="pointer-events-none absolute bottom-0 h-10 w-full bg-gradient-to-t from-primaryLight-100"
 				hidden={isEndScroll}
 			/>
 		</div>

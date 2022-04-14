@@ -1,27 +1,32 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+import { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 import config from "../../../config"
+import { AppUser } from "../../../types/AppUser"
 
 const { PrismaClient } = require("@prisma/client")
 const { v4: uuidv4 } = require("uuid")
 
 const prisma = new PrismaClient()
 
-
-export default async function handler(req, res) {
+export default async function handler(
+	req: NextApiRequest,
+	res: NextApiResponse
+) {
 	const session = await getSession({ req })
 	if (session) {
+		const sessionUser: AppUser = session.user
 		const newSpellbook = {
 			id: uuidv4(),
 			title: req.body.title,
-			owner_id: session.user.id,
+			owner_id: sessionUser.id,
 			spells: JSON.stringify([]),
 		}
 
 		const user = await prisma.user.findUnique({
 			where: {
-				id: session.user.id,
+				id: sessionUser.id,
 			},
 			include: {
 				_count: {
@@ -46,9 +51,9 @@ export default async function handler(req, res) {
 				id: newSpellbook.id,
 			})
 		} catch {
-			res.status(403).json({ message: "Couldn't create new spellbook." })
+			res.status(403).json({})
 		}
 	} else {
-		res.status(401).json({ message: "Unauthorized. Please log in first." })
+		res.status(401).json({})
 	}
 }
