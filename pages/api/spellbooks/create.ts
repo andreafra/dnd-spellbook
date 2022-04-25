@@ -21,7 +21,7 @@ export default async function handler(
 			id: uuidv4(),
 			title: req.body.title,
 			owner_id: sessionUser.id,
-			spells: JSON.stringify([]),
+			spellIds: JSON.stringify([]),
 		}
 
 		const user = await prisma.user.findUnique({

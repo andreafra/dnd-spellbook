@@ -1,12 +1,17 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline"
 import { useEffect, useRef, useState } from "react"
-import { useAppDispatch } from "../store"
+import { useAppDispatch, useAppSelector } from "../store"
 import { add, remove } from "../store/reducers/spellbook"
 import { capitalize, getLevelSuffix, getSchoolName } from "../utils/parseSpell"
+import { Spell } from "../types/Spell"
 
-export default function (props) {
+export default function (props: { spell: Spell; selected: boolean }) {
 	const spell = props.spell
 	const isSelected = props.selected
+
+	// TODO: add store spellbook, if no spellbook, not selecteable
+	const spellbook = useAppSelector((state) => state.spellbook)
+	console.log(spellbook.id)
 
 	const dispatch = useAppDispatch()
 
@@ -24,7 +29,9 @@ export default function (props) {
 			<div className="flex justify-between">
 				<h3 className="self-center text-lg font-bold">{spell.name}</h3>
 				<button
-					className="top-0 right-0 flex h-10 w-10 justify-center self-center rounded-full border-2 border-primaryLight-300 bg-primaryLight-200 text-primaryLight-500 transition-colors hover:border-primaryLight-600 hover:text-primaryLight-800"
+					className={`top-0 right-0 flex h-10 w-10 justify-center self-center rounded-full border-2 border-primaryLight-300 bg-primaryLight-200 text-primaryLight-500 transition-colors hover:border-primaryLight-600 hover:text-primaryLight-800 ${
+						spellbook.id.length < 1 && "hidden"
+					}`}
 					onClick={_handleSpellbookButton}
 				>
 					<span className="self-center text-2xl">

@@ -20,26 +20,36 @@ export default async function handler(
 		// finally, we get the first element
 		const id = [req.query.id].flat()[0]
 
-		console.log(id)
+		console.log(req.method)
 
 		const sessionUser = session.user as AppUser
-		const queryRes = await prisma.user.findUnique({
+		const spellbook = await prisma.spellbook.findUnique({
 			where: {
-				id: sessionUser.id,
-			},
-			select: {
-				spellbooks: {
-					where: {
-						id: id,
-					},
-				},
+				id,
 			},
 		})
-		if (queryRes && queryRes.spellbooks[0]) {
-			const spellbook = queryRes.spellbooks[0]
+		if (spellbook) {
 			// Check if user is owner
+			// TODO: could this be a security issue? Can the user falsify the session?
 			if (spellbook.owner_id === sessionUser.id) {
-				return res.status(200).json(parseSpellbook(spellbook))
+				// if method is GET, return spellbook object
+				if (req.method === "GET") {
+					return res.status(200).json(spellbook)
+				}
+				if (req.method === "PUT") {
+					const updatedSpellbook = await prisma.spellbook.update({
+						where: {
+							id,
+						},
+						data: {
+							last_updated: new Date().toISOString(),
+							title: req.body.title,
+							spellIds: req.body.spellIds,
+						},
+					})
+
+					return res.status(200).json({})
+				}
 			}
 			return
 		} else {
