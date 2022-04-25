@@ -4,7 +4,7 @@ import { useAppSelector } from "../store"
 
 export default function Home() {
 	const spells = useAppSelector((state) => state.spells)
-	const spellIds = useAppSelector((state) => state.spellbook.spellIds)
+	const spellIds = useAppSelector((state) => state.spellbook.spellIds) ?? []
 
 	return (
 		<Layout>

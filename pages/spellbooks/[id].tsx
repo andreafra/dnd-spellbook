@@ -1,8 +1,14 @@
-import { PencilIcon } from "@heroicons/react/outline"
+import {
+	DownloadIcon,
+	PencilIcon,
+	RefreshIcon,
+	UploadIcon,
+} from "@heroicons/react/outline"
 import axios from "axios"
 import Head from "next/head"
+import Link from "next/link"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button } from "../../components/Button"
 import { Field } from "../../components/Field"
@@ -24,6 +30,7 @@ export default function SpellbookDetail() {
 	const dispatch = useAppDispatch()
 
 	const [isEdit, setIsEdit] = useState(false)
+	const [overwriteLocalData, setOverwriteLocalData] = useState(false)
 
 	const [title, setTitle] = useState(spellbook.title)
 
@@ -45,7 +52,11 @@ export default function SpellbookDetail() {
 		fetchSpellbook,
 		{
 			onSuccess: (data) => {
-				dispatch(load(data))
+				// if the open spellbook is the same, don't load remote data again
+				if (spellbook.id !== data.id || overwriteLocalData) {
+					setOverwriteLocalData(false)
+					dispatch(load(data))
+				}
 			},
 			onError: () => {
 				dispatch(
@@ -68,8 +79,28 @@ export default function SpellbookDetail() {
 
 	const _handleRename = () => {
 		dispatch(rename(title))
+		// update title on remote
+		updateSpellbookMutation.mutate({ ...spellbook, title } as Spellbook)
 		setIsEdit(false)
 	}
+
+	const _handleUpload = () => {
+		updateSpellbookMutation.mutate({
+			...spellbook,
+			spellIds: spellbook.spellIds,
+		} as Spellbook)
+	}
+
+	const _handleDownload = () => {
+		setOverwriteLocalData(true)
+		queryClient.invalidateQueries(FETCH_SPELLBOOK_QUERY)
+	}
+
+	const shouldSync =
+		fetchSpellbookQuery.isSuccess &&
+		spellbook.spellIds &&
+		spellbook.spellIds.toString() !==
+			fetchSpellbookQuery.data.spellIds.toString()
 
 	return (
 		<Layout>
@@ -108,16 +139,50 @@ export default function SpellbookDetail() {
 						</a>
 					</>
 				)}
-				{updateSpellbookMutation.isError ? (
-					<p className="text-red-500">
-						Couldn't update the spellbook!
+
+				{shouldSync ? (
+					<>
+						<p>
+							Your local spellbook is different from the cloud
+							one.
+						</p>
+						<Button
+							title="Upload"
+							icon={<UploadIcon className="h-6 w-6" />}
+							onClick={_handleUpload}
+						/>
+						<Button
+							title="Download"
+							icon={<DownloadIcon className="h-6 w-6" />}
+							onClick={_handleDownload}
+						/>
+					</>
+				) : (
+					<p>Your local spellbook is up to date.</p>
+				)}
+				{updateSpellbookMutation.isLoading && (
+					<p className="font-bold">
+						<RefreshIcon className="mr-2 inline-block h-6 w-6 animate-spin" />
+						Syncing your spellbook...
 					</p>
-				) : null}
-				{updateSpellbookMutation.isSuccess ? (
-					<p className="text-green-500">
-						Successfully updated the spellbook.
+				)}
+				{updateSpellbookMutation.isError && (
+					<p className="font-bold text-red-500">
+						Couldn't update your spellbook!
 					</p>
-				) : null}
+				)}
+				{updateSpellbookMutation.isSuccess && (
+					<p className="font-bold text-green-500">
+						Your spellbook has been updated!
+					</p>
+				)}
+				<p>
+					<Link href="/">
+						<a className="inline-block py-2 underline">
+							Add more spells
+						</a>
+					</Link>
+				</p>
 			</section>
 			<section className="grid list-none grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
 				{spells &&

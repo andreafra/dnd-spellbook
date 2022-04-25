@@ -12,7 +12,7 @@ model Spellbook {
   id           String    @id(map: "primary") @db.Uuid
   title        String
   last_updated DateTime @default(now()) @db.Timestamp(6)
-  spells       Json
+  spellIds     Json     @map("spells")
   owner_id     String   @db.Uuid
   owner        User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
 }

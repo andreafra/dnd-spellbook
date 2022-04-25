@@ -126,19 +126,9 @@ export default function Spellbooks() {
 						fetchSpellbooksQuery.data.map((a) => (
 							<Spellbook
 								title={a.title}
-								size={a.spells.length}
+								size={a.spellIds.length}
 								key={a.id}
 								id={a.id}
-								onClick={() =>
-									dispatch(
-										load({
-											id: a.id,
-											last_updated: a,
-											title: a.title,
-											spellIds: a.spellIds,
-										})
-									)
-								}
 							/>
 						))}
 				</div>
