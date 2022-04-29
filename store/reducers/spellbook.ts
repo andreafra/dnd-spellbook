@@ -25,10 +25,11 @@ export const spellbookSlice = createSlice({
 			state.title = action.payload
 		},
 		load: (_, action: PayloadAction<Spellbook>) => action.payload,
+		reset: () => initialState,
 	},
 })
 
-export const { add, remove, rename, load } = spellbookSlice.actions
+export const { add, remove, rename, load, reset } = spellbookSlice.actions
 
 export default spellbookSlice.reducer
 

@@ -33,16 +33,20 @@ export default NextAuth({
 
 			const userId = hashEmail(user.email)
 
-			const newUser = await prisma.user.upsert({
-				where: {
-					id: userId,
-				},
-				update: {},
-				create: {
-					id: userId,
-					name: user.name,
-				},
-			})
+			try {
+				await prisma.user.upsert({
+					where: {
+						id: userId,
+					},
+					update: {},
+					create: {
+						id: userId,
+						name: user.name,
+					},
+				})
+			} catch {
+				return false
+			}
 
 			return true
 		},

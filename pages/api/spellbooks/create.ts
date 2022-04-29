@@ -1,5 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 import config from "../../../config"
@@ -37,8 +35,6 @@ export default async function handler(
 			},
 		})
 
-		console.log(user._count.spellbooks)
-
 		if (user._count.spellbooks >= config.maxSpellbooks) {
 			res.status(403).json({ message: "Max spellbooks reached." })
 			return
@@ -51,9 +47,9 @@ export default async function handler(
 				id: newSpellbook.id,
 			})
 		} catch {
-			res.status(403).json({})
+			res.status(500).end()
 		}
 	} else {
-		res.status(401).json({})
+		res.status(401).end()
 	}
 }

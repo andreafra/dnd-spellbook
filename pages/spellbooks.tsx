@@ -2,7 +2,7 @@ import { PlusIcon } from "@heroicons/react/solid"
 import axios from "axios"
 import { useCallback, useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
-import { Button } from "../components/Button"
+import { PrimaryButton } from "../components/Button"
 import { Field } from "../components/Field"
 import { Layout } from "../components/Layout"
 import { Spellbook } from "../components/Spellbook"
@@ -81,7 +81,7 @@ export default function Spellbooks() {
 					onChange={(value) => setTitle(value)}
 					placeholder="Spellbook title"
 				/>
-				<Button
+				<PrimaryButton
 					title="New Spellbook"
 					onClick={_createSpellbook}
 					disabled={title.length === 0}
