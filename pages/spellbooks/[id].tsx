@@ -112,7 +112,7 @@ export default function SpellbookDetail() {
 
 	const _handleDownload = () => {
 		setOverwriteLocalData(true)
-		queryClient.invalidateQueries(FETCH_SPELLBOOK_QUERY)
+		fetchSpellbookQuery.refetch()
 	}
 
 	const _handleDelete = () => {

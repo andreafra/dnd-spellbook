@@ -9,12 +9,12 @@ datasource db {
 }
 
 model Spellbook {
-  id           String    @id(map: "primary") @db.Uuid
-  title        String
-  last_updated DateTime @default(now()) @db.Timestamp(6)
-  spellIds     Json     @map("spells")
-  owner_id     String   @db.Uuid
-  owner        User     @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+  id            String      @id(map: "primary") @db.Uuid
+  title         String
+  lastUpdated   DateTime    @default(now()) @db.Timestamp(6) @map("last_updated")
+  spellIds      String[]    @map("spell_ids")
+  ownerId       String      @db.Uuid @map("owner_id")
+  owner         User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
 }
 
 model User {

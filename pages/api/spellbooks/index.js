@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import { getSession } from "next-auth/react"
+import { parseSpellbook } from "../../../utils/parseSpellbook"
 
 const prisma = new PrismaClient()
 
@@ -22,7 +23,7 @@ export default async function handler(req, res) {
 			res.status(404).end()
 		}
 		if (userSpellbooks) {
-			res.status(200).json(userSpellbooks)
+			res.status(200).json({ spellbooks: userSpellbooks.spellbooks })
 		} else {
 			// Not found
 			res.status(404).end()

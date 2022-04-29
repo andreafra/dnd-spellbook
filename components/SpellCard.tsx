@@ -11,7 +11,6 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 	// TODO: add store spellbook, if no spellbook, not selecteable
 	const spellbook = useAppSelector((state) => state.spellbook)
-	console.log(spellbook.id)
 
 	const dispatch = useAppDispatch()
 
