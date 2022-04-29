@@ -2,6 +2,7 @@ import {
 	DownloadIcon,
 	PencilIcon,
 	RefreshIcon,
+	TrashIcon,
 	UploadIcon,
 } from "@heroicons/react/outline"
 import axios from "axios"
@@ -10,17 +11,18 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
-import { Button } from "../../components/Button"
+import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
 import Header from "../../components/Header"
 import { Layout } from "../../components/Layout"
 import SpellCard from "../../components/SpellCard"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { setErrorMessage } from "../../store/reducers/settings"
-import { load, rename } from "../../store/reducers/spellbook"
+import { load, rename, reset } from "../../store/reducers/spellbook"
 import { Spellbook } from "../../types/Spellbook"
 
 const FETCH_SPELLBOOK_QUERY = "fetchSpellbook"
+const DELETE_SPELLBOOK_QUERY = "deleteSpellbook"
 
 export default function SpellbookDetail() {
 	const queryClient = useQueryClient()
@@ -47,6 +49,10 @@ export default function SpellbookDetail() {
 		return axios.put(`/api/spellbooks/${spellbookId}`, updatedSpellbook)
 	}
 
+	const deleteSpellbook = async () => {
+		return axios.delete(`/api/spellbooks/${spellbookId}`)
+	}
+
 	const fetchSpellbookQuery = useQuery(
 		FETCH_SPELLBOOK_QUERY,
 		fetchSpellbook,
@@ -66,6 +72,19 @@ export default function SpellbookDetail() {
 				)
 			},
 			enabled: !!spellbookId,
+		}
+	)
+
+	const deleteSpellbookQuery = useQuery(
+		DELETE_SPELLBOOK_QUERY,
+		deleteSpellbook,
+		{
+			onSuccess: () => {
+				// reset and redirect back to the spellbooks page
+				dispatch(reset())
+				router.push("/spellbooks")
+			},
+			enabled: false,
 		}
 	)
 
@@ -96,35 +115,69 @@ export default function SpellbookDetail() {
 		queryClient.invalidateQueries(FETCH_SPELLBOOK_QUERY)
 	}
 
+	const _handleDelete = () => {
+		if (confirm(`Delete spellbook "${spellbook.title}"?`)) {
+			deleteSpellbookQuery.refetch()
+		}
+	}
+
 	const shouldSync =
 		fetchSpellbookQuery.isSuccess &&
 		spellbook.spellIds &&
 		spellbook.spellIds.toString() !==
 			fetchSpellbookQuery.data.spellIds.toString()
 
+	if (fetchSpellbookQuery.isLoading)
+		return (
+			<Layout>
+				<p className="animate-pulse font-bold">Loading...</p>
+			</Layout>
+		)
+
+	if (fetchSpellbookQuery.isError)
+		return (
+			<Layout>
+				<p className="font-bold text-red-500">
+					Couldn't find that spellbook!
+					<br />
+					Perhaps it's been deleted, or you don't have permission to
+					view it.
+				</p>
+			</Layout>
+		)
+
 	return (
 		<Layout>
 			<section className="space-y-2 px-2">
 				{isEdit ? (
 					<>
-						<Field
-							label="New title"
-							id="title"
-							type="text"
-							value={title}
-							onChange={(value) => setTitle(value)}
-							placeholder="Spellbook title"
-						/>
-						<Button
-							title="Rename"
-							onClick={_handleRename}
-							icon={<PencilIcon className="h-6 w-6" />}
-							disabled={!canRename}
-						/>
-						<Button
-							title="Cancel"
-							onClick={() => setIsEdit(false)}
-						/>
+						<div>
+							<Field
+								label="New title"
+								id="title"
+								type="text"
+								value={title}
+								onChange={(value) => setTitle(value)}
+								placeholder="Spellbook title"
+							/>
+							<PrimaryButton
+								title="Rename"
+								onClick={_handleRename}
+								icon={<PencilIcon className="h-6 w-6" />}
+								disabled={!canRename}
+							/>
+							<Button
+								title="Cancel"
+								onClick={() => setIsEdit(false)}
+							/>
+						</div>
+						<div>
+							<DangerButton
+								title="Delete"
+								onClick={_handleDelete}
+								icon={<TrashIcon className="h-6 w-6" />}
+							/>
+						</div>
 					</>
 				) : (
 					<>
@@ -146,12 +199,12 @@ export default function SpellbookDetail() {
 							Your local spellbook is different from the cloud
 							one.
 						</p>
-						<Button
+						<PrimaryButton
 							title="Upload"
 							icon={<UploadIcon className="h-6 w-6" />}
 							onClick={_handleUpload}
 						/>
-						<Button
+						<PrimaryButton
 							title="Download"
 							icon={<DownloadIcon className="h-6 w-6" />}
 							onClick={_handleDownload}
@@ -169,6 +222,11 @@ export default function SpellbookDetail() {
 				{updateSpellbookMutation.isError && (
 					<p className="font-bold text-red-500">
 						Couldn't update your spellbook!
+					</p>
+				)}
+				{deleteSpellbookQuery.isError && (
+					<p className="font-bold text-red-500">
+						Couldn't delete your spellbook!
 					</p>
 				)}
 				{updateSpellbookMutation.isSuccess && (

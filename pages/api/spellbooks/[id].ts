@@ -1,10 +1,7 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import { PrismaClient } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 import { AppUser } from "../../../types/AppUser"
-import { parseSpellbook } from "../../../utils/parseSpellbook"
 
 const prisma = new PrismaClient()
 
@@ -20,14 +17,19 @@ export default async function handler(
 		// finally, we get the first element
 		const id = [req.query.id].flat()[0]
 
-		console.log(req.method)
+		let spellbook
 
 		const sessionUser = session.user as AppUser
-		const spellbook = await prisma.spellbook.findUnique({
-			where: {
-				id,
-			},
-		})
+		try {
+			spellbook = await prisma.spellbook.findUnique({
+				where: {
+					id,
+				},
+			})
+		} catch {
+			// URL params are written wrong (not an UUID?)
+			return res.status(400).end()
+		}
 		if (spellbook) {
 			// Check if user is owner
 			// TODO: could this be a security issue? Can the user falsify the session?
@@ -37,24 +39,47 @@ export default async function handler(
 					return res.status(200).json(spellbook)
 				}
 				if (req.method === "PUT") {
-					const updatedSpellbook = await prisma.spellbook.update({
-						where: {
-							id,
-						},
-						data: {
-							last_updated: new Date().toISOString(),
-							title: req.body.title,
-							spellIds: req.body.spellIds,
-						},
-					})
+					try {
+						await prisma.spellbook.update({
+							where: {
+								id,
+							},
+							data: {
+								last_updated: new Date().toISOString(),
+								title: req.body.title,
+								spellIds: req.body.spellIds,
+							},
+						})
+					} catch {
+						// Something wrong with the backend
+						res.status(500).end()
+					}
 
-					return res.status(200).json({})
+					return res.status(200).end()
+				}
+				if (req.method === "DELETE") {
+					try {
+						await prisma.spellbook.delete({
+							where: {
+								id,
+							},
+						})
+					} catch {
+						// Something wrong with the backend
+						return res.status(500).end()
+					}
+
+					return res.status(200).end()
 				}
 			}
-			return
+			// Unauthorized access
+			return res.status(401).end()
 		} else {
-			return res.status(404).json({})
+			// Not found
+			return res.status(404).end()
 		}
 	}
-	res.status(401).json({})
+	// If there's no session, user is unauthorized
+	// TODO: handle it through middleware?
+	return res.status(401).end()
 }

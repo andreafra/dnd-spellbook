@@ -1,6 +1,6 @@
 import { LoginIcon, LogoutIcon } from "@heroicons/react/outline"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { Button } from "../components/Button"
+import { PrimaryButton } from "../components/Button"
 import { Layout } from "../components/Layout"
 
 export default function Login() {
@@ -27,13 +27,13 @@ export default function Login() {
 const AuthButton = () => {
 	const { data: session } = useSession()
 	return session ? (
-		<Button
+		<PrimaryButton
 			title="Log Out"
 			icon={<LogoutIcon className="h-6 w-6 align-middle" />}
 			onClick={() => signOut()}
 		/>
 	) : (
-		<Button
+		<PrimaryButton
 			title="Log In"
 			icon={<LoginIcon className="h-6 w-6 align-middle" />}
 			onClick={() => signIn()}
