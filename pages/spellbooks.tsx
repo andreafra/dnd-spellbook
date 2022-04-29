@@ -1,6 +1,7 @@
+import { RefreshIcon } from "@heroicons/react/outline"
 import { PlusIcon } from "@heroicons/react/solid"
 import axios from "axios"
-import { useCallback, useEffect, useState } from "react"
+import { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { PrimaryButton } from "../components/Button"
 import { Field } from "../components/Field"
@@ -9,7 +10,8 @@ import { Spellbook } from "../components/Spellbook"
 import config from "../config"
 import { useAppDispatch } from "../store"
 import { setErrorMessage } from "../store/reducers/settings"
-import { load } from "../store/reducers/spellbook"
+import { Spellbook as TSpellbook } from "../types/Spellbook"
+import { parseSpellbook } from "../utils/parseSpellbook"
 
 const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"
 
@@ -23,8 +25,7 @@ export default function Spellbooks() {
 	// Queries
 	const fetchSpellbooks = async () => {
 		const res = await axios.get("/api/spellbooks")
-
-		return res.data.spellbooks
+		return res.data.spellbooks as TSpellbook[]
 	}
 
 	const createSpellbook = async (newSpellbook) => {
@@ -35,6 +36,9 @@ export default function Spellbooks() {
 		FETCH_SPELLBOOKS_QUERY,
 		fetchSpellbooks,
 		{
+			onSuccess: () => {
+				setTitle("")
+			},
 			onError: () => {
 				dispatch(
 					setErrorMessage("Couldn't fetch user spellbooks from API.")
@@ -56,6 +60,8 @@ export default function Spellbooks() {
 
 		createSpellbookMutation.mutate({ title })
 	}
+
+	const spellbooks: TSpellbook[] = fetchSpellbooksQuery.data
 
 	return (
 		<Layout>
@@ -87,8 +93,14 @@ export default function Spellbooks() {
 					disabled={title.length === 0}
 					icon={<PlusIcon className="h-6 w-6 align-middle" />}
 				/>
+				{createSpellbookMutation.isLoading && (
+					<p className="font-bold">
+						<RefreshIcon className="mr-2 inline-block h-6 w-6 animate-spin" />
+						Creating your spellbook...
+					</p>
+				)}
 				{createSpellbookMutation.isError && (
-					<p className="font-bold text-red-600">
+					<p className="font-bold text-red-500">
 						Couldn't create new spellbook!
 					</p>
 				)}
@@ -115,15 +127,15 @@ export default function Spellbooks() {
 					to edit its contents.
 				</p>
 				{fetchSpellbooksQuery.isError && (
-					<p className="font-bold text-red-600">
+					<p className="font-bold text-red-500">
 						An error has occurred while loading spellbooks!
 					</p>
 				)}
 				{fetchSpellbooksQuery.isLoading && "Loading..."}
 
 				<div className="py-2 text-center md:text-left">
-					{fetchSpellbooksQuery.data &&
-						fetchSpellbooksQuery.data.map((a) => (
+					{spellbooks &&
+						spellbooks.map((a) => (
 							<Spellbook
 								title={a.title}
 								size={a.spellIds.length}

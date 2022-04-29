@@ -1,3 +1,4 @@
+import { Spellbook } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 import config from "../../../config"
@@ -15,11 +16,12 @@ export default async function handler(
 	const session = await getSession({ req })
 	if (session) {
 		const sessionUser: AppUser = session.user
-		const newSpellbook = {
+		const newSpellbook: Spellbook = {
 			id: uuidv4(),
 			title: req.body.title,
-			owner_id: sessionUser.id,
-			spellIds: JSON.stringify([]),
+			lastUpdated: new Date(),
+			ownerId: sessionUser.id,
+			spellIds: [],
 		}
 
 		const user = await prisma.user.findUnique({
@@ -36,16 +38,14 @@ export default async function handler(
 		})
 
 		if (user._count.spellbooks >= config.maxSpellbooks) {
-			res.status(403).json({ message: "Max spellbooks reached." })
+			res.status(403).end()
 			return
 		}
 		try {
 			await prisma.spellbook.create({
 				data: newSpellbook,
 			})
-			res.status(200).json({
-				id: newSpellbook.id,
-			})
+			res.status(200).end()
 		} catch {
 			res.status(500).end()
 		}

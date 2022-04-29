@@ -1,7 +1,8 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient, Spellbook as DbSpellbook } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
 import { getSession } from "next-auth/react"
 import { AppUser } from "../../../types/AppUser"
+import { parseSpellbook } from "../../../utils/parseSpellbook"
 
 const prisma = new PrismaClient()
 
@@ -17,7 +18,7 @@ export default async function handler(
 		// finally, we get the first element
 		const id = [req.query.id].flat()[0]
 
-		let spellbook
+		let spellbook: DbSpellbook
 
 		const sessionUser = session.user as AppUser
 		try {
@@ -33,10 +34,10 @@ export default async function handler(
 		if (spellbook) {
 			// Check if user is owner
 			// TODO: could this be a security issue? Can the user falsify the session?
-			if (spellbook.owner_id === sessionUser.id) {
+			if (spellbook.ownerId === sessionUser.id) {
 				// if method is GET, return spellbook object
 				if (req.method === "GET") {
-					return res.status(200).json(spellbook)
+					return res.status(200).json(parseSpellbook(spellbook))
 				}
 				if (req.method === "PUT") {
 					try {
@@ -45,7 +46,7 @@ export default async function handler(
 								id,
 							},
 							data: {
-								last_updated: new Date().toISOString(),
+								lastUpdated: new Date(),
 								title: req.body.title,
 								spellIds: req.body.spellIds,
 							},
@@ -55,7 +56,8 @@ export default async function handler(
 						res.status(500).end()
 					}
 
-					return res.status(200).end()
+					// Empty body
+					return res.status(204).end()
 				}
 				if (req.method === "DELETE") {
 					try {
@@ -69,7 +71,8 @@ export default async function handler(
 						return res.status(500).end()
 					}
 
-					return res.status(200).end()
+					// Empty body
+					return res.status(204).end()
 				}
 			}
 			// Unauthorized access

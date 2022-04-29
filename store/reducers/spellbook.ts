@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Cookies } from "react-cookie"
 import { Spellbook } from "../../types/Spellbook"
+import { parseSpellbook } from "../../utils/parseSpellbook"
 
 const cookies = new Cookies()
 
