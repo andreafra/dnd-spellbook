@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from ".."
 
-export interface SettingsState {
+export interface ISettingsState {
 	showFilters: boolean
+	filterQuery: string
 	errorMessage: string
 }
 
-const initialState: SettingsState = {
+const initialState: ISettingsState = {
 	showFilters: false,
+	filterQuery: "",
 	errorMessage: "",
 }
 
@@ -18,13 +20,17 @@ export const settingsSlice = createSlice({
 		toggleFilterVisibility: (state) => {
 			state.showFilters = !state.showFilters
 		},
+		setFilterQuery: (state, action: PayloadAction<string>) => {
+			state.filterQuery = action.payload
+		},
 		setErrorMessage: (state, action: PayloadAction<string>) => {
 			state.errorMessage = action.payload
 		},
 	},
 })
 
-export const { toggleFilterVisibility, setErrorMessage } = settingsSlice.actions
+export const { toggleFilterVisibility, setErrorMessage, setFilterQuery } =
+	settingsSlice.actions
 
 export const selectFilterVisibility = (state: RootState) =>
 	state.settings.showFilters

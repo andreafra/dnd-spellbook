@@ -18,6 +18,7 @@
 		"autoprefixer": "^10.4.5",
 		"axios": "^0.26.1",
 		"crypto-js": "^4.1.1",
+		"fuse.js": "^6.5.3",
 		"next": "12.1.4",
 		"next-auth": "^4.3.4",
 		"node-fetch": "^2.6.7",

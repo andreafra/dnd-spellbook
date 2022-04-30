@@ -6,20 +6,18 @@ import {
 	UploadIcon,
 } from "@heroicons/react/outline"
 import axios from "axios"
-import Head from "next/head"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
-import Header from "../../components/Header"
 import { Layout } from "../../components/Layout"
-import SpellCard from "../../components/SpellCard"
+import { SpellList } from "../../components/SpellList"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { setErrorMessage } from "../../store/reducers/settings"
 import { load, rename, reset } from "../../store/reducers/spellbook"
-import { Spellbook } from "../../types/Spellbook"
+import { ISpellbook } from "../../types/Spellbook"
 
 const FETCH_SPELLBOOK_QUERY = "fetchSpellbook"
 const DELETE_SPELLBOOK_QUERY = "deleteSpellbook"
@@ -41,7 +39,7 @@ export default function SpellbookDetail() {
 
 	const fetchSpellbook = async () => {
 		const res = await axios.get(`/api/spellbooks/${spellbookId}`)
-		const data = res.data as Spellbook
+		const data = res.data as ISpellbook
 		return data
 	}
 
@@ -99,7 +97,7 @@ export default function SpellbookDetail() {
 	const _handleRename = () => {
 		dispatch(rename(title))
 		// update title on remote
-		updateSpellbookMutation.mutate({ ...spellbook, title } as Spellbook)
+		updateSpellbookMutation.mutate({ ...spellbook, title } as ISpellbook)
 		setIsEdit(false)
 	}
 
@@ -107,7 +105,7 @@ export default function SpellbookDetail() {
 		updateSpellbookMutation.mutate({
 			...spellbook,
 			spellIds: spellbook.spellIds,
-		} as Spellbook)
+		} as ISpellbook)
 	}
 
 	const _handleDownload = () => {
@@ -243,19 +241,11 @@ export default function SpellbookDetail() {
 				</p>
 			</section>
 			<section className="grid list-none grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-				{spells &&
-					spellbook.spellIds &&
-					spells
-						.filter((a) => spellbook.spellIds.indexOf(a.id) >= 0)
-						.map((spell) => (
-							<SpellCard
-								spell={spell}
-								key={spell.id}
-								selected={
-									spellbook.spellIds.indexOf(spell.id) > -1
-								}
-							/>
-						))}
+				<SpellList
+					defaultSpells={spells.filter(
+						(a) => spellbook.spellIds.indexOf(a.id) >= 0
+					)}
+				/>
 			</section>
 		</Layout>
 	)

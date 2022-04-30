@@ -1,23 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { Spell } from "../../types/Spell"
+import { ISpell } from "../../types/Spell"
+import Fuse from "fuse.js"
 
-const initialState: Spell[] = []
+const initialState: ISpell[] = []
+
+const fuseOptions: Fuse.IFuseOptions<ISpell> = {
+	includeScore: true,
+	keys: ["name", "school", "class"],
+}
+
+export const filter = new Fuse([], fuseOptions)
 
 export const spellsSlice = createSlice({
 	name: "spells",
 	initialState,
 	reducers: {
-		load: (_, action: PayloadAction<Spell[]>) => action.payload,
-		search: (state, action: PayloadAction<string>) => {
-			state.forEach((a) => {
-				a.visible = a.name
-					.toLowerCase()
-					.includes(action.payload.toLowerCase())
-			})
+		load: (_, action: PayloadAction<ISpell[]>) => {
+			filter.setCollection(action.payload)
+			return action.payload
 		},
 	},
 })
 
-export const { load, search } = spellsSlice.actions
+export const { load } = spellsSlice.actions
 
 export default spellsSlice.reducer

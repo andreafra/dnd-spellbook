@@ -1,4 +1,4 @@
-export interface Spell {
+export interface ISpell {
 	visible: boolean
 	id: string
 	name: string

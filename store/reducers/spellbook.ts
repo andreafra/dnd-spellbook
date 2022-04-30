@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { Cookies } from "react-cookie"
-import { Spellbook } from "../../types/Spellbook"
+import { ISpellbook } from "../../types/Spellbook"
 import { parseSpellbook } from "../../utils/parseSpellbook"
 
 const cookies = new Cookies()
 
-const initialState: Spellbook = cookies.get("spellbook") ?? {
+const initialState: ISpellbook = cookies.get("spellbook") ?? {
 	id: "",
 	title: "",
 	last_updated: new Date().toISOString(),
@@ -25,7 +25,7 @@ export const spellbookSlice = createSlice({
 		rename: (state, action: PayloadAction<string>) => {
 			state.title = action.payload
 		},
-		load: (_, action: PayloadAction<Spellbook>) => action.payload,
+		load: (_, action: PayloadAction<ISpellbook>) => action.payload,
 		reset: () => initialState,
 	},
 })

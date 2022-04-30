@@ -5,9 +5,12 @@ import {
 } from "@heroicons/react/outline"
 import Link from "next/link"
 import { useRef } from "react"
+import config from "../config"
 import { useAppDispatch, useAppSelector } from "../store"
-import { toggleFilterVisibility } from "../store/reducers/settings"
-import { search } from "../store/reducers/spells"
+import {
+	setFilterQuery,
+	toggleFilterVisibility,
+} from "../store/reducers/settings"
 
 export default function Header({ showFilters = false }) {
 	const spellbook = useAppSelector((state) => state.spellbook)
@@ -23,8 +26,8 @@ export default function Header({ showFilters = false }) {
 
 		// After a moment from last input, dispatch search
 		timeout.current = setTimeout(() => {
-			dispatch(search(e.target.value))
-		}, 500)
+			dispatch(setFilterQuery(e.target.value))
+		}, config.searchDelay)
 	}
 
 	return (
@@ -93,7 +96,7 @@ export default function Header({ showFilters = false }) {
 				<div className="block w-full bg-primaryLight-300 bg-opacity-90 shadow-md shadow-primaryLight-100 backdrop-blur-md md:rounded-2xl">
 					<div className="p-2">
 						<input
-							className="rounded-xl border-none p-2 focus:outline-none"
+							className="rounded-xl border-none p-2 transition-all focus:outline-none md:w-[25%] md:focus:w-[50%]"
 							type="search"
 							onChange={_handleSearch}
 							placeholder="Search..."

@@ -1,3 +1,4 @@
 export default {
-    maxSpellbooks: 3
-} 
+	maxSpellbooks: 3,
+	searchDelay: 150, // ms
+}

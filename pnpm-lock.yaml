@@ -12,6 +12,7 @@ specifiers:
   crypto-js: ^4.1.1
   eslint: 8.11.0
   eslint-config-next: 12.1.0
+  fuse.js: ^6.5.3
   next: 12.1.4
   next-auth: ^4.3.4
   node-fetch: ^2.6.7
@@ -40,6 +41,7 @@ dependencies:
   autoprefixer: 10.4.5_postcss@8.4.12
   axios: 0.26.1
   crypto-js: 4.1.1
+  fuse.js: 6.5.3
   next: 12.1.4_react-dom@17.0.2+react@17.0.2
   next-auth: 4.3.4_f7e0e08c4d11183f3f8529029e394da4
   node-fetch: 2.6.7
@@ -1180,6 +1182,11 @@ packages:
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /fuse.js/6.5.3:
+    resolution: {integrity: sha512-sA5etGE7yD/pOqivZRBvUBd/NaL2sjAu6QuSaFoe1H2BrJSkH/T/UXAJ8CdXdw7DvY3Hs8CXKYkDWX7RiP5KOg==}
+    engines: {node: '>=10'}
+    dev: false
 
   /get-intrinsic/1.1.1:
     resolution: {integrity: sha512-kWZrnVM42QCiEA2Ig1bG8zjoIMOgxWwYCEeNdwY6Tv/cOSeGpcoX4pXHfKUxNKVoArnrEr2e9srnAxxGIraS9Q==}

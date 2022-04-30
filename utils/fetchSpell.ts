@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Spell } from "../types/Spell"
+import { ISpell } from "../types/Spell"
 import { getId, getLevel, getSchool, getClass } from "./parseSpell"
 
 const DATA_URL = "/spells.json"
@@ -15,8 +15,8 @@ export async function fetchSpells() {
  * @param spell A raw JS object to parse
  * @returns A safe Spell object to use
  */
-export function parseSpell(spell): Spell {
-	let newSpell: Spell = {
+export function parseSpell(spell): ISpell {
+	let newSpell: ISpell = {
 		visible: true,
 		id: getId(spell.name),
 		name: spell.name,

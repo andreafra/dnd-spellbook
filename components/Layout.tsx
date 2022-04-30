@@ -5,8 +5,7 @@ import Header from "./Header"
 export function Layout({ children }) {
 	const router = useRouter()
 
-	const shouldShowFilters =
-		router.pathname === "/" || router.pathname.startsWith("/spellbooks/")
+	const shouldShowFilters = router.pathname === "/"
 
 	return (
 		<div className="container mx-auto">

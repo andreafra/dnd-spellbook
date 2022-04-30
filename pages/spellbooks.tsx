@@ -10,7 +10,7 @@ import { Spellbook } from "../components/Spellbook"
 import config from "../config"
 import { useAppDispatch } from "../store"
 import { setErrorMessage } from "../store/reducers/settings"
-import { Spellbook as TSpellbook } from "../types/Spellbook"
+import { ISpellbook as TSpellbook } from "../types/Spellbook"
 import { parseSpellbook } from "../utils/parseSpellbook"
 
 const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"

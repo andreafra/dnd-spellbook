@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
 import { add, remove } from "../store/reducers/spellbook"
 import { capitalize, getLevelSuffix, getSchoolName } from "../utils/parseSpell"
-import { Spell } from "../types/Spell"
+import { ISpell } from "../types/Spell"
 
-export default function (props: { spell: Spell; selected: boolean }) {
+export default function (props: { spell: ISpell; selected: boolean }) {
 	const spell = props.spell
 	const isSelected = props.selected
 
