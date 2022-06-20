@@ -6,10 +6,8 @@ import {
 } from "@heroicons/react/outline"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
-import { useRef } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
 import { toggleFilterVisibility } from "../store/reducers/settings"
-import { search } from "../store/reducers/spells"
 import Filters from "./Filters"
 
 export default function Header({ showFilters = false }) {
