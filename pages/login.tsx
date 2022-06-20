@@ -1,7 +1,6 @@
 import { LoginIcon, LogoutIcon } from "@heroicons/react/outline"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { PrimaryButton } from "../components/Button"
-import { Layout } from "../components/Layout"
 
 export default function Login() {
 	const { data: session } = useSession()

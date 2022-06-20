@@ -14,7 +14,6 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
 import Header from "../../components/Header"
-import { Layout } from "../../components/Layout"
 import SpellCard from "../../components/SpellCard"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { setErrorMessage } from "../../store/reducers/settings"
@@ -128,26 +127,20 @@ export default function SpellbookDetail() {
 			fetchSpellbookQuery.data.spellIds.toString()
 
 	if (fetchSpellbookQuery.isLoading)
-		return (
-			<Layout>
-				<p className="animate-pulse font-bold">Loading...</p>
-			</Layout>
-		)
+		return <p className="animate-pulse font-bold">Loading...</p>
 
 	if (fetchSpellbookQuery.isError)
 		return (
-			<Layout>
-				<p className="font-bold text-red-500">
-					Couldn't find that spellbook!
-					<br />
-					Perhaps it's been deleted, or you don't have permission to
-					view it.
-				</p>
-			</Layout>
+			<p className="font-bold text-red-500">
+				Couldn't find that spellbook!
+				<br />
+				Perhaps it's been deleted, or you don't have permission to view
+				it.
+			</p>
 		)
 
 	return (
-		<Layout>
+		<>
 			<section className="space-y-2 px-2">
 				{isEdit ? (
 					<>
@@ -257,6 +250,6 @@ export default function SpellbookDetail() {
 							/>
 						))}
 			</section>
-		</Layout>
+		</>
 	)
 }
