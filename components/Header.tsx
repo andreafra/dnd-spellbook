@@ -10,25 +10,13 @@ import { useRef } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
 import { toggleFilterVisibility } from "../store/reducers/settings"
 import { search } from "../store/reducers/spells"
+import Filters from "./Filters"
 
 export default function Header({ showFilters = false }) {
 	const spellbook = useAppSelector((state) => state.spellbook)
 	const settings = useAppSelector((state) => state.settings)
 	const dispatch = useAppDispatch()
 	const { data: session } = useSession()
-
-	// Search timer
-	let timeout = useRef<ReturnType<typeof setTimeout>>()
-
-	const _handleSearch = (e) => {
-		// Reset timeout
-		clearTimeout(timeout.current)
-
-		// After a moment from last input, dispatch search
-		timeout.current = setTimeout(() => {
-			dispatch(search(e.target.value))
-		}, 500)
-	}
 
 	return (
 		<header className="sticky top-0 z-50 text-lg md:space-y-2 md:px-2">
@@ -101,18 +89,7 @@ export default function Header({ showFilters = false }) {
 					</ul>
 				</nav>
 			</div>
-			{showFilters && settings.showFilters ? (
-				<div className="block w-full bg-primaryLight-300 bg-opacity-90 shadow-md shadow-primaryLight-100 backdrop-blur-md md:rounded-2xl">
-					<div className="p-2">
-						<input
-							className="rounded-xl border-none p-2 focus:outline-none"
-							type="search"
-							onChange={_handleSearch}
-							placeholder="Search..."
-						/>
-					</div>
-				</div>
-			) : null}
+			{showFilters && settings.showFilters ? <Filters /> : null}
 		</header>
 	)
 }
