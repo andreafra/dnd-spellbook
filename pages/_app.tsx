@@ -2,6 +2,7 @@ import { SessionProvider } from "next-auth/react"
 import { useEffect } from "react"
 import { QueryClient, QueryClientProvider, useQuery } from "react-query"
 import { Provider } from "react-redux"
+import { Layout } from "../components/Layout"
 import { store, useAppDispatch, useAppSelector } from "../store"
 import { load } from "../store/reducers/spells"
 import "../styles/globals.css"
@@ -24,8 +25,10 @@ export default function App({
 		<SessionProvider session={session}>
 			<QueryClientProvider client={queryClient}>
 				<Provider store={store}>
-					<SpellLoader />
-					<Component {...pageProps} />
+					<Layout>
+						<SpellLoader />
+						<Component {...pageProps} />
+					</Layout>
 				</Provider>
 			</QueryClientProvider>
 		</SessionProvider>

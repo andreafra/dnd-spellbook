@@ -2,7 +2,9 @@ import {
 	BookmarkAltIcon,
 	FilterIcon,
 	LoginIcon,
+	UserIcon,
 } from "@heroicons/react/outline"
+import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRef } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
@@ -13,6 +15,7 @@ export default function Header({ showFilters = false }) {
 	const spellbook = useAppSelector((state) => state.spellbook)
 	const settings = useAppSelector((state) => state.settings)
 	const dispatch = useAppDispatch()
+	const { data: session } = useSession()
 
 	// Search timer
 	let timeout = useRef<ReturnType<typeof setTimeout>>()
@@ -68,12 +71,21 @@ export default function Header({ showFilters = false }) {
 						) : null}
 						<li className="inline-block">
 							<Link href="/login">
-								<a className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4">
-									<LoginIcon className="inline-block h-6 w-6 self-center align-middle" />
-									<span className="ml-3 hidden self-center md:inline-block">
-										Login
-									</span>
-								</a>
+								{session ? (
+									<a className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4">
+										<UserIcon className="inline-block h-6 w-6 self-center align-middle" />
+										<span className="ml-3 hidden self-center md:inline-block">
+											Account
+										</span>
+									</a>
+								) : (
+									<a className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4">
+										<LoginIcon className="inline-block h-6 w-6 self-center align-middle" />
+										<span className="ml-3 hidden self-center md:inline-block">
+											Login
+										</span>
+									</a>
+								)}
 							</Link>
 						</li>
 						<li className="inline-block">

@@ -7,17 +7,15 @@ export default function Home() {
 	const spellIds = useAppSelector((state) => state.spellbook.spellIds) ?? []
 
 	return (
-		<Layout>
-			<section className="grid list-none grid-cols-1 pt-2 sm:grid-cols-2 md:grid-cols-3">
-				{spells &&
-					spells.map((spell) => (
-						<SpellCard
-							spell={spell}
-							key={spell.id}
-							selected={spellIds.indexOf(spell.id) > -1}
-						/>
-					))}
-			</section>
-		</Layout>
+		<section className="grid list-none grid-cols-1 pt-2 sm:grid-cols-2 md:grid-cols-3">
+			{spells &&
+				spells.map((spell) => (
+					<SpellCard
+						spell={spell}
+						key={spell.id}
+						selected={spellIds.indexOf(spell.id) > -1}
+					/>
+				))}
+		</section>
 	)
 }

@@ -1,6 +1,7 @@
 import { RefreshIcon } from "@heroicons/react/outline"
 import { PlusIcon } from "@heroicons/react/solid"
 import axios from "axios"
+import { useSession } from "next-auth/react"
 import { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { PrimaryButton } from "../components/Button"
@@ -11,11 +12,21 @@ import config from "../config"
 import { useAppDispatch } from "../store"
 import { setErrorMessage } from "../store/reducers/settings"
 import { Spellbook as TSpellbook } from "../types/Spellbook"
-import { parseSpellbook } from "../utils/parseSpellbook"
 
 const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"
 
 export default function Spellbooks() {
+	const { data: session } = useSession()
+
+	if (!session)
+		return (
+			<section>
+				<h1 className="text-2xl font-bold">
+					You need to login to access this feature!
+				</h1>
+			</section>
+		)
+
 	const queryClient = useQueryClient()
 
 	const [title, setTitle] = useState("")
@@ -64,7 +75,7 @@ export default function Spellbooks() {
 	const spellbooks: TSpellbook[] = fetchSpellbooksQuery.data
 
 	return (
-		<Layout>
+		<>
 			<section
 				className="space-y-2 px-2"
 				id="create-spellbook"
@@ -145,6 +156,6 @@ export default function Spellbooks() {
 						))}
 				</div>
 			</section>
-		</Layout>
+		</>
 	)
 }
