@@ -4,7 +4,7 @@ import { useAppDispatch } from "../store"
 import { filter } from "../store/reducers/spells"
 import { capitalize } from "../utils/parseSpell"
 
-export default function Filters() {
+export default function Filters({ hidden }): JSX.Element {
 	const dispatch = useAppDispatch()
 
 	const defaultFilters = {
@@ -77,23 +77,29 @@ export default function Filters() {
 	}
 
 	return (
-		<div className="block w-full bg-primaryLight-300 bg-opacity-90 shadow-md shadow-primaryLight-100 backdrop-blur-md md:rounded-2xl">
-			<div className="m-2 inline-block">
+		<div
+			className={`flex w-full flex-wrap items-end gap-2  bg-primaryLight-300 bg-opacity-90 p-2 shadow-md shadow-primaryLight-100 backdrop-blur-md md:flex-nowrap md:rounded-2xl ${
+				hidden ? "hidden" : ""
+			}`}
+		>
+			<div className="flex-grow-3 w-full">
+				<label htmlFor="searchFilter">Search</label>
 				<input
-					className="h-12 rounded-xl border-none p-2 focus:outline-none"
+					id="searchFilter"
+					className="h-12 w-full appearance-none rounded-xl border-none p-2 focus:outline-none"
 					type="search"
 					onChange={_filterByName}
 					placeholder="Search..."
 					value={filters.name}
 				/>
 			</div>
-			<div className="my-2 mr-2 inline-block">
+			<div className="flex-grow-2 w-full">
 				<label htmlFor="schoolFilter" className="mr-2">
 					School
 				</label>
 				<select
 					id="schoolFilter"
-					className="h-12 rounded-xl border-none bg-primaryLight-50 p-2 focus:outline-none"
+					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 focus:outline-none"
 					onChange={_filterBySchool}
 					value={filters.school}
 				>
@@ -104,13 +110,13 @@ export default function Filters() {
 					))}
 				</select>
 			</div>
-			<div className="my-2 mr-2 inline-block">
+			<div className="flex-grow-1 w-full">
 				<label htmlFor="classFilter" className="mr-2">
 					Class
 				</label>
 				<select
 					id="classFilter"
-					className="h-12 rounded-xl border-none bg-primaryLight-50 p-2 focus:outline-none"
+					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 focus:outline-none"
 					onChange={_filterByClass}
 					value={filters.class}
 				>
@@ -121,13 +127,13 @@ export default function Filters() {
 					))}
 				</select>
 			</div>
-			<div className="my-2 mr-2 inline-block">
+			<div className="flex-grow-1 w-full">
 				<label htmlFor="levelFilter" className="mr-2">
 					Level
 				</label>
 				<select
 					id="levelFilter"
-					className="h-12 rounded-xl border-none bg-primaryLight-50 p-2 focus:outline-none"
+					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 focus:outline-none"
 					onChange={_filterByLevel}
 					value={filters.level}
 				>
@@ -139,9 +145,9 @@ export default function Filters() {
 					))}
 				</select>
 			</div>
-			<div className="my-2 mr-2 inline-block">
+			<div className="flex-grow-0">
 				<button
-					className="h-12 justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400  md:px-4"
+					className="h-12 w-full justify-center rounded-xl border-2 border-primaryLight-400 px-4 transition-colors  hover:bg-primaryLight-400"
 					onClick={_resetFilters}
 				>
 					Reset

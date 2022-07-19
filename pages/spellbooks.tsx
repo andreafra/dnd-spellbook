@@ -17,6 +17,9 @@ const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"
 
 export default function Spellbooks() {
 	const { data: session } = useSession()
+	const [title, setTitle] = useState("")
+	const queryClient = useQueryClient()
+	const dispatch = useAppDispatch()
 
 	if (!session)
 		return (
@@ -26,12 +29,6 @@ export default function Spellbooks() {
 				</h1>
 			</section>
 		)
-
-	const queryClient = useQueryClient()
-
-	const [title, setTitle] = useState("")
-
-	const dispatch = useAppDispatch()
 
 	// Queries
 	const fetchSpellbooks = async () => {
@@ -88,8 +85,8 @@ export default function Spellbooks() {
 					Create a new spellbook
 				</h2>
 				<p>
-					Pick a name for your new spellbook, and then you'll add
-					spells to it.
+					Pick a name for your new spellbook, and then add spells to
+					it.
 				</p>
 				<Field
 					label="Title"

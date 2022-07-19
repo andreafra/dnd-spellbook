@@ -87,7 +87,7 @@ export default function Header({ showFilters = false }) {
 					</ul>
 				</nav>
 			</div>
-			{showFilters && settings.showFilters ? <Filters /> : null}
+			<Filters hidden={showFilters && settings.showFilters} />
 		</header>
 	)
 }
