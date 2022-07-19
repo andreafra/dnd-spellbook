@@ -22,6 +22,21 @@ export function Layout({ children }) {
 			<Header showFilters={shouldShowFilters} />
 
 			<main className="mx-2 space-y-4 pt-4">{children}</main>
+
+			<footer>
+				<a
+					href="https://www.iubenda.com/privacy-policy/37495534"
+					title="Privacy Policy"
+				>
+					Privacy Policy
+				</a>
+				<a
+					href="https://www.iubenda.com/terms-and-conditions/37495534"
+					title="Terms and Conditions"
+				>
+					Terms and Conditions
+				</a>
+			</footer>
 		</div>
 	)
 }
