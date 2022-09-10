@@ -7,7 +7,7 @@ A simple spell manager for _Dungeons & Dragons_ to help you find your spells fas
 ## Features
 
 -   [x] Create, update, delete spellbooks.
--   [x] Login with Google, Discord, GitHub
+-   [x] Login with Google, Discord
 -   [ ] Add your custom spells
 
 ## Tech used
