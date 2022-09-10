@@ -4,7 +4,7 @@ import { useAppDispatch } from "../store"
 import { filter } from "../store/reducers/spells"
 import { capitalize } from "../utils/parseSpell"
 
-export default function Filters({ hidden }): JSX.Element {
+export default function Filters({ show }): JSX.Element {
 	const dispatch = useAppDispatch()
 
 	const defaultFilters = {
@@ -79,7 +79,7 @@ export default function Filters({ hidden }): JSX.Element {
 	return (
 		<div
 			className={`flex w-full flex-wrap items-end gap-2  bg-primaryLight-300 bg-opacity-90 p-2 shadow-md shadow-primaryLight-100 backdrop-blur-md md:flex-nowrap md:rounded-2xl ${
-				hidden ? "hidden" : ""
+				show ? "" : "hidden"
 			}`}
 		>
 			<div className="flex-grow-3 w-full">

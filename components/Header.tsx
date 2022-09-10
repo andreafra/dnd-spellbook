@@ -36,7 +36,7 @@ export default function Header({ showFilters = false }) {
 
 				<nav className="inline-block self-center">
 					<ul className="space-x-2 md:space-x-4">
-						{showFilters ? (
+						{showFilters && (
 							<li className="inline-block">
 								<a
 									onClick={() =>
@@ -54,7 +54,7 @@ export default function Header({ showFilters = false }) {
 									</span>
 								</a>
 							</li>
-						) : null}
+						)}
 						<li className="inline-block">
 							<Link href="/login">
 								{session ? (
@@ -87,7 +87,7 @@ export default function Header({ showFilters = false }) {
 					</ul>
 				</nav>
 			</div>
-			<Filters hidden={showFilters && settings.showFilters} />
+			<Filters show={showFilters && settings.showFilters} />
 		</header>
 	)
 }
