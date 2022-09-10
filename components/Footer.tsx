@@ -12,13 +12,6 @@ export default function Footer() {
 			</a>
 			<a
 				className="underline"
-				href="https://www.iubenda.com/terms-and-conditions/37495534"
-				title="Terms and Conditions"
-			>
-				Terms and Conditions
-			</a>
-			<a
-				className="underline"
 				href="https://github.com/andreafra/dnd-spellbook"
 				title="Source Code"
 			>
