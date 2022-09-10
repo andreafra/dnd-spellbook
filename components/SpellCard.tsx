@@ -88,7 +88,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 					: spell.duration}
 			</p>
 
-			<ScrollableDescription value={spell.desc} shadowColor={school} />
+			<ScrollableDescription value={spell.desc} />
 
 			<ul className="space-x-1 overflow-x-auto py-2">
 				{spell.class.map((cls) => (
