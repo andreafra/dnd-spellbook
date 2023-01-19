@@ -34,7 +34,7 @@ export default function Header({ showFilters = false }) {
 				</div>
 
 				<nav className="inline-block self-center">
-					<ul className="space-x-2 md:space-x-4">
+					<ul className="space-x-2">
 						{showFilters && (
 							<li className="inline-block">
 								<a

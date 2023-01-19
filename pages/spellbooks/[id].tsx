@@ -1,6 +1,7 @@
 import {
 	DownloadIcon,
 	PencilIcon,
+	PlusIcon,
 	RefreshIcon,
 	TrashIcon,
 	UploadIcon,
@@ -189,8 +190,8 @@ export default function SpellbookDetail() {
 				{shouldSync ? (
 					<>
 						<p>
-							Your local spellbook is different from the cloud
-							one.
+							Your local spellbook is different from the one in
+							the cloud.
 						</p>
 						<PrimaryButton
 							title="Upload"
@@ -227,11 +228,20 @@ export default function SpellbookDetail() {
 						Your spellbook has been updated!
 					</p>
 				)}
-				<p>
-					<Link href="/" className="inline-block py-2 underline">
-						Add more spells
-					</Link>
-				</p>
+			</section>
+			<section className="mx-2">
+				{/* <Link
+					href="/"
+					className="mr-2 rounded-xl border-2 border-primaryLight-600 bg-primaryLight-200 py-2  px-3  font-medium text-primaryLight-800 transition-colors active:bg-primaryLight-800 active:text-primaryLight-200 disabled:opacity-30 disabled:active:bg-primaryLight-200 disabled:active:text-primaryLight-800"
+				>
+					<PlusIcon className="mr-3 inline-block h-6 w-6" />
+					Add more spells
+				</Link> */}
+				<PrimaryButton
+					title="Add more spells"
+					icon={<PlusIcon className="h-6 w-6" />}
+					onClick={() => router.push("/")}
+				/>
 			</section>
 			<section className="grid list-none grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
 				{spells &&

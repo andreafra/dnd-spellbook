@@ -47,15 +47,21 @@ export default function (props: { spell: Spell; selected: boolean }) {
 			}`}
 		>
 			<div className="flex justify-between">
-				<h3 className="self-center text-lg font-bold">{spell.name}</h3>
+				<h3 className="inline-block self-center text-lg font-bold">
+					{spell.name}
+				</h3>
 				<button
-					className={`top-0 right-0 flex h-10 w-10 justify-center self-center rounded-full border-2 border-primaryLight-300 bg-primaryLight-200 text-primaryLight-500 transition-colors hover:border-primaryLight-600 hover:text-primaryLight-800 ${
+					className={`inline-flex aspect-square h-10 w-10 justify-center self-start rounded-full border-2 border-primaryLight-300 bg-primaryLight-200 text-primaryLight-500 transition-colors hover:border-primaryLight-600 hover:text-primaryLight-800 ${
 						spellbook.id.length < 1 && "hidden"
 					}`}
 					onClick={_handleSpellbookButton}
 				>
-					<span className="self-center text-2xl">
-						{isSelected ? <MinusIcon /> : <PlusIcon />}
+					<span className="h-full w-full self-center text-2xl">
+						{isSelected ? (
+							<MinusIcon className="inline-block h-6 w-6" />
+						) : (
+							<PlusIcon className="inline-block h-6 w-6" />
+						)}
 					</span>
 				</button>
 			</div>
@@ -90,7 +96,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 			<ScrollableDescription value={spell.desc} />
 
-			<ul className="space-x-1 overflow-x-auto py-2">
+			<ul className="flex flex-wrap gap-1 py-2">
 				{spell.class.map((cls) => (
 					<li
 						key={cls}

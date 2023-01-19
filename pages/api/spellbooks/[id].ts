@@ -66,8 +66,9 @@ export default async function handler(
 								id,
 							},
 						})
-					} catch {
+					} catch (err) {
 						// Something wrong with the backend
+						console.error(err)
 						return res.status(500).end()
 					}
 

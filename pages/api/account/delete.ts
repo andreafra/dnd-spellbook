@@ -4,8 +4,7 @@ import { getSession } from "next-auth/react"
 import config from "../../../config"
 import { AppUser } from "../../../types/AppUser"
 
-const { PrismaClient } = require("@prisma/client")
-const { v4: uuidv4 } = require("uuid")
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
@@ -16,35 +15,19 @@ export default async function handler(
 	const session = await getSession({ req })
 	if (session) {
 		const sessionUser: AppUser = session.user
-		const newSpellbook: Spellbook = {
-			id: uuidv4(),
-			title: req.body.title,
-			lastUpdated: new Date(),
-			ownerId: sessionUser.id,
-			spellIds: [],
-		}
-
-		const user = await prisma.user.findUnique({
-			where: {
-				id: sessionUser.id,
-			},
-			include: {
-				_count: {
-					select: {
-						spellbooks: true,
-					},
-				},
-			},
-		})
-
-		if (user._count.spellbooks >= config.maxSpellbooks) {
-			res.status(403).end()
-			return
-		}
 		try {
-			await prisma.spellbook.create({
-				data: newSpellbook,
+			const userSpellbooks = await prisma.spellbook.deleteMany({
+				where: {
+					ownerId: sessionUser.id,
+				},
 			})
+
+			const user = await prisma.user.delete({
+				where: {
+					id: sessionUser.id,
+				},
+			})
+
 			res.status(200).end()
 		} catch (err) {
 			console.error(err)
