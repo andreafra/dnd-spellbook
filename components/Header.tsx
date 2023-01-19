@@ -21,15 +21,14 @@ export default function Header({ showFilters = false }) {
 			<div className="flex w-full justify-between bg-primaryLight-300 bg-opacity-90 px-2 py-1 shadow-md shadow-primaryLight-100 backdrop-blur-md md:rounded-b-2xl">
 				<div className="inline-flex flex-col self-center py-4 px-2">
 					<Link href="/">
-						<a>
-							<h1 className="font-bold">D&D Spellbook</h1>
-						</a>
+						<h1 className="font-bold">D&D Spellbook</h1>
 					</Link>
 					{spellbook.id !== "" ? (
-						<Link href={`/spellbooks/${spellbook.id}`}>
-							<a className="italic hover:underline">
-								<h2>{spellbook.title}</h2>
-							</a>
+						<Link
+							href={`/spellbooks/${spellbook.id}`}
+							className="italic hover:underline"
+						>
+							<h2>{spellbook.title}</h2>
 						</Link>
 					) : null}
 				</div>
@@ -56,32 +55,36 @@ export default function Header({ showFilters = false }) {
 							</li>
 						)}
 						<li className="inline-block">
-							<Link href="/login">
+							<Link
+								href="/login"
+								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4"
+							>
 								{session ? (
-									<a className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4">
+									<>
 										<UserIcon className="inline-block h-6 w-6 self-center align-middle" />
 										<span className="ml-3 hidden self-center md:inline-block">
 											Account
 										</span>
-									</a>
+									</>
 								) : (
-									<a className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4">
+									<>
 										<LoginIcon className="inline-block h-6 w-6 self-center align-middle" />
 										<span className="ml-3 hidden self-center md:inline-block">
 											Login
 										</span>
-									</a>
+									</>
 								)}
 							</Link>
 						</li>
 						<li className="inline-block">
-							<Link href="/spellbooks">
-								<a className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4">
-									<BookmarkAltIcon className="inline-block h-6 w-6 self-center align-middle" />
-									<span className="ml-3 hidden self-center md:inline-block">
-										Spellbooks
-									</span>
-								</a>
+							<Link
+								href="/spellbooks"
+								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4"
+							>
+								<BookmarkAltIcon className="inline-block h-6 w-6 self-center align-middle" />
+								<span className="ml-3 hidden self-center md:inline-block">
+									Spellbooks
+								</span>
 							</Link>
 						</li>
 					</ul>

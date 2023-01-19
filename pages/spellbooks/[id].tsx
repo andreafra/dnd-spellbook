@@ -228,10 +228,8 @@ export default function SpellbookDetail() {
 					</p>
 				)}
 				<p>
-					<Link href="/">
-						<a className="inline-block py-2 underline">
-							Add more spells
-						</a>
+					<Link href="/" className="inline-block py-2 underline">
+						Add more spells
 					</Link>
 				</p>
 			</section>
