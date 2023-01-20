@@ -22,7 +22,7 @@ const BaseButton = (props: ButtonProps) => (
 export const Button = (props: ButtonProps) => (
 	<BaseButton
 		{...props}
-		className={`border-transparent border-primaryLight-300 bg-primaryLight-50 text-primaryLight-800 active:bg-primaryLight-200 disabled:opacity-30 disabled:active:bg-transparent disabled:active:text-primaryLight-50`}
+		className={`border-transparent border-primaryLight-300 bg-primaryLight-50 text-primaryLight-800 active:bg-primaryLight-200 disabled:opacity-30 disabled:active:bg-transparent disabled:active:text-primaryLight-50 ${props.className}`}
 	/>
 )
 

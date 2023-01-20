@@ -16,6 +16,7 @@ import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
 import Header from "../../components/Header"
 import SpellCard from "../../components/SpellCard"
+import SpellList from "../../components/SpellList"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { setErrorMessage } from "../../store/reducers/settings"
 import { load, rename, reset } from "../../store/reducers/spellbook"
@@ -142,10 +143,10 @@ export default function SpellbookDetail() {
 
 	return (
 		<>
-			<section className="space-y-2 px-2">
+			<section className="space-y-2">
 				{isEdit ? (
 					<>
-						<div>
+						<div className="space-y-2">
 							<Field
 								label="New title"
 								id="title"
@@ -228,36 +229,13 @@ export default function SpellbookDetail() {
 						Your spellbook has been updated!
 					</p>
 				)}
-			</section>
-			<section className="mx-2">
-				{/* <Link
-					href="/"
-					className="mr-2 rounded-xl border-2 border-primaryLight-600 bg-primaryLight-200 py-2  px-3  font-medium text-primaryLight-800 transition-colors active:bg-primaryLight-800 active:text-primaryLight-200 disabled:opacity-30 disabled:active:bg-primaryLight-200 disabled:active:text-primaryLight-800"
-				>
-					<PlusIcon className="mr-3 inline-block h-6 w-6" />
-					Add more spells
-				</Link> */}
 				<PrimaryButton
 					title="Add more spells"
 					icon={<PlusIcon className="h-6 w-6" />}
 					onClick={() => router.push("/")}
 				/>
 			</section>
-			<section className="grid list-none grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-				{spells &&
-					spellbook.spellIds &&
-					spells
-						.filter((a) => spellbook.spellIds.indexOf(a.id) >= 0)
-						.map((spell) => (
-							<SpellCard
-								spell={spell}
-								key={spell.id}
-								selected={
-									spellbook.spellIds.indexOf(spell.id) > -1
-								}
-							/>
-						))}
-			</section>
+			<SpellList />
 		</>
 	)
 }

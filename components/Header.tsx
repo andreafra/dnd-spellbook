@@ -13,39 +13,36 @@ import Filters from "./Filters"
 export default function Header({ showFilters = false }) {
 	const spellbook = useAppSelector((state) => state.spellbook)
 	const settings = useAppSelector((state) => state.settings)
-	const dispatch = useAppDispatch()
 	const { data: session } = useSession()
 
+	const dispatch = useAppDispatch()
+
 	return (
-		<header className="sticky top-0 z-50 text-lg md:space-y-2 md:px-2">
-			<div className="flex w-full justify-between bg-primaryLight-300 bg-opacity-90 px-2 py-1 shadow-md shadow-primaryLight-100 backdrop-blur-md md:rounded-b-2xl">
-				<div className="inline-flex flex-col self-center py-4 px-2">
+		<header className="sticky top-0 z-50 mx-auto w-full bg-primaryLight-300 bg-opacity-90 text-lg shadow-md shadow-primaryLight-100 backdrop-blur-md ">
+			<div className="container mx-auto flex justify-between px-2 py-2 md:px-0">
+				{/* Title */}
+				<div className="inline-flex flex-col self-center">
 					<Link href="/">
 						<h1 className="font-bold">D&D Spellbook</h1>
 					</Link>
-					{spellbook.id !== "" ? (
+					{/* {spellbook.id !== "" ? (
 						<Link
 							href={`/spellbooks/${spellbook.id}`}
 							className="italic hover:underline"
 						>
 							<h2>{spellbook.title}</h2>
 						</Link>
-					) : null}
+					) : null} */}
 				</div>
-
 				<nav className="inline-block self-center">
 					<ul className="space-x-2">
-						{showFilters && (
+						{settings.enableFilters && (
 							<li className="inline-block">
 								<a
 									onClick={() =>
 										dispatch(toggleFilterVisibility())
 									}
-									className={`inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4 ${
-										settings.showFilters
-											? styles.filtersActive
-											: null
-									}`}
+									className={`inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4`}
 								>
 									<FilterIcon className="inline-block h-6 w-6 self-center align-middle" />
 									<span className="ml-3 hidden self-center md:inline-block">
@@ -57,29 +54,18 @@ export default function Header({ showFilters = false }) {
 						<li className="inline-block">
 							<Link
 								href="/login"
-								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4"
+								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
 							>
-								{session ? (
-									<>
-										<UserIcon className="inline-block h-6 w-6 self-center align-middle" />
-										<span className="ml-3 hidden self-center md:inline-block">
-											Account
-										</span>
-									</>
-								) : (
-									<>
-										<LoginIcon className="inline-block h-6 w-6 self-center align-middle" />
-										<span className="ml-3 hidden self-center md:inline-block">
-											Login
-										</span>
-									</>
-								)}
+								<UserIcon className="inline-block h-6 w-6 self-center align-middle" />
+								<span className="ml-3 hidden self-center md:inline-block">
+									Account
+								</span>
 							</Link>
 						</li>
 						<li className="inline-block">
 							<Link
 								href="/spellbooks"
-								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 hover:underline md:px-4"
+								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
 							>
 								<BookmarkAltIcon className="inline-block h-6 w-6 self-center align-middle" />
 								<span className="ml-3 hidden self-center md:inline-block">
@@ -90,11 +76,7 @@ export default function Header({ showFilters = false }) {
 					</ul>
 				</nav>
 			</div>
-			<Filters show={showFilters && settings.showFilters} />
+			{settings.enableFilters && settings.showFilters && <Filters />}
 		</header>
 	)
-}
-
-const styles = {
-	filtersActive: " bg-primaryLight-600 text-primaryLight-50",
 }

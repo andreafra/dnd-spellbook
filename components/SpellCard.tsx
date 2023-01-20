@@ -42,7 +42,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 	return (
 		<li
-			className={`relative m-2 rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
+			className={`relative rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
 				!spell.visible ? "hidden" : ""
 			}`}
 		>
@@ -156,7 +156,7 @@ const ScrollableDescription = ({ value }) => {
 			<div
 				onScroll={_handleScroll}
 				ref={scrollDivRef}
-				className="text-gray-800 max-h-48 overflow-y-auto"
+				className="text-gray-800 hyphenate max-h-48 overflow-y-auto"
 				dangerouslySetInnerHTML={{ __html: value }}
 			></div>
 			<div

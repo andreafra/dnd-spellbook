@@ -1,16 +1,10 @@
 import Head from "next/head"
-import { useRouter } from "next/router"
 import Header from "./Header"
 import Footer from "./Footer"
 
 export function Layout({ children }) {
-	const router = useRouter()
-
-	const shouldShowFilters =
-		router.pathname === "/" || router.pathname.startsWith("/spellbooks")
-
 	return (
-		<div className="container mx-auto">
+		<>
 			<Head>
 				<title>D&D Spellbook</title>
 				<meta
@@ -19,12 +13,9 @@ export function Layout({ children }) {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-
-			<Header showFilters={shouldShowFilters} />
-
-			<main className="mx-2 space-y-4 pt-4">{children}</main>
-
+			<Header />
+			<main className="container mx-auto px-2 md:px-0">{children}</main>
 			<Footer />
-		</div>
+		</>
 	)
 }

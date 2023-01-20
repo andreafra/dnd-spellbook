@@ -82,7 +82,7 @@ function UserIsLoggedIn({ session }) {
 	})
 
 	return (
-		<section className="mx-2 space-y-4 pt-4">
+		<section className="mx-2 space-y-2 pt-4">
 			<h1 className="text-3xl font-bold">Welcome, {session.user.name}</h1>
 			<p>
 				You can create a new spellbook by clicking on the{" "}

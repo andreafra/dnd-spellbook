@@ -3,11 +3,13 @@ import { RootState } from ".."
 
 export interface SettingsState {
 	showFilters: boolean
+	enableFilters: boolean
 	errorMessage: string
 }
 
 const initialState: SettingsState = {
-	showFilters: false,
+	showFilters: true,
+	enableFilters: false,
 	errorMessage: "",
 }
 
@@ -18,13 +20,24 @@ export const settingsSlice = createSlice({
 		toggleFilterVisibility: (state) => {
 			state.showFilters = !state.showFilters
 		},
+		enableFilters: (state) => {
+			state.enableFilters = true
+		},
+		disableFilters: (state) => {
+			state.enableFilters = false
+		},
 		setErrorMessage: (state, action: PayloadAction<string>) => {
 			state.errorMessage = action.payload
 		},
 	},
 })
 
-export const { toggleFilterVisibility, setErrorMessage } = settingsSlice.actions
+export const {
+	toggleFilterVisibility,
+	enableFilters,
+	disableFilters,
+	setErrorMessage,
+} = settingsSlice.actions
 
 export const selectFilterVisibility = (state: RootState) =>
 	state.settings.showFilters

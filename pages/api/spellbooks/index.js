@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client"
 import { getSession } from "next-auth/react"
-import { parseSpellbook } from "../../../utils/parseSpellbook"
 
 const prisma = new PrismaClient()
 

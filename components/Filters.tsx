@@ -1,10 +1,11 @@
-import { useRouter } from "next/router"
+import { RefreshIcon } from "@heroicons/react/outline"
 import { useEffect, useRef, useState } from "react"
 import { useAppDispatch } from "../store"
 import { filter } from "../store/reducers/spells"
 import { capitalize } from "../utils/parseSpell"
+import { Button } from "./Button"
 
-export default function Filters({ show }): JSX.Element {
+export default function Filters(): JSX.Element {
 	const dispatch = useAppDispatch()
 
 	const defaultFilters = {
@@ -78,12 +79,15 @@ export default function Filters({ show }): JSX.Element {
 
 	return (
 		<div
-			className={`flex w-full flex-wrap items-end gap-2  bg-primaryLight-300 bg-opacity-90 p-2 shadow-md shadow-primaryLight-100 backdrop-blur-md md:flex-nowrap md:rounded-2xl ${
-				show ? "" : "hidden"
-			}`}
+			className={`container z-10 mx-auto grid w-full grid-cols-2 items-end gap-2 px-2 pb-2 md:grid-cols-6 md:px-0`}
 		>
-			<div className="flex-grow-3 w-full">
-				<label htmlFor="searchFilter">Search</label>
+			<div className="flex-grow-3 col-span-2">
+				<label
+					htmlFor="searchFilter"
+					className="pl-2 font-semibold text-primaryLight-500"
+				>
+					Search
+				</label>
 				<input
 					id="searchFilter"
 					className="h-12 w-full appearance-none rounded-xl border-none p-2 focus:outline-none"
@@ -93,13 +97,16 @@ export default function Filters({ show }): JSX.Element {
 					value={filters.name}
 				/>
 			</div>
-			<div className="flex-grow-2 w-full">
-				<label htmlFor="schoolFilter" className="mr-2">
+			<div className="">
+				<label
+					htmlFor="schoolFilter"
+					className="pl-2 font-semibold text-primaryLight-500"
+				>
 					School
 				</label>
 				<select
 					id="schoolFilter"
-					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 focus:outline-none"
+					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 px-2 focus:outline-none"
 					onChange={_filterBySchool}
 					value={filters.school}
 				>
@@ -110,13 +117,16 @@ export default function Filters({ show }): JSX.Element {
 					))}
 				</select>
 			</div>
-			<div className="flex-grow-1 w-full">
-				<label htmlFor="classFilter" className="mr-2">
+			<div className="">
+				<label
+					htmlFor="classFilter"
+					className="pl-2 font-semibold text-primaryLight-500"
+				>
 					Class
 				</label>
 				<select
 					id="classFilter"
-					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 focus:outline-none"
+					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 px-2 focus:outline-none"
 					onChange={_filterByClass}
 					value={filters.class}
 				>
@@ -127,13 +137,16 @@ export default function Filters({ show }): JSX.Element {
 					))}
 				</select>
 			</div>
-			<div className="flex-grow-1 w-full">
-				<label htmlFor="levelFilter" className="mr-2">
+			<div className="">
+				<label
+					htmlFor="levelFilter"
+					className="pl-2 font-semibold text-primaryLight-500"
+				>
 					Level
 				</label>
 				<select
 					id="levelFilter"
-					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 focus:outline-none"
+					className="h-12 w-full rounded-xl border-none bg-primaryLight-50 px-2 focus:outline-none"
 					onChange={_filterByLevel}
 					value={filters.level}
 				>
@@ -145,13 +158,13 @@ export default function Filters({ show }): JSX.Element {
 					))}
 				</select>
 			</div>
-			<div className="flex-grow-0">
-				<button
-					className="h-12 w-full justify-center rounded-xl border-2 border-primaryLight-400 px-4 transition-colors  hover:bg-primaryLight-400"
+			<div className="">
+				<Button
+					title="Reset"
+					className="w-full self-end"
 					onClick={_resetFilters}
-				>
-					Reset
-				</button>
+					icon={<RefreshIcon className="h-6 w-6 align-middle" />}
+				/>
 			</div>
 		</div>
 	)
