@@ -29,7 +29,11 @@ export function Field({ id, label, onChange, ...props }: FieldProps) {
 	}
 
 	return (
-		<div className="mr-2 inline-block align-bottom">
+		<div
+			className={`inline-block align-bottom  text-lg ${
+				props.hidden ? "hidden" : ""
+			}`}
+		>
 			<label htmlFor={id} className="block pl-4 font-bold">
 				{label}
 			</label>

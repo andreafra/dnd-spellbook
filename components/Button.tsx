@@ -9,12 +9,11 @@ type ButtonProps = CustomButtonProps & React.HTMLAttributes<HTMLButtonElement>
 const BaseButton = (props: ButtonProps) => (
 	<button
 		{...props}
-		className={`mr-2 rounded-xl border-2 py-2 px-3 font-medium  transition-colors  ${props.className}`}
-		disabled={props.disabled}
+		className={`rounded-xl border-2 py-2 pl-3 pr-4 text-lg font-medium  transition-colors  ${props.className}`}
 	>
-		{props.icon && (
-			<i className="mr-3 inline-block align-middle">{props.icon}</i>
-		)}
+		<span className="mr-2 inline-grid h-6 w-6 content-center align-middle">
+			{props.icon}
+		</span>
 		<span className="align-middle">{props.title}</span>
 	</button>
 )
@@ -22,7 +21,7 @@ const BaseButton = (props: ButtonProps) => (
 export const Button = (props: ButtonProps) => (
 	<BaseButton
 		{...props}
-		className={`border-transparent border-primaryLight-300 bg-primaryLight-50 text-primaryLight-800 active:bg-primaryLight-200 disabled:opacity-30 disabled:active:bg-transparent disabled:active:text-primaryLight-50 ${props.className}`}
+		className={` bg-primaryLight-50 text-primaryLight-800 active:bg-primaryLight-200 disabled:opacity-30 disabled:active:bg-transparent disabled:active:text-primaryLight-50 ${props.className}`}
 	/>
 )
 

@@ -96,21 +96,29 @@ function UserIsLoggedIn({ session }) {
 				button in the header.
 			</p>
 			<h2 className="text-2xl font-bold">Your account</h2>
-			<PrimaryButton
-				title="Log Out"
-				icon={<LogoutIcon className="h-6 w-6 align-middle" />}
-				onClick={() => signOut()}
-			/>
-			<Button
-				title="Download data"
-				icon={<DownloadIcon className="h-6 w-6 align-middle" />}
-				onClick={() => fetchPersonalDataQuery.refetch()}
-			/>
-			<DangerButton
-				title="Delete Account"
-				icon={<TrashIcon className="h-6 w-6 align-middle" />}
-				onClick={() => deleteAccountQuery.refetch()}
-			/>
+			<ul className="space-y-2">
+				<li>
+					<PrimaryButton
+						title="Log Out"
+						icon={<LogoutIcon className="h-6 w-6 align-middle" />}
+						onClick={() => signOut()}
+					/>
+				</li>
+				<li>
+					<Button
+						title="Download data"
+						icon={<DownloadIcon className="h-6 w-6 align-middle" />}
+						onClick={() => fetchPersonalDataQuery.refetch()}
+					/>
+				</li>
+				<li>
+					<DangerButton
+						title="Delete Account"
+						icon={<TrashIcon className="h-6 w-6 align-middle" />}
+						onClick={() => deleteAccountQuery.refetch()}
+					/>
+				</li>
+			</ul>
 		</section>
 	)
 }

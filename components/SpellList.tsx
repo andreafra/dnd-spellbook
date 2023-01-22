@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react"
+import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
 import { disableFilters, enableFilters } from "../store/reducers/settings"
 import SpellCard from "./SpellCard"
@@ -8,7 +8,7 @@ export default function SpellList() {
 	const spellIds = useAppSelector((state) => state.spellbook.spellIds) ?? []
 	const dispatch = useAppDispatch()
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		dispatch(enableFilters())
 		return () => {
 			dispatch(disableFilters())
@@ -16,7 +16,7 @@ export default function SpellList() {
 	}, [])
 
 	return (
-		<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 lg:grid-cols-4">
+		<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 xl:grid-cols-4">
 			{spells &&
 				spells.map((spell) => (
 					<SpellCard
