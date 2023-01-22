@@ -14,7 +14,9 @@ export function Layout({ children }) {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Header />
-			<main className="container mx-auto px-2 md:px-0">{children}</main>
+			<main className="container mx-auto min-h-screen px-2 md:px-0">
+				{children}
+			</main>
 			<Footer />
 		</>
 	)

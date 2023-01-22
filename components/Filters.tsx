@@ -90,7 +90,7 @@ export default function Filters(): JSX.Element {
 				</label>
 				<input
 					id="searchFilter"
-					className="h-12 w-full appearance-none rounded-xl border-none p-2 focus:outline-none"
+					className="h-12 w-full appearance-none rounded-xl border-none bg-primaryLight-50 p-2 focus:outline-none"
 					type="search"
 					onChange={_filterByName}
 					placeholder="Search..."
@@ -161,9 +161,9 @@ export default function Filters(): JSX.Element {
 			<div className="">
 				<Button
 					title="Reset"
-					className="w-full self-end"
+					className="h-12 w-full self-end border-none"
 					onClick={_resetFilters}
-					icon={<RefreshIcon className="h-6 w-6 align-middle" />}
+					icon={<RefreshIcon className="h-6 w-6" />}
 				/>
 			</div>
 		</div>

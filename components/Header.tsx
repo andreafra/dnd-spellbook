@@ -18,7 +18,7 @@ export default function Header({ showFilters = false }) {
 	const dispatch = useAppDispatch()
 
 	return (
-		<header className="sticky top-0 z-50 mx-auto w-full bg-primaryLight-300 bg-opacity-90 text-lg shadow-md shadow-primaryLight-100 backdrop-blur-md ">
+		<header className="sticky top-0 z-50 mx-auto w-full bg-primaryLight-300 text-lg shadow-md shadow-primaryLight-100">
 			<div className="container mx-auto flex justify-between px-2 py-2 md:px-0">
 				{/* Title */}
 				<div className="inline-flex flex-col self-center">
@@ -44,8 +44,10 @@ export default function Header({ showFilters = false }) {
 									}
 									className={`inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4`}
 								>
-									<FilterIcon className="inline-block h-6 w-6 self-center align-middle" />
-									<span className="ml-3 hidden self-center md:inline-block">
+									<span className="mr-2 inline-grid h-6 w-6 content-center self-center">
+										<FilterIcon className="h-6 w-6" />
+									</span>
+									<span className="hidden self-center md:inline-block">
 										Filters
 									</span>
 								</a>
@@ -56,8 +58,10 @@ export default function Header({ showFilters = false }) {
 								href="/login"
 								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
 							>
-								<UserIcon className="inline-block h-6 w-6 self-center align-middle" />
-								<span className="ml-3 hidden self-center md:inline-block">
+								<span className="mr-2 inline-grid h-6 w-6 content-center self-center">
+									<UserIcon className="h-6 w-6" />
+								</span>
+								<span className="hidden self-center md:inline-block">
 									Account
 								</span>
 							</Link>
@@ -67,8 +71,10 @@ export default function Header({ showFilters = false }) {
 								href="/spellbooks"
 								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
 							>
-								<BookmarkAltIcon className="inline-block h-6 w-6 self-center align-middle" />
-								<span className="ml-3 hidden self-center md:inline-block">
+								<span className="mr-2 inline-grid h-6 w-6 content-center self-center">
+									<BookmarkAltIcon className="h-6 w-6" />
+								</span>
+								<span className="hidden self-center md:inline-block">
 									Spellbooks
 								</span>
 							</Link>
