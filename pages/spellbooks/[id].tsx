@@ -237,13 +237,6 @@ export default function SpellbookDetail() {
 						/>
 					</div>
 				)}
-				{/* <hr className="border-t-2 border-primaryLight-300" />
-				<PrimaryButton
-					title="Add more spells"
-					icon={<PlusIcon className="h-6 w-6" />}
-					onClick={() => router.push("/")}
-					className="block"
-				/> */}
 			</section>
 			<section>
 				<SpellList showAllSpells={showAllSpells} />

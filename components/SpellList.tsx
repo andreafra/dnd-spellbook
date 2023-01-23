@@ -13,14 +13,12 @@ export default function SpellList({
 	const spellIds = useAppSelector((state) => state.spellbook.spellIds) ?? []
 	const dispatch = useAppDispatch()
 
-	let spellList = spells
-	if (!showAllSpells) {
-		spellList = spells.filter((spell) => spellIds.indexOf(spell.id) > -1)
-	}
-
-	spellList = useMemo(
+	const spellList = useMemo(
 		() =>
-			spells.filter(
+			(showAllSpells
+				? spells
+				: spells.filter((spell) => spellIds.indexOf(spell.id) > -1)
+			).filter(
 				(spell) =>
 					(filters.name === "" ||
 						spell.name
@@ -32,7 +30,7 @@ export default function SpellList({
 						spell.class.includes(filters.class)) &&
 					(filters.level < 0 || spell.level == filters.level)
 			),
-		[filters, spells]
+		[filters, spells, showAllSpells]
 	)
 
 	useEffect(() => {

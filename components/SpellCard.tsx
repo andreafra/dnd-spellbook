@@ -42,9 +42,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 	return (
 		<li
 			key={spell.id}
-			className={`relative col-span-1 flex flex-col rounded-xl border-2 border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
-				!spell.visible ? "hidden" : ""
-			} max-h-[38rem]`}
+			className={`relative col-span-1 flex max-h-[38rem] flex-col rounded-xl border-2 border-primaryLight-300  bg-primaryLight-100 p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300`}
 		>
 			<div className="flex justify-between">
 				<h3 className="inline-block self-center text-lg font-bold shadow-primaryLight-300 drop-shadow-md">
