@@ -30,7 +30,7 @@ export function Field({ id, label, onChange, ...props }: FieldProps) {
 
 	return (
 		<div
-			className={`inline-block align-bottom  text-lg ${
+			className={`inline-block w-full align-bottom text-lg md:min-w-fit ${
 				props.hidden ? "hidden" : ""
 			}`}
 		>
@@ -41,7 +41,7 @@ export function Field({ id, label, onChange, ...props }: FieldProps) {
 				name={id}
 				id={id}
 				{...props}
-				className={`rounded-xl  border-2 border-primaryLight-600 bg-primaryLight-50 py-2 px-4 font-medium text-primaryLight-800 outline-none transition-colors active:text-primaryLight-800  ${
+				className={`w-full rounded-xl border-2 border-primaryLight-600 bg-primaryLight-50 py-2 px-4 font-medium text-primaryLight-800 outline-none transition-colors active:text-primaryLight-800  ${
 					error !== ""
 						? "border-danger-500 bg-danger-50 placeholder:text-danger-300"
 						: null

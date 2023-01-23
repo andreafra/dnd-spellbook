@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button, PrimaryButton } from "../components/Button"
 import { Field } from "../components/Field"
 import { Layout } from "../components/Layout"
-import { Spellbook } from "../components/Spellbook"
+import { Spellbook, SpellbookPlaceholder } from "../components/Spellbook"
 import config from "../config"
 import { useAppDispatch } from "../store"
 import { queueMessage } from "../store/reducers/settings"
@@ -47,15 +47,28 @@ export default function Spellbooks() {
 
 	const createSpellbookMutation = useMutation(createSpellbook, {
 		onSuccess: () => {
+			dispatch(
+				queueMessage({
+					text: "Spellbook successfully created!",
+					type: "SUCCESS",
+				})
+			)
 			queryClient.invalidateQueries(FETCH_SPELLBOOKS_QUERY)
+		},
+		onError: () => {
+			dispatch(
+				queueMessage({
+					text: "Failed to create a new spellbook!",
+					type: "ERROR",
+				})
+			)
 		},
 	})
 
 	const currentSpellbookQuantity = (fetchSpellbooksQuery.data ?? []).length
 
 	const _createSpellbook = async () => {
-		dispatch(queueMessage({ text: "YO", type: "ERROR" }))
-		// createSpellbookMutation.mutate({ title: "My new spellbook" })
+		createSpellbookMutation.mutate({ title: "My new spellbook" })
 	}
 
 	if (!session)
@@ -84,31 +97,21 @@ export default function Spellbooks() {
 				</h2>
 				<PrimaryButton
 					title="New"
-					disabled={currentSpellbookQuantity >= config.maxSpellbooks}
+					disabled={
+						currentSpellbookQuantity >= config.maxSpellbooks ||
+						createSpellbookMutation.isLoading ||
+						fetchSpellbooksQuery.isLoading
+					}
 					icon={
-						<PlusIcon className="inline-block h-6 w-6 align-middle" />
+						createSpellbookMutation.isLoading ? (
+							<RefreshIcon className="inline-block h-6 w-6 animate-spin" />
+						) : (
+							<PlusIcon className="inline-block h-6 w-6" />
+						)
 					}
 					onClick={_createSpellbook}
 				/>
 			</section>
-			{/* DISPLAY THESE IN A TOAST 
-				{createSpellbookMutation.isLoading && (
-					<p className="font-bold">
-						<RefreshIcon className="mr-2 inline-block h-6 w-6 animate-spin" />
-						Creating your spellbook...
-					</p>
-				)}
-				{createSpellbookMutation.isError && (
-					<p className="font-bold text-danger-500">
-						Couldn't create new spellbook!
-					</p>
-				)}
-				{createSpellbookMutation.isSuccess && (
-					<p className="font-bold text-success-500">
-						New spellbook created!
-					</p>
-				)}
-			</section> */}
 			<section className="">
 				<SpellbookList fetchSpellbooksQuery={fetchSpellbooksQuery} />
 			</section>
@@ -117,11 +120,18 @@ export default function Spellbooks() {
 }
 
 function SpellbookList({ fetchSpellbooksQuery }) {
+	if (fetchSpellbooksQuery.isLoading)
+		return (
+			<ul className="py-2 text-center md:text-left">
+				<SpellbookPlaceholder />
+			</ul>
+		)
+
 	return (
 		<ul className="py-2 text-center md:text-left">
 			{fetchSpellbooksQuery.data &&
 				fetchSpellbooksQuery.data.map((a) => (
-					<li key={a.id}>
+					<li key={a.id} className="animate-fadeIn">
 						<Spellbook
 							title={a.title}
 							size={a.spellIds.length}
@@ -129,12 +139,6 @@ function SpellbookList({ fetchSpellbooksQuery }) {
 						/>
 					</li>
 				))}
-			{fetchSpellbooksQuery.isError && (
-				<p className="font-bold text-danger-500">
-					An error has occurred while loading spellbooks!
-				</p>
-			)}
-			{fetchSpellbooksQuery.isLoading && "Loading..."}
 		</ul>
 	)
 }

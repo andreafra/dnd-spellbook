@@ -15,7 +15,7 @@ export interface Message {
 }
 
 const initialState: SettingsState = {
-	showFilters: true,
+	showFilters: false,
 	enableFilters: false,
 	messageQueue: [],
 }
