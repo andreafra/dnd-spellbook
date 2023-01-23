@@ -41,12 +41,13 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 	return (
 		<li
-			className={`relative flex flex-col rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
+			key={spell.id}
+			className={`relative col-span-1 flex flex-col rounded-xl border-2 border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
 				!spell.visible ? "hidden" : ""
-			}`}
+			} max-h-[38rem]`}
 		>
 			<div className="flex justify-between">
-				<h3 className="inline-block self-center text-lg font-bold">
+				<h3 className="inline-block self-center text-lg font-bold shadow-primaryLight-300 drop-shadow-md">
 					{spell.name}
 				</h3>
 				<button
@@ -74,26 +75,46 @@ export default function (props: { spell: Spell; selected: boolean }) {
 				</i>
 			</p>
 			<p>
-				<b>Casting Time: </b>
+				<b className="shadow-primaryLight-300 drop-shadow-md">
+					Casting Time:{" "}
+				</b>
 				{spell.castingTime}
 			</p>
 			<p>
-				<b>Range: </b>
+				<b className="shadow-primaryLight-300 drop-shadow-md">
+					Range:{" "}
+				</b>
 				{spell.range}
 			</p>
 			<p>
-				<b>Components: </b>
-				{spell.components}
-				{spell.materials === "" ? "" : `(${spell.materials})`}
-			</p>
-			<p>
-				<b>Duration: </b>
+				<b className="shadow-primaryLight-300 drop-shadow-md">
+					Duration:{" "}
+				</b>
 				{spell.concentration
 					? `Concentration, ${spell.duration.toLowerCase()}`
 					: spell.duration}
 			</p>
 
-			<ScrollableDescription value={spell.desc} />
+			<ScrollableDescription>
+				<div>
+					<p>
+						<b className="sticky top-0 z-40 pr-1 shadow-primaryLight-300 drop-shadow-md">
+							Components:
+						</b>
+						{spell.components}{" "}
+						{spell.materials === "" ? "" : `(${spell.materials})`}
+					</p>
+				</div>
+				<div>
+					<b className="sticky top-0 z-40 block shadow-primaryLight-300 drop-shadow-md">
+						Description:
+					</b>
+					<div
+						className="text-gray-800 hyphenate indent-4"
+						dangerouslySetInnerHTML={{ __html: spell.desc }}
+					></div>
+				</div>
+			</ScrollableDescription>
 
 			<ul className="flex flex-grow flex-wrap content-end gap-1 pt-2">
 				{spell.class.map((cls) => (
@@ -123,7 +144,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 	)
 }
 
-const ScrollableDescription = ({ value }) => {
+const ScrollableDescription = ({ children }) => {
 	let scrollDivRef = useRef(null)
 	let [isStartScroll, setIsStartScroll] = useState(true)
 	let [isEndScroll, setIsEndScroll] = useState(false)
@@ -149,31 +170,21 @@ const ScrollableDescription = ({ value }) => {
 		)
 	}
 
-	// const styles = {
-	// 	abjuration: "from-abjuration-100",
-	// 	conjuration: "from-conjuration-100",
-	// 	divination: "from-divination-100",
-	// 	enchantment: "from-enchantment-100",
-	// 	evocation: "from-evocation-100",
-	// 	illusion: "from-illusion-100",
-	// 	necromancy: "from-necromancy-100",
-	// 	transmutation: "from-transmutation-100",
-	// }
-
 	return (
-		<div className="relative flex-grow indent-4">
+		<div className="relative flex-grow">
 			<div
-				className={`pointer-events-none absolute top-0 h-10 w-full bg-gradient-to-b from-primaryLight-100`}
+				className={`pointer-events-none absolute top-0 z-30 h-10 w-full bg-gradient-to-b from-primaryLight-100`}
 				hidden={isStartScroll}
 			/>
 			<div
 				onScroll={_handleScroll}
 				ref={scrollDivRef}
-				className="text-gray-800 hyphenate max-h-48 overflow-y-auto"
-				dangerouslySetInnerHTML={{ __html: value }}
-			></div>
+				className="relative max-h-48 overflow-y-auto"
+			>
+				{children}
+			</div>
 			<div
-				className={`pointer-events-none absolute bottom-0 h-10 w-full bg-gradient-to-t from-primaryLight-100`}
+				className={`pointer-events-none absolute bottom-0 z-30 h-10 w-full bg-gradient-to-t from-primaryLight-100`}
 				hidden={isEndScroll}
 			/>
 		</div>
@@ -183,7 +194,7 @@ const ScrollableDescription = ({ value }) => {
 export function SpellCardPlaceholder() {
 	return (
 		<li
-			className={`relative flex animate-pulse flex-col space-y-2 rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800`}
+			className={`relative col-span-1 flex animate-pulse flex-col space-y-2 rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800`}
 		>
 			<div className="flex justify-between">
 				<span className="block h-6 w-full self-center rounded-full bg-primaryLight-300"></span>

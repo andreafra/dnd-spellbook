@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/outline"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { useLayoutEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
@@ -154,7 +154,7 @@ export default function SpellbookDetail() {
 
 	let timeout = useRef<ReturnType<typeof setTimeout>>()
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		// Reset timeout
 		clearTimeout(timeout.current)
 
@@ -166,7 +166,7 @@ export default function SpellbookDetail() {
 		}, config.autoUploadTimeoutMilliseconds)
 	}, [spellbook.spellIds])
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		return () => {
 			if (shouldSync) {
 				_uploadSpellbook()
@@ -175,7 +175,11 @@ export default function SpellbookDetail() {
 	}, [])
 
 	if (fetchSpellbookQuery.isLoading)
-		return <p className="animate-pulse p-4 font-bold">Loading...</p>
+		return (
+			<p className="mt-4 animate-pulse p-4 text-center text-xl font-bold">
+				Loading...
+			</p>
+		)
 
 	return (
 		<>
