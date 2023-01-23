@@ -7,18 +7,14 @@ import {
 	UploadIcon,
 } from "@heroicons/react/outline"
 import axios from "axios"
-import Head from "next/head"
-import Link from "next/link"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
-import Header from "../../components/Header"
-import SpellCard from "../../components/SpellCard"
 import SpellList from "../../components/SpellList"
 import { useAppDispatch, useAppSelector } from "../../store"
-import { setErrorMessage } from "../../store/reducers/settings"
+import { queueMessage } from "../../store/reducers/settings"
 import { load, rename, reset } from "../../store/reducers/spellbook"
 import { Spellbook } from "../../types/Spellbook"
 
@@ -67,9 +63,10 @@ export default function SpellbookDetail() {
 			},
 			onError: () => {
 				dispatch(
-					setErrorMessage(
-						`Couldn't fetch spellbook from API with id ${spellbook.id}`
-					)
+					queueMessage({
+						text: `Couldn't fetch spellbook from API with id ${spellbook.id}`,
+						type: "ERROR",
+					})
 				)
 			},
 			enabled: !!spellbookId,
@@ -133,7 +130,7 @@ export default function SpellbookDetail() {
 
 	if (fetchSpellbookQuery.isError)
 		return (
-			<p className="font-bold text-red-500">
+			<p className="font-bold text-danger-500">
 				Couldn't find that spellbook!
 				<br />
 				Perhaps it's been deleted, or you don't have permission to view
@@ -215,17 +212,17 @@ export default function SpellbookDetail() {
 					</p>
 				)}
 				{updateSpellbookMutation.isError && (
-					<p className="font-bold text-red-500">
+					<p className="font-bold text-danger-500">
 						Couldn't update your spellbook!
 					</p>
 				)}
 				{deleteSpellbookQuery.isError && (
-					<p className="font-bold text-red-500">
+					<p className="font-bold text-danger-500">
 						Couldn't delete your spellbook!
 					</p>
 				)}
 				{updateSpellbookMutation.isSuccess && (
-					<p className="font-bold text-green-500">
+					<p className="font-bold text-success-500">
 						Your spellbook has been updated!
 					</p>
 				)}

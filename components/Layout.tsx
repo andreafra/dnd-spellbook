@@ -1,6 +1,7 @@
 import Head from "next/head"
 import Header from "./Header"
 import Footer from "./Footer"
+import ToastProvider from "./Toast"
 
 export function Layout({ children }) {
 	return (
@@ -18,6 +19,7 @@ export function Layout({ children }) {
 				{children}
 			</main>
 			<Footer />
+			<ToastProvider />
 		</>
 	)
 }

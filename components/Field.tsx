@@ -43,12 +43,12 @@ export function Field({ id, label, onChange, ...props }: FieldProps) {
 				{...props}
 				className={`rounded-xl  border-2 border-primaryLight-600 bg-primaryLight-50 py-2 px-4 font-medium text-primaryLight-800 outline-none transition-colors active:text-primaryLight-800  ${
 					error !== ""
-						? "border-red-500 bg-red-50 placeholder:text-red-300"
+						? "border-danger-500 bg-danger-50 placeholder:text-danger-300"
 						: null
 				}`}
 				onChange={_handleOnChange}
 			/>
-			<p className="pl-4 text-sm text-red-600" hidden={error === null}>
+			<p className="pl-4 text-sm text-danger-600" hidden={error === null}>
 				{error}
 			</p>
 		</div>

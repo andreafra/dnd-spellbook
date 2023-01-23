@@ -35,6 +35,6 @@ export const PrimaryButton = (props: ButtonProps) => (
 export const DangerButton = (props: ButtonProps) => (
 	<BaseButton
 		{...props}
-		className={`border-red-800 bg-red-200 text-red-800 active:bg-red-800 active:text-red-200 disabled:opacity-30 disabled:active:bg-red-200 disabled:active:text-red-800`}
+		className={`border-danger-800 bg-danger-200 text-danger-800 active:bg-danger-800 active:text-danger-200 disabled:opacity-30 disabled:active:bg-danger-200 disabled:active:text-danger-800`}
 	/>
 )

@@ -44,7 +44,7 @@ export default function Header({ showFilters = false }) {
 									}
 									className={`inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4`}
 								>
-									<span className="mr-2 inline-grid h-6 w-6 content-center self-center">
+									<span className="inline-grid h-6 w-6 content-center self-center md:mr-2">
 										<FilterIcon className="h-6 w-6" />
 									</span>
 									<span className="hidden self-center md:inline-block">
@@ -58,7 +58,7 @@ export default function Header({ showFilters = false }) {
 								href="/login"
 								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
 							>
-								<span className="mr-2 inline-grid h-6 w-6 content-center self-center">
+								<span className="inline-grid h-6 w-6 content-center self-center md:mr-2">
 									<UserIcon className="h-6 w-6" />
 								</span>
 								<span className="hidden self-center md:inline-block">
@@ -71,7 +71,7 @@ export default function Header({ showFilters = false }) {
 								href="/spellbooks"
 								className="inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
 							>
-								<span className="mr-2 inline-grid h-6 w-6 content-center self-center">
+								<span className="inline-grid h-6 w-6 content-center self-center md:mr-2">
 									<BookmarkAltIcon className="h-6 w-6" />
 								</span>
 								<span className="hidden self-center md:inline-block">
