@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query"
 import { Provider } from "react-redux"
 import { Layout } from "../components/Layout"
 import { store, useAppDispatch, useAppSelector } from "../store"
-import { load } from "../store/reducers/spells"
+import { loadSpells } from "../store/reducers/spells"
 import "../styles/globals.css"
 import { fetchSpells } from "../utils/fetchSpell"
 
@@ -41,14 +41,14 @@ export default function App({
  * A component that requests the spell list and loads it into the Redux Store
  */
 function SpellLoader() {
-	const spells = useAppSelector((state) => state.spells)
+	const spells = useAppSelector((state) => state.spellStore.spells)
 	const dispatch = useAppDispatch()
 
 	const { data } = useQuery("spellRawData", () => fetchSpells())
 
 	useEffect(() => {
 		// When data is ready, update the spell store
-		if (data && spells.length === 0) dispatch(load(data))
+		if (data && spells.length === 0) dispatch(loadSpells(data))
 	}, [data])
 
 	return null

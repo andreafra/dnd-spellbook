@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
 import { disableFilters, enableFilters } from "../store/reducers/settings"
 import SpellCard, { SpellCardPlaceholder } from "./SpellCard"
@@ -8,7 +8,8 @@ export default function SpellList({
 }: {
 	showAllSpells?: boolean
 }) {
-	const spells = useAppSelector((state) => state.spells)
+	const spells = useAppSelector((state) => state.spellStore.spells)
+	const filters = useAppSelector((state) => state.spellStore.filters)
 	const spellIds = useAppSelector((state) => state.spellbook.spellIds) ?? []
 	const dispatch = useAppDispatch()
 
@@ -16,6 +17,23 @@ export default function SpellList({
 	if (!showAllSpells) {
 		spellList = spells.filter((spell) => spellIds.indexOf(spell.id) > -1)
 	}
+
+	spellList = useMemo(
+		() =>
+			spells.filter(
+				(spell) =>
+					(filters.name === "" ||
+						spell.name
+							.toLowerCase()
+							.includes(filters.name.toLowerCase())) &&
+					(filters.school === "ANY" ||
+						spell.school === filters.school) &&
+					(filters.class === "ANY" ||
+						spell.class.includes(filters.class)) &&
+					(filters.level < 0 || spell.level == filters.level)
+			),
+		[filters, spells]
+	)
 
 	useEffect(() => {
 		dispatch(enableFilters())

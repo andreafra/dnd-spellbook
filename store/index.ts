@@ -6,7 +6,7 @@ import spellReducer from "./reducers/spells"
 
 export const store = configureStore({
 	reducer: {
-		spells: spellReducer,
+		spellStore: spellReducer,
 		spellbook: spellbookReducer,
 		settings: settingsReducer,
 	},
