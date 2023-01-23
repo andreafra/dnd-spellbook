@@ -10,7 +10,7 @@ import { Layout } from "../components/Layout"
 import { Spellbook } from "../components/Spellbook"
 import config from "../config"
 import { useAppDispatch } from "../store"
-import { setErrorMessage } from "../store/reducers/settings"
+import { queueMessage } from "../store/reducers/settings"
 import { Spellbook as TSpellbook } from "../types/Spellbook"
 
 const FETCH_SPELLBOOKS_QUERY = "fetchSpellbooks"
@@ -36,7 +36,10 @@ export default function Spellbooks() {
 		{
 			onError: () => {
 				dispatch(
-					setErrorMessage("Couldn't fetch user spellbooks from API.")
+					queueMessage({
+						text: "Couldn't fetch user spellbooks from API.",
+						type: "ERROR",
+					})
 				)
 			},
 		}
@@ -51,7 +54,8 @@ export default function Spellbooks() {
 	const currentSpellbookQuantity = (fetchSpellbooksQuery.data ?? []).length
 
 	const _createSpellbook = async () => {
-		createSpellbookMutation.mutate({ title: "My new spellbook" })
+		dispatch(queueMessage({ text: "YO", type: "ERROR" }))
+		// createSpellbookMutation.mutate({ title: "My new spellbook" })
 	}
 
 	if (!session)
@@ -95,12 +99,12 @@ export default function Spellbooks() {
 					</p>
 				)}
 				{createSpellbookMutation.isError && (
-					<p className="font-bold text-red-500">
+					<p className="font-bold text-danger-500">
 						Couldn't create new spellbook!
 					</p>
 				)}
 				{createSpellbookMutation.isSuccess && (
-					<p className="font-bold text-green-500">
+					<p className="font-bold text-success-500">
 						New spellbook created!
 					</p>
 				)}
@@ -117,17 +121,16 @@ function SpellbookList({ fetchSpellbooksQuery }) {
 		<ul className="py-2 text-center md:text-left">
 			{fetchSpellbooksQuery.data &&
 				fetchSpellbooksQuery.data.map((a) => (
-					<li>
+					<li key={a.id}>
 						<Spellbook
 							title={a.title}
 							size={a.spellIds.length}
-							key={a.id}
 							id={a.id}
 						/>
 					</li>
 				))}
 			{fetchSpellbooksQuery.isError && (
-				<p className="font-bold text-red-500">
+				<p className="font-bold text-danger-500">
 					An error has occurred while loading spellbooks!
 				</p>
 			)}

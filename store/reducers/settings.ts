@@ -4,13 +4,20 @@ import { RootState } from ".."
 export interface SettingsState {
 	showFilters: boolean
 	enableFilters: boolean
-	errorMessage: string
+	messageQueue: Message[]
+}
+
+export type MessageType = "ERROR" | "WARNING" | "SUCCESS" | "PRIMARY"
+
+export interface Message {
+	text: string
+	type: MessageType
 }
 
 const initialState: SettingsState = {
 	showFilters: true,
 	enableFilters: false,
-	errorMessage: "",
+	messageQueue: [],
 }
 
 export const settingsSlice = createSlice({
@@ -26,8 +33,11 @@ export const settingsSlice = createSlice({
 		disableFilters: (state) => {
 			state.enableFilters = false
 		},
-		setErrorMessage: (state, action: PayloadAction<string>) => {
-			state.errorMessage = action.payload
+		queueMessage: (state, action: PayloadAction<Message>) => {
+			state.messageQueue.push(action.payload)
+		},
+		dequeueMessage: (state, action: PayloadAction<number>) => {
+			state.messageQueue.splice(action.payload, 1)
 		},
 	},
 })
@@ -36,12 +46,13 @@ export const {
 	toggleFilterVisibility,
 	enableFilters,
 	disableFilters,
-	setErrorMessage,
+	queueMessage,
+	dequeueMessage,
 } = settingsSlice.actions
 
 export const selectFilterVisibility = (state: RootState) =>
 	state.settings.showFilters
 export const selectErrorMessage = (state: RootState) =>
-	state.settings.errorMessage
+	state.settings.messageQueue
 
 export default settingsSlice.reducer

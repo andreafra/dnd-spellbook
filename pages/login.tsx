@@ -11,7 +11,7 @@ import Link from "next/link"
 import { useQuery } from "react-query"
 import { Button, DangerButton, PrimaryButton } from "../components/Button"
 import { useAppDispatch } from "../store"
-import { setErrorMessage } from "../store/reducers/settings"
+import { queueMessage } from "../store/reducers/settings"
 
 export default function Login() {
 	const { data: session } = useSession()
@@ -58,7 +58,12 @@ function UserIsLoggedIn({ session }) {
 				window.open(downloadLink)
 			},
 			onError: () => {
-				dispatch(setErrorMessage(`Couldn't fetch personal data!`))
+				dispatch(
+					queueMessage({
+						text: `Couldn't fetch personal data!`,
+						type: "ERROR",
+					})
+				)
 			},
 			enabled: false,
 			retry: false,
@@ -75,7 +80,12 @@ function UserIsLoggedIn({ session }) {
 			signOut()
 		},
 		onError: () => {
-			dispatch(setErrorMessage(`Couldn't delete your account!`))
+			dispatch(
+				queueMessage({
+					text: `Couldn't delete your account!`,
+					type: "ERROR",
+				})
+			)
 		},
 		enabled: false,
 		retry: false,
