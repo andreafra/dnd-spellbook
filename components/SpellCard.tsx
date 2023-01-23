@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../store"
 import { add, remove } from "../store/reducers/spellbook"
 import { capitalize, getLevelSuffix, getSchoolName } from "../utils/parseSpell"
 import { Spell } from "../types/Spell"
+import { filter } from "../store/reducers/spells"
 
 export default function (props: { spell: Spell; selected: boolean }) {
 	const spell = props.spell
@@ -14,12 +15,10 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 	const dispatch = useAppDispatch()
 
-	function _handleSpellbookButton() {
+	function _clickBookmarkButton() {
 		if (isSelected) dispatch(remove(spell.id))
 		else dispatch(add(spell.id))
 	}
-
-	const school = spell.school.toLowerCase()
 
 	const styles = {
 		abjuration:
@@ -42,7 +41,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 	return (
 		<li
-			className={`relative rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
+			className={`relative flex flex-col rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300 ${
 				!spell.visible ? "hidden" : ""
 			}`}
 		>
@@ -54,7 +53,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 					className={`inline-flex aspect-square h-10 w-10 justify-center self-start rounded-full border-2 border-primaryLight-300 bg-primaryLight-200 text-primaryLight-500 transition-colors hover:border-primaryLight-600 hover:text-primaryLight-800 ${
 						spellbook.id.length < 1 && "hidden"
 					}`}
-					onClick={_handleSpellbookButton}
+					onClick={_clickBookmarkButton}
 				>
 					<span className="h-full w-full self-center text-2xl">
 						{isSelected ? (
@@ -96,13 +95,27 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 			<ScrollableDescription value={spell.desc} />
 
-			<ul className="flex flex-wrap gap-1 py-2">
+			<ul className="flex flex-grow flex-wrap content-end gap-1 pt-2">
 				{spell.class.map((cls) => (
-					<li
-						key={cls}
-						className="inline-block rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"
-					>
-						{capitalize(cls)}
+					<li key={cls} className="inline-block ">
+						<a
+							title={`Filter by class '${cls}'`}
+							className="block cursor-pointer rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900 "
+							onClick={
+								() => {}
+								// TODO: Fix by having filters in the global state
+								// dispatch(
+								// 	filter({
+								// 		level: -1,
+								// 		name: "ANY",
+								// 		school: "ANY",
+								// 		class: cls.toUpperCase(),
+								// 	})
+								// )
+							}
+						>
+							{capitalize(cls)}
+						</a>
 					</li>
 				))}
 			</ul>
@@ -148,7 +161,7 @@ const ScrollableDescription = ({ value }) => {
 	// }
 
 	return (
-		<div className="relative indent-4 ">
+		<div className="relative flex-grow indent-4">
 			<div
 				className={`pointer-events-none absolute top-0 h-10 w-full bg-gradient-to-b from-primaryLight-100`}
 				hidden={isStartScroll}
@@ -164,5 +177,40 @@ const ScrollableDescription = ({ value }) => {
 				hidden={isEndScroll}
 			/>
 		</div>
+	)
+}
+
+export function SpellCardPlaceholder() {
+	return (
+		<li
+			className={`relative flex animate-pulse flex-col space-y-2 rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800`}
+		>
+			<div className="flex justify-between">
+				<span className="block h-6 w-full self-center rounded-full bg-primaryLight-300"></span>
+			</div>
+			<span className="block h-4 w-36 rounded-full bg-primaryLight-300"></span>
+			<span className="block h-4 w-24 rounded-full bg-primaryLight-300"></span>
+			<span className="block h-4 w-28 rounded-full bg-primaryLight-300"></span>
+			<span className="block h-4 w-16 rounded-full bg-primaryLight-300"></span>
+			<span className="block h-4 w-20 rounded-full bg-primaryLight-300"></span>
+
+			<div className="grid grid-cols-12 gap-1">
+				<span className="col-span-4 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-2 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-7 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-5 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-5 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-2 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+			</div>
+
+			<ul className="flex flex-grow flex-wrap content-end gap-1 py-2">
+				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"></li>
+				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"></li>
+				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"></li>
+			</ul>
+		</li>
 	)
 }

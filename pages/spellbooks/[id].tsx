@@ -1,18 +1,18 @@
 import {
-	DownloadIcon,
+	EyeIcon,
+	EyeOffIcon,
 	PencilIcon,
-	PlusIcon,
-	RefreshIcon,
 	TrashIcon,
-	UploadIcon,
+	XIcon,
 } from "@heroicons/react/outline"
 import axios from "axios"
 import { useRouter } from "next/router"
-import { useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import { Button, DangerButton, PrimaryButton } from "../../components/Button"
 import { Field } from "../../components/Field"
 import SpellList from "../../components/SpellList"
+import config from "../../config"
 import { useAppDispatch, useAppSelector } from "../../store"
 import { queueMessage } from "../../store/reducers/settings"
 import { load, rename, reset } from "../../store/reducers/spellbook"
@@ -23,17 +23,15 @@ const DELETE_SPELLBOOK_QUERY = "deleteSpellbook"
 
 export default function SpellbookDetail() {
 	const queryClient = useQueryClient()
-
-	const spells = useAppSelector((state) => state.spells)
 	const spellbook = useAppSelector((state) => state.spellbook)
 	const dispatch = useAppDispatch()
+	const router = useRouter()
 
 	const [isEdit, setIsEdit] = useState(false)
 	const [overwriteLocalData, setOverwriteLocalData] = useState(false)
-
 	const [title, setTitle] = useState(spellbook.title)
+	const [showAllSpells, setShowAllSpells] = useState(false)
 
-	const router = useRouter()
 	const { id: spellbookId } = router.query
 
 	const fetchSpellbook = async () => {
@@ -82,13 +80,35 @@ export default function SpellbookDetail() {
 				dispatch(reset())
 				router.push("/spellbooks")
 			},
+			onError: () => {
+				dispatch(
+					queueMessage({
+						text: "Failed to delete spellbook!",
+						type: "ERROR",
+					})
+				)
+			},
 			enabled: false,
 		}
 	)
 
 	const updateSpellbookMutation = useMutation(updateSpellbook, {
 		onSuccess: () => {
+			dispatch(
+				queueMessage({
+					text: "Spellbook updated successfully!",
+					type: "SUCCESS",
+				})
+			)
 			queryClient.invalidateQueries(FETCH_SPELLBOOK_QUERY)
+		},
+		onError: () => {
+			dispatch(
+				queueMessage({
+					text: "Failed to update spellbook!",
+					type: "ERROR",
+				})
+			)
 		},
 	})
 
@@ -96,25 +116,32 @@ export default function SpellbookDetail() {
 
 	const _handleRename = () => {
 		dispatch(rename(title))
+		dispatch(
+			queueMessage({ text: "Updating spellbook...", type: "PRIMARY" })
+		)
 		// update title on remote
 		updateSpellbookMutation.mutate({ ...spellbook, title } as Spellbook)
 		setIsEdit(false)
 	}
 
-	const _handleUpload = () => {
+	const _uploadSpellbook = () => {
+		dispatch(
+			queueMessage({
+				text: "Uploading spellbook...",
+				type: "PRIMARY",
+			})
+		)
 		updateSpellbookMutation.mutate({
 			...spellbook,
 			spellIds: spellbook.spellIds,
 		} as Spellbook)
 	}
 
-	const _handleDownload = () => {
-		setOverwriteLocalData(true)
-		fetchSpellbookQuery.refetch()
-	}
-
-	const _handleDelete = () => {
+	const _deleteSpellbook = () => {
 		if (confirm(`Delete spellbook "${spellbook.title}"?`)) {
+			dispatch(
+				queueMessage({ text: "Deleting spellbook...", type: "PRIMARY" })
+			)
 			deleteSpellbookQuery.refetch()
 		}
 	}
@@ -125,25 +152,37 @@ export default function SpellbookDetail() {
 		spellbook.spellIds.toString() !==
 			fetchSpellbookQuery.data.spellIds.toString()
 
-	if (fetchSpellbookQuery.isLoading)
-		return <p className="animate-pulse font-bold">Loading...</p>
+	let timeout = useRef<ReturnType<typeof setTimeout>>()
 
-	if (fetchSpellbookQuery.isError)
-		return (
-			<p className="font-bold text-danger-500">
-				Couldn't find that spellbook!
-				<br />
-				Perhaps it's been deleted, or you don't have permission to view
-				it.
-			</p>
-		)
+	useLayoutEffect(() => {
+		// Reset timeout
+		clearTimeout(timeout.current)
+
+		// After a moment from last input, dispatch search
+		timeout.current = setTimeout(() => {
+			if (shouldSync) {
+				_uploadSpellbook()
+			}
+		}, config.autoUploadTimeoutMilliseconds)
+	}, [spellbook.spellIds])
+
+	useLayoutEffect(() => {
+		return () => {
+			if (shouldSync) {
+				_uploadSpellbook()
+			}
+		}
+	}, [])
+
+	if (fetchSpellbookQuery.isLoading)
+		return <p className="animate-pulse p-4 font-bold">Loading...</p>
 
 	return (
 		<>
-			<section className="space-y-2">
+			<section className="mt-4 mb-2 space-y-2 md:mt-6">
 				{isEdit ? (
-					<>
-						<div className="space-y-2">
+					<div className="grid grow grid-cols-2 gap-2 md:max-w-fit">
+						<div className="col-span-2">
 							<Field
 								label="New title"
 								id="title"
@@ -152,87 +191,59 @@ export default function SpellbookDetail() {
 								onChange={(value) => setTitle(value)}
 								placeholder="Spellbook title"
 							/>
-							<PrimaryButton
-								title="Rename"
-								onClick={_handleRename}
-								icon={<PencilIcon className="h-6 w-6" />}
-								disabled={!canRename}
-							/>
-							<Button
-								title="Cancel"
-								onClick={() => setIsEdit(false)}
-							/>
 						</div>
-						<div>
-							<DangerButton
-								title="Delete"
-								onClick={_handleDelete}
-								icon={<TrashIcon className="h-6 w-6" />}
-							/>
-						</div>
-					</>
+						<PrimaryButton
+							title="Rename"
+							onClick={_handleRename}
+							icon={<PencilIcon className="h-6 w-6" />}
+							disabled={!canRename}
+						/>
+						<DangerButton
+							title="Delete"
+							onClick={_deleteSpellbook}
+							icon={<TrashIcon className="h-6 w-6" />}
+							className="col-span-1"
+						/>
+						<Button
+							title="Cancel"
+							icon={<XIcon className="h-6 w-6" />}
+							className="col-span-2"
+							onClick={() => setIsEdit(false)}
+						/>
+					</div>
 				) : (
-					<>
-						<h2 className="inline-block py-2 text-2xl font-bold">
-							{spellbook.title}
-						</h2>
-						<a
+					<div className="grid grid-cols-2 gap-2 md:max-w-fit">
+						<Button
+							title="Edit"
+							className="w-full"
+							icon={<PencilIcon className="h-6 w-6" />}
 							onClick={() => setIsEdit(true)}
-							className="ml-3 inline-block cursor-pointer text-lg underline"
-						>
-							Edit
-						</a>
-					</>
-				)}
-
-				{shouldSync ? (
-					<>
-						<p>
-							Your local spellbook is different from the one in
-							the cloud.
-						</p>
-						<PrimaryButton
-							title="Upload"
-							icon={<UploadIcon className="h-6 w-6" />}
-							onClick={_handleUpload}
 						/>
-						<PrimaryButton
-							title="Download"
-							icon={<DownloadIcon className="h-6 w-6" />}
-							onClick={_handleDownload}
+						<Button
+							title="All Spells"
+							className="w-full"
+							icon={
+								showAllSpells ? (
+									<EyeOffIcon className="h-6 w-6" />
+								) : (
+									<EyeIcon className="h-6 w-6" />
+								)
+							}
+							onClick={() => setShowAllSpells(!showAllSpells)}
 						/>
-					</>
-				) : (
-					<p>Your local spellbook is up to date.</p>
+					</div>
 				)}
-				{updateSpellbookMutation.isLoading && (
-					<p className="font-bold">
-						<RefreshIcon className="mr-2 inline-block h-6 w-6 animate-spin" />
-						Syncing your spellbook...
-					</p>
-				)}
-				{updateSpellbookMutation.isError && (
-					<p className="font-bold text-danger-500">
-						Couldn't update your spellbook!
-					</p>
-				)}
-				{deleteSpellbookQuery.isError && (
-					<p className="font-bold text-danger-500">
-						Couldn't delete your spellbook!
-					</p>
-				)}
-				{updateSpellbookMutation.isSuccess && (
-					<p className="font-bold text-success-500">
-						Your spellbook has been updated!
-					</p>
-				)}
+				{/* <hr className="border-t-2 border-primaryLight-300" />
 				<PrimaryButton
 					title="Add more spells"
 					icon={<PlusIcon className="h-6 w-6" />}
 					onClick={() => router.push("/")}
-				/>
+					className="block"
+				/> */}
 			</section>
-			<SpellList />
+			<section>
+				<SpellList showAllSpells={showAllSpells} />
+			</section>
 		</>
 	)
 }

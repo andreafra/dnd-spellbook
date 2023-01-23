@@ -22,16 +22,18 @@ export default function App({
 	pageProps: { session, ...pageProps },
 }) {
 	return (
-		<SessionProvider session={session}>
-			<QueryClientProvider client={queryClient}>
-				<Provider store={store}>
-					<Layout>
-						<SpellLoader />
-						<Component {...pageProps} />
-					</Layout>
-				</Provider>
-			</QueryClientProvider>
-		</SessionProvider>
+		<div className="text-primaryLight-900">
+			<SessionProvider session={session}>
+				<QueryClientProvider client={queryClient}>
+					<Provider store={store}>
+						<Layout>
+							<SpellLoader />
+							<Component {...pageProps} />
+						</Layout>
+					</Provider>
+				</QueryClientProvider>
+			</SessionProvider>
+		</div>
 	)
 }
 
