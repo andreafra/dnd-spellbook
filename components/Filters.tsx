@@ -17,7 +17,7 @@ export default function Filters(): JSX.Element {
 	}
 
 	// Search timer
-	let timeout = useRef<ReturnType<typeof setTimeout>>()
+	const timeout = useRef<ReturnType<typeof setTimeout>>()
 
 	const SCHOOLS = [
 		"ANY",
@@ -78,7 +78,7 @@ export default function Filters(): JSX.Element {
 
 	return (
 		<div
-			className={`container z-10 mx-auto grid w-full grid-cols-2 items-end gap-2 px-2 pb-2 md:grid-cols-6 md:px-0`}
+			className={"container z-10 mx-auto grid w-full grid-cols-2 items-end gap-2 px-2 pb-2 md:grid-cols-6 md:px-0"}
 		>
 			<div className="flex-grow-3 col-span-2">
 				<label

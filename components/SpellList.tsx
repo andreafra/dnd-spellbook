@@ -28,7 +28,7 @@ export default function SpellList({
 						spell.school === filters.school) &&
 					(filters.class === "ANY" ||
 						spell.class.includes(filters.class)) &&
-					(filters.level < 0 || spell.level == filters.level)
+					(filters.level < 0 || spell.level === filters.level)
 			),
 		[filters, spells, showAllSpells]
 	)
@@ -40,14 +40,14 @@ export default function SpellList({
 		}
 	}, [])
 
-	if (!spells)
-		return (
-			<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 xl:grid-cols-4">
-				<SpellCardPlaceholder />
-				<SpellCardPlaceholder />
-				<SpellCardPlaceholder />
-			</div>
-		)
+	// if (!spells)
+	// 	return (
+	// 		<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 xl:grid-cols-4">
+	// 			<SpellCardPlaceholder />
+	// 			<SpellCardPlaceholder />
+	// 			<SpellCardPlaceholder />
+	// 		</div>
+	// 	)
 
 	return (
 		<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 xl:grid-cols-4">

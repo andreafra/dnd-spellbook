@@ -36,11 +36,11 @@ export default function Header({ showFilters = false }) {
 					<ul className="space-x-2">
 						{settings.enableFilters && (
 							<li className="inline-block">
-								<a
+								<button
 									onClick={() =>
 										dispatch(toggleFilterVisibility())
 									}
-									className={`inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4`}
+									className={"inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"}
 								>
 									<span className="inline-grid h-6 w-6 content-center self-center md:mr-2">
 										<FilterIcon className="h-6 w-6" />
@@ -48,7 +48,7 @@ export default function Header({ showFilters = false }) {
 									<span className="hidden self-center md:inline-block">
 										Filters
 									</span>
-								</a>
+								</button>
 							</li>
 						)}
 						<li className="inline-block">

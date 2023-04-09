@@ -12,6 +12,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 
 	// TODO: add store spellbook, if no spellbook, not selecteable
 	const spellbook = useAppSelector((state) => state.spellbook)
+	const filters = useAppSelector((state) => state.spellStore.filters)
 
 	const dispatch = useAppDispatch()
 
@@ -42,7 +43,7 @@ export default function (props: { spell: Spell; selected: boolean }) {
 	return (
 		<li
 			key={spell.id}
-			className={`relative col-span-1 flex max-h-[38rem] flex-col rounded-xl border-2 border-primaryLight-300  bg-primaryLight-100 p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300`}
+			className={"relative col-span-1 flex max-h-[38rem] flex-col rounded-xl border-2 border-primaryLight-300  bg-primaryLight-100 p-4 text-base text-primaryLight-800 transition-colors hover:border-primaryLight-600 hover:shadow-primaryLight-300"}
 		>
 			<div className="flex justify-between">
 				<h3 className="inline-block self-center text-lg font-bold shadow-primaryLight-300 drop-shadow-md">
@@ -109,32 +110,24 @@ export default function (props: { spell: Spell; selected: boolean }) {
 					</b>
 					<div
 						className="text-gray-800 hyphenate indent-4"
+						// rome-ignore lint/security/noDangerouslySetInnerHtml: the input is not editable anyway
 						dangerouslySetInnerHTML={{ __html: spell.desc }}
-					></div>
+					/>
 				</div>
 			</ScrollableDescription>
 
 			<ul className="flex flex-grow flex-wrap content-end gap-1 pt-2">
 				{spell.class.map((cls) => (
 					<li key={cls} className="inline-block ">
-						<a
+						<button
 							title={`Filter by class '${cls}'`}
 							className="block cursor-pointer rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900 "
 							onClick={
-								() => {}
-								// TODO: Fix by having filters in the global state
-								// dispatch(
-								// 	filter({
-								// 		level: -1,
-								// 		name: "ANY",
-								// 		school: "ANY",
-								// 		class: cls.toUpperCase(),
-								// 	})
-								// )
+								() => dispatch(filter({ ...filters, class: cls }))
 							}
 						>
 							{capitalize(cls)}
-						</a>
+						</button>
 					</li>
 				))}
 			</ul>
@@ -143,9 +136,9 @@ export default function (props: { spell: Spell; selected: boolean }) {
 }
 
 const ScrollableDescription = ({ children }) => {
-	let scrollDivRef = useRef(null)
-	let [isStartScroll, setIsStartScroll] = useState(true)
-	let [isEndScroll, setIsEndScroll] = useState(false)
+	const scrollDivRef = useRef(null)
+	const [isStartScroll, setIsStartScroll] = useState(true)
+	const [isEndScroll, setIsEndScroll] = useState(false)
 
 	useEffect(() => {
 		setIsEndScroll(
@@ -171,7 +164,7 @@ const ScrollableDescription = ({ children }) => {
 	return (
 		<div className="relative flex-grow">
 			<div
-				className={`pointer-events-none absolute top-0 z-30 h-10 w-full bg-gradient-to-b from-primaryLight-100`}
+				className={"pointer-events-none absolute top-0 z-30 h-10 w-full bg-gradient-to-b from-primaryLight-100"}
 				hidden={isStartScroll}
 			/>
 			<div
@@ -182,7 +175,7 @@ const ScrollableDescription = ({ children }) => {
 				{children}
 			</div>
 			<div
-				className={`pointer-events-none absolute bottom-0 z-30 h-10 w-full bg-gradient-to-t from-primaryLight-100`}
+				className={"pointer-events-none absolute bottom-0 z-30 h-10 w-full bg-gradient-to-t from-primaryLight-100"}
 				hidden={isEndScroll}
 			/>
 		</div>
@@ -192,33 +185,33 @@ const ScrollableDescription = ({ children }) => {
 export function SpellCardPlaceholder() {
 	return (
 		<li
-			className={`relative col-span-1 flex animate-pulse flex-col space-y-2 rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800`}
+			className={"relative col-span-1 flex animate-pulse flex-col space-y-2 rounded-xl border-2  border-primaryLight-300 bg-primaryLight-100  p-4 text-base text-primaryLight-800"}
 		>
 			<div className="flex justify-between">
-				<span className="block h-6 w-full self-center rounded-full bg-primaryLight-300"></span>
+				<span className="block h-6 w-full self-center rounded-full bg-primaryLight-300" />
 			</div>
-			<span className="block h-4 w-36 rounded-full bg-primaryLight-300"></span>
-			<span className="block h-4 w-24 rounded-full bg-primaryLight-300"></span>
-			<span className="block h-4 w-28 rounded-full bg-primaryLight-300"></span>
-			<span className="block h-4 w-16 rounded-full bg-primaryLight-300"></span>
-			<span className="block h-4 w-20 rounded-full bg-primaryLight-300"></span>
+			<span className="block h-4 w-36 rounded-full bg-primaryLight-300" />
+			<span className="block h-4 w-24 rounded-full bg-primaryLight-300" />
+			<span className="block h-4 w-28 rounded-full bg-primaryLight-300" />
+			<span className="block h-4 w-16 rounded-full bg-primaryLight-300" />
+			<span className="block h-4 w-20 rounded-full bg-primaryLight-300" />
 
 			<div className="grid grid-cols-12 gap-1">
-				<span className="col-span-4 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-2 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-7 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-5 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-5 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300"></span>
-				<span className="col-span-2 inline-block h-3 rounded-full bg-primaryLight-300"></span>
+				<span className="col-span-4 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-2 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-7 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-5 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-5 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-3 inline-block h-3 rounded-full bg-primaryLight-300" />
+				<span className="col-span-2 inline-block h-3 rounded-full bg-primaryLight-300" />
 			</div>
 
 			<ul className="flex flex-grow flex-wrap content-end gap-1 py-2">
-				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"></li>
-				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"></li>
-				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900"></li>
+				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900" />
+				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900" />
+				<li className="inline-block h-6 w-16 rounded-full bg-primaryLight-300 px-2 py-0.5 text-primaryLight-900" />
 			</ul>
 		</li>
 	)
