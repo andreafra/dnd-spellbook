@@ -2,11 +2,8 @@ import { RefreshIcon } from "@heroicons/react/outline"
 import { PlusIcon } from "@heroicons/react/solid"
 import axios from "axios"
 import { useSession } from "next-auth/react"
-import { Suspense, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "react-query"
-import { Button, PrimaryButton } from "../components/Button"
-import { Field } from "../components/Field"
-import { Layout } from "../components/Layout"
+import { PrimaryButton } from "../components/Button"
 import { Spellbook, SpellbookPlaceholder } from "../components/Spellbook"
 import config from "../config"
 import { useAppDispatch } from "../store"
@@ -75,7 +72,7 @@ export default function Spellbooks() {
 		return (
 			<section className="space-y-2 py-2 text-center">
 				<h1 className="py-4 text-2xl font-bold">
-					Sorry, you need to login to access this feature!
+					Please login to access this feature!
 				</h1>
 				<p>It's quick and easy and only essential data is collected.</p>
 			</section>
