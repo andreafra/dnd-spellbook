@@ -7,3 +7,7 @@
 .hyphenate p {
 	hyphens: auto;
 }
+
+.full-h-minus-header {
+	min-height: calc(100vh - 61px);
+}

@@ -2,14 +2,14 @@ import { CodeIcon, DocumentIcon } from "@heroicons/react/outline"
 
 export default function Footer() {
 	return (
-		<footer className="mx-2 space-y-4">
-			<div className=" mt-4 place-content-between content-center rounded-lg bg-primaryLight-300 py-2 px-4 text-primaryLight-600 md:flex">
+		<footer className="mx-2 space-y-4 py-2">
+			<div className="place-content-between content-center rounded-lg bg-primaryLight-300 px-4 py-2 text-primaryLight-600 md:flex">
 				<p className="inline-block py-2 align-middle">
 					This website only use functional cookies, zero tracking!
 				</p>
 				<div className="block space-x-2 sm:inline-block">
 					<a
-						className="ml-auto inline-block rounded-md bg-primaryLight-100 py-2 px-4 transition-colors hover:bg-primaryLight-200"
+						className="ml-auto inline-block rounded-md bg-primaryLight-100 px-4 py-2 transition-colors hover:bg-primaryLight-200"
 						href="https://roll20.net/compendium/dnd5e/OGL%20License"
 						title="Open Gaming License"
 						rel="noreferrer"
@@ -19,7 +19,7 @@ export default function Footer() {
 						OGL
 					</a>
 					<a
-						className="ml-auto inline-block rounded-md bg-primaryLight-100 py-2 px-4 transition-colors hover:bg-primaryLight-200"
+						className="ml-auto inline-block rounded-md bg-primaryLight-100 px-4 py-2 transition-colors hover:bg-primaryLight-200"
 						href="https://github.com/andreafra/dnd-spellbook"
 						title="Source Code"
 					>

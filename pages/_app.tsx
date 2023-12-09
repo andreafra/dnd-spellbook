@@ -1,5 +1,5 @@
 import { SessionProvider } from "next-auth/react"
-import { useEffect } from "react"
+import { StrictMode, useEffect } from "react"
 import { QueryClient, QueryClientProvider, useQuery } from "react-query"
 import { Provider } from "react-redux"
 import { Layout } from "../components/Layout"
@@ -23,16 +23,18 @@ export default function App({
 }) {
 	return (
 		<div className="text-primaryLight-900">
-			<SessionProvider session={session}>
-				<QueryClientProvider client={queryClient}>
-					<Provider store={store}>
-						<Layout>
-							<SpellLoader />
-							<Component {...pageProps} />
-						</Layout>
-					</Provider>
-				</QueryClientProvider>
-			</SessionProvider>
+			<StrictMode>
+				<SessionProvider session={session}>
+					<QueryClientProvider client={queryClient}>
+						<Provider store={store}>
+							<Layout>
+								<SpellLoader />
+								<Component {...pageProps} />
+							</Layout>
+						</Provider>
+					</QueryClientProvider>
+				</SessionProvider>
+			</StrictMode>
 		</div>
 	)
 }

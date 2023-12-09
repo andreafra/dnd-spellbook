@@ -1,18 +1,19 @@
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../store"
 import { disableFilters, enableFilters } from "../store/reducers/settings"
 import SpellCard, { SpellCardPlaceholder } from "./SpellCard"
+import { FixedSizeGrid } from "react-window"
+import AutoSizer from "react-virtualized-auto-sizer"
 
-export default function SpellList({
-	showAllSpells = true,
-}: {
-	showAllSpells?: boolean
-}) {
+export default function SpellList({ showAllSpells = true }) {
 	const spells = useAppSelector((state) => state.spellStore.spells)
 	const filters = useAppSelector((state) => state.spellStore.filters)
 	const spellIds = useAppSelector((state) => state.spellbook.spellIds) ?? []
 	const dispatch = useAppDispatch()
 
+	const [listColumns, setListColumns] = useState<number>(1)
+
+	// TODO: Refactor this, or this might not belong here
 	const spellList = useMemo(
 		() =>
 			(showAllSpells
@@ -33,6 +34,7 @@ export default function SpellList({
 		[filters, spells, showAllSpells]
 	)
 
+	// Enable filters button on load, disables it on unload
 	useEffect(() => {
 		dispatch(enableFilters())
 		return () => {
@@ -40,24 +42,51 @@ export default function SpellList({
 		}
 	}, [])
 
-	// if (!spells)
-	// 	return (
-	// 		<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 xl:grid-cols-4">
-	// 			<SpellCardPlaceholder />
-	// 			<SpellCardPlaceholder />
-	// 			<SpellCardPlaceholder />
-	// 		</div>
-	// 	)
-
-	return (
-		<div className="grid list-none grid-cols-1 gap-2 py-2 sm:grid-cols-2 md:grid-cols-3 md:gap-4 md:py-4 xl:grid-cols-4">
-			{spellList.map((spell) => (
+	const Row = ({ columnIndex, rowIndex, data, style }) => {
+		const spell = data[rowIndex * listColumns + columnIndex]
+		if (!spell) return null
+		return (
+			<div className="pb-4" style={style}>
 				<SpellCard
 					spell={spell}
-					key={spell.id}
 					selected={spellIds.indexOf(spell.id) > -1}
 				/>
-			))}
-		</div>
+			</div>
+		)
+	}
+
+	const onAutoSizerResize = ({ height, width }) => {
+		// sm: minWidth 640px
+		// md: minWidth 768px
+		const w = document.documentElement.clientWidth
+		if (w < 640) {
+			setListColumns(1)
+		} else if (w < 768) {
+			setListColumns(2)
+		} else {
+			setListColumns(3)
+		}
+	}
+
+	return (
+		<AutoSizer onResize={onAutoSizerResize}>
+			{({ height, width }) => (
+				<FixedSizeGrid
+					height={height}
+					width={width}
+					columnCount={listColumns}
+					rowCount={Math.ceil(spellList.length / listColumns)}
+					columnWidth={Math.floor(width / listColumns)}
+					rowHeight={350}
+					itemData={spellList}
+					itemKey={({ columnIndex, data, rowIndex }) => {
+						const item = data[rowIndex]
+						return `${item.id}-${columnIndex}`
+					}}
+				>
+					{Row}
+				</FixedSizeGrid>
+			)}
+		</AutoSizer>
 	)
 }
