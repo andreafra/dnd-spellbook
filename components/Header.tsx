@@ -1,9 +1,4 @@
-import {
-	BookmarkAltIcon,
-	FilterIcon,
-	LoginIcon,
-	UserIcon,
-} from "@heroicons/react/outline"
+import { BookmarkAltIcon, FilterIcon, UserIcon } from "@heroicons/react/outline"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -40,7 +35,9 @@ export default function Header({ showFilters = false }) {
 									onClick={() =>
 										dispatch(toggleFilterVisibility())
 									}
-									className={"inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"}
+									className={
+										"inline-flex min-h-[2.5em] min-w-[2.5em] justify-center rounded-xl border-2 border-primaryLight-400 transition-colors hover:bg-primaryLight-400 md:px-4"
+									}
 								>
 									<span className="inline-grid h-6 w-6 content-center self-center md:mr-2">
 										<FilterIcon className="h-6 w-6" />
